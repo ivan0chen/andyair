@@ -1,0 +1,124 @@
+{% extends "base/base.html" %}
+
+{% block app_content %}
+
+{% include "base/nav.html" with custadv=custadv title=title %}
+
+<div>
+  <div style="background-color:white; border-radius:10px;" class="form-group">
+    <table class="table table-bordered table-responsive">
+      <tbody>
+        <tr>
+        <td>客戶代號</td>
+        <td>{{ custadv.cuno }}</td>
+        <td>應通知公司</td>
+        <td colspan="3">{{ custadv.ipntfy }}</td>
+        </tr>
+    
+        <tr>
+        <td>貨主聯絡</td>
+        <td>{{ custadv.ipntfym }}</td>
+        <td>電話號碼</td>
+        <td>{{ custadv.ipntftl }}</td>
+        <td>傳真號碼</td>
+        <td>{{ custadv.ipntffx }}</td>
+        </tr>
+        
+        <tr>
+        <td>是否月結</td>
+        <td>{% if custadv.ipmnspay %}YES{% else %}NO{% endif %}</td>
+        <td>是否報關</td>
+        <td>{% if custadv.ipentry %}YES{% else %}NO{% endif %}</td>
+        <td>是否進口指定貨</td>
+        <td>{% if custadv.iprtord %}YES{% else %}NO{% endif %}</td>
+        </tr>
+        
+        <tr>
+          <td>備註</td>
+          <td colspan="5">{{ custadv.ipntfmk }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="form-group">
+    <table id="custqtn" class="table table-hover table-bordered table-responsive">
+      <thead>
+        <tr>
+          <th style="width: 1%;vertical-align: middle;">#ID</th>
+          <th style="width: 1%;vertical-align: middle;">No.</th>
+          <th style="vertical-align: middle">ORG</th>
+          <th style="vertical-align: middle">日期</th>
+          <th style="vertical-align: middle">說明</th>
+          <th class="text-center">
+          <button class="btn btn-default btn-md" id="newqtn" disabled>
+            <span class="glyphicon glyphicon-hand-down"></span>&nbsp;Action</button>
+          </th>
+        </tr>
+      </thead>
+      <tbody style="background-color:white">
+
+        <tr style="vertical-align: middle;padding-bottom: 0px">
+          <form role="form" method="post" action="{% url 'base:custqtnNew' custadv.id %}">{% csrf_token %}
+            {{ form.non_field_errors }}
+            <td>
+              <div class="form-group">
+                 {{ form.org.errors}}
+                 {{ form.id }}
+              </div>
+            </td>
+            <td></td>
+            <td>
+              <div class="form-group">
+                 {{ form.org.errors}}
+                 {{ form.org }}
+              </div>
+            </td>
+            <td>
+              <div class="form-group">
+                {{ form.qtndd.errors}}
+                <div class='input-group date' id='datepicker1'>
+                  {{ form.qtndd }}
+                  <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                  </span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="form-group">
+                {{ form.qtns.errors}}
+                {{ form.qtns }}
+              </div>
+            </td>
+            <td class="text-center">
+              <input class="btn btn-info btn-sm" type="submit" value="送出" />
+              <a class="btn btn-warning btn-sm" href="{% url 'base:custadvView' custadv.id %}">放棄</a>
+            </td>
+          </form>
+        </tr>
+        {% for custqtn in custqtns %}
+          <tr>
+          <td>{{ custqtn.id }}</td>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ custqtn.org }}</td>
+          <td>{{ custqtn.qtndd|date:"Y-m-d" }}</td>
+          <td>{{ custqtn.qtns }}</td>
+          <td></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+<script type="text/javascript">
+   $(function () {
+      $('#datepicker1').datepicker({
+          format:"yyyy-mm-dd",
+          todayBtn: "linked",
+          autoclose: true,
+          todayHighlight: true,
+          toggleActive: true
+      });
+   });
+</script>
+{% endblock app_content %}
