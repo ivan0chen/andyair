@@ -1,0 +1,60 @@
+
+{% extends "base/base.html" %}
+
+{% block app_content %}
+{% include "base/nav.html" with title=title %}
+<div>
+  <table class="table table-striped table-bordered table-responsive" id="custadvList">
+    <thead>
+      <tr>
+        <th style="vertical-align: middle">客戶代號</th>
+        <th style="vertical-align: middle">應通知公司</th>
+        <th style="vertical-align: middle">貨主聯絡人</th>
+        <th style="vertical-align: middle">電話號碼</th>
+        <th><a href="{% url 'base:custadvCreate' %}" class="btn btn-block btn-info btn-md">
+            <span class="glyphicon glyphicon-plus"></span>&nbsp;New</a>
+        </th>
+      </tr>
+    </thead>
+    <tbody style="background-color:white">
+      {% for custadv in custadvs %}
+        <tr>
+          <td>{{ custadv.cuno }}</td>
+          <td>{{ custadv.ipntfy }}</td>
+          <td>{{ custadv.ipntfym }}</td>
+          <td>{{ custadv.ipntftl }}</td>
+          <td style="white-space: nowrap; width: 1%;">
+            <div class="tabledit-toolbar btn-toolbar" style="text-align: left;">
+              <div class="btn-group btn-group-sm" style="float: none;">
+                <a href="{% url 'base:custadvView' custadv.id %}" class="tabledit-edit-button btn btn-sm btn-default active" style="float: none;"><span class="glyphicon glyphicon-eye-open"></span></a>
+                <a href="{% url 'base:custadvUpdate' custadv.id %}" class="tabledit-edit-button btn btn-sm btn-default active" style="float: none;"><span class="glyphicon glyphicon-pencil"></span></a>
+                <a href="{% url 'base:custadvDelete' custadv.id %}" class="tabledit-delete-button btn btn-sm btn-default active" style="float: none;"><span class="glyphicon glyphicon-trash"></span></a>
+              </div>
+            </div>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#custadvList').DataTable({
+            "searching": true,
+            "ordering": true,
+            "paging": true,
+            "order": [[ 1, "asc" ]],
+            "columnDefs": [
+                {
+                    "targets": 4,
+                    "searchable": false,
+                    "orderable": false
+                }
+            ]
+        });
+        
+    });
+    
+</script>
+
+{% endblock app_content %}

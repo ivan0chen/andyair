@@ -1,0 +1,18 @@
+<{% extends "base/base.html" %}
+{% block app_content %}
+
+<h3><a href="{% url 'base:custadvList' %}">通知人</a>: Create</h3>
+
+{% include "base/nav.html" with custadv=custadv title="Edit" %}
+
+<form method="post">{% csrf_token %}
+    <table>
+    {{ form.as_p }}
+  
+    <strong>Details<strong>
+    
+    {{ formset.as_table }}
+    </table>
+    <input type="submit" value="Submit" />
+</form>
+{% endblock %}

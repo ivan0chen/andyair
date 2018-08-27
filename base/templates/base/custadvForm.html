@@ -1,0 +1,64 @@
+<{% extends "base/base.html" %}
+
+{% block app_content %}
+
+{% include "base/nav.html" with custadv=custadv title=title %}
+
+<form role="form" method="post">{% csrf_token %}
+  {{ form.non_field_errors }}
+  <div>
+    <div class="form-row">
+      <div class="form-group col-md-3">
+        {{ form.cuno.errors}}
+        {{ form.cuno.label_tag}}
+        {{ form.cuno }}
+      </div>
+      <div class="form-group col-md-9">
+        {{ form.ipntfy.errors}}
+        {{ form.ipntfy.label_tag}}
+        {{ form.ipntfy }}
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        {{ form.ipntfym.errors}}
+        {{ form.ipntfym.label_tag}}
+        {{ form.ipntfym }}
+      </div>
+      <div class="form-group col-md-4">
+        {{ form.ipntftl.errors}}
+        {{ form.ipntftl.label_tag}}
+        {{ form.ipntftl }}
+      </div>
+      <div class="form-group col-md-4">
+        {{ form.ipntffx.errors}}
+        {{ form.ipntffx.label_tag}}
+        {{ form.ipntffx }}
+      </div>
+    </div>
+    <div>
+      <div class="form-group col-md-4">
+        {{ form.ipmnspay.errors}}
+        <label>{{ form.ipmnspay }}{{ form.ipmnspay.label }}</label>
+      </div>
+      <div class="form-group col-md-4">
+        {{ form.ipentry.errors}}
+        <label>{{ form.ipentry }}{{ form.ipentry.label }}</label>
+      </div>
+      <div class="form-group col-md-4">
+        {{ form.iprtord.errors}}
+        <label>{{ form.iprtord }}{{ form.iprtord.label }}</label>
+      </div>
+    </div>
+    <div class="form-group col-md-12">
+        {{ form.ipntfmk.errors}}
+        {{ form.ipntfmk.label_tag}}
+        {{ form.ipntfmk }}
+    </div>
+  </div>
+  <hr width=100%>
+  &nbsp;&nbsp;&nbsp;&nbsp;<input class="btn btn-info btn-lg" type="submit" value="送出" />
+  <a class="btn btn-warning btn-lg" href="{% url 'base:custadvList' %}">放棄</a>
+</form>
+
+{% endblock app_content%}

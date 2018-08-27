@@ -1,0 +1,147 @@
+{% extends "base/base.html" %}
+
+{% block app_content %}
+
+{% include "base/nav.html" with custadv=custadv title=title %}
+
+<div style="background-color:white; border-radius:10px;">
+  <div class="form-group">
+    <table class="table table-bordered table-responsive">
+      <tbody>
+    <tr>
+    <td>客戶代號</td>
+    <td>{{ custadv.cuno }}</td>
+    <td>應通知公司</td>
+    <td colspan="3">{{ custadv.ipntfy }}</td>
+    </tr>
+
+    <tr>
+    <td>貨主聯絡</td>
+    <td>{{ custadv.ipntfym }}</td>
+    <td>電話號碼</td>
+    <td>{{ custadv.ipntftl }}</td>
+    <td>傳真號碼</td>
+    <td>{{ custadv.ipntffx }}</td>
+    </tr>
+    
+    <tr>
+    <td>是否月結</td>
+    <td>{% if custadv.ipmnspay %}YES{% else %}NO{% endif %}</td>
+    <td>是否報關</td>
+    <td>{% if custadv.ipentry %}YES{% else %}NO{% endif %}</td>
+    <td>是否進口指定貨</td>
+    <td>{% if custadv.iprtord %}YES{% else %}NO{% endif %}</td>
+    </tr>
+    
+    <tr>
+      <td>備註</td>
+      <td colspan="5">{{ custadv.ipntfmk }}</td>
+    </tr>
+    </tbody>
+    </table>
+  </div>
+  <div>
+    <table id="custqtn" class="table table-hover table-bordered table-responsive">
+      <thead>
+        <tr>
+          <th style="width: 1%;vertical-align: middle;">#ID</th>
+          <th style="width: 1%;vertical-align: middle;">No.</th>
+          <th style="vertical-align: middle">ORG</th>
+          <th style="vertical-align: middle">日期</th>
+          <th style="vertical-align: middle">說明</th>
+          <th class="text-center">
+           <!-- <button class="btn btn-warning btn-md" id="newqtn">
+            <button class="btn btn-warning btn-md" id="newqtn" for-table='#custqtn'> -->
+            <a href="{% url 'base:custqtnNew' custadv.id %}" class="btn btn-warning btn-md">
+            <span class="glyphicon glyphicon-plus"></span>&nbsp;New</a>
+          </th>
+        </tr>
+      </thead>
+      <tbody style="background-color:white">
+          {% for custqtn in custqtns %}
+            <tr>
+            <td>{{ custqtn.id }}</td>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ custqtn.org }}</td>
+            <td>{{ custqtn.qtndd|date:"Y-m-d" }}</td>
+            <td>{{ custqtn.qtns }}</td>
+            </tr>
+          {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+<script>
+    $(document).ready(function() {
+        $.ajaxSetup({
+            data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+            });
+
+        $('#custqtn').Tabledit({
+            url: '{% url "base:custqtnTabledit" %}',
+            restoreButton: false,
+            hideIdentifier: true,
+            columns: {
+                identifier: [0, 'id'],
+                editable: [[2, 'org'], [3, 'qtndd'], [4, 'qtns']]
+            },
+            onDraw: function () {
+                // Select all inputs of second column and apply datepicker each of them
+                //$('table tr td:nth-child(2) input').each(function() {
+                $('table tr td:nth-child(4)').each(function () {
+                    $(this).datepicker({
+                        format: "yyyy-mm-dd",
+                        todayBtn: "linked",
+                        autoclose: true,
+                        todayHighlight: true,
+                    });
+                });
+            },
+            onSuccess: function (data, textStatus, jqXHR) {
+                console.log('onSuccess(data, textStatus, jqXHR)');
+                console.log(data);
+                console.log(textStatus);
+                console.log(jqXHR);
+                if (data.action == 'delete')
+                 {
+                  $('#'+data.id).remove();
+                 }
+            },
+            onFail: function (jqXHR, textStatus, errorThrown) {
+                console.log('onFail(jqXHR, textStatus, errorThrown)');
+                console.log(jqXHR);
+                console.log(textStatus);
+                console.log(errorThrown);
+            },
+            onAlways: function () {
+                console.log('onAlways()');
+            },
+            onAjax: function (action, serialize) {
+                console.log('onAjax(action, serialize)');
+                console.log(action);
+                console.log(serialize);
+            }
+        });
+        
+        $('#newqtn1').click(function() {
+            var table = $('#custqtn');
+            var body = $('#custqtn tbody');
+            var nextId = body.find('tr').length + 1;
+            body.prepend($('' + nextId + ''));
+            table.Tabledit('update');
+        });
+        
+        $("#newqtn").click(function(e){
+            var table = $(this).attr('for-table');  //get the target table selector
+            var $tr = $(table + ">tbody>tr:last-child").clone(true, true);  //clone the last row
+            var nextID = parseInt($tr.find("input.tabledit-identifier").val()) + 1; //get the ID and add one.
+            $tr.find("input.tabledit-identifier").val(nextID);  //set the row identifier
+            $tr.find("span.tabledit-identifier").text(nextID);  //set the row identifier
+            $(table + ">tbody").append($tr);    //add the row to the table
+            $tr.find(".tabledit-edit-button").click();  //pretend to click the edit button
+            $tr.find("input:not([type=hidden]), select").val("");   //wipe out the inputs.
+        });
+    })
+  
+</script>
+{% endblock app_content %}

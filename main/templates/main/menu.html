@@ -1,0 +1,49 @@
+
+{% block content %}
+    <div class="container">
+      <br><br>
+      <h2 style="text-align:center">{{ system }}</h2>
+      <div class="row">
+        <div class="col-md-4">
+          <h3 style="background-color:darkorange; color:white; text-align:center; border-radius:25px; padding:5px;">提單資料維護</h3>
+          <div class="list-group">
+              <a href="#" class="list-group-item h4">進 口 提 單 資 料 維 護</a>
+              <a href="#" class="list-group-item h4">進 口 發 單 資 料 清 表</a>
+              <a href="#" class="list-group-item h4">進 口 發 票 管 理 作 業</a>
+              <a href="#" class="list-group-item h4">進 口 發 單 作 業</a>
+              <a href="#" class="list-group-item h4">進 口 提 單 資 料 清 表</a>
+              <a href="#" class="list-group-item h4">提 單 資 料 查 詢 作 業</a>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <h3 style="background-color:#337ab7; color:white; text-align:center; border-radius:25px; padding:5px;">帳款資料維護</h3>
+          <div class="list-group">
+              <a href="#" class="list-group-item h4">利 潤 分 析 表</a>
+              <a href="#" class="list-group-item h4">進 口 帳 收 款 明 細 表</a>
+              <a href="#" class="list-group-item h4">進 口 帳 單</a>
+              <a href="#" class="list-group-item h4">Debit Note</a>
+              <a href="#" class="list-group-item h4">Credit Note</a>
+              <a href="#" class="list-group-item h4">未 收 到  Credit  印 表</a>
+              <a href="#" class="list-group-item h4">進 口 應 收 帳 款 明 細 表</a>
+              <a href="#" class="list-group-item h4">異 常 報 告 表</a>
+              <a href="#" class="list-group-item disabled h4">收 據 列 印</a>
+              <a href="#" class="list-group-item h4">統 計 表</a>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <h3 style="background-color:green; color:white; text-align:center; border-radius:25px; padding:5px;">基本資料維護</h3>
+          <div class="list-group">
+              <a href="{% url 'base:custadvList' %}" class="list-group-item h4">通 知 人 檔 維 護</a>
+              <a href="#" class="list-group-item h4">收 貨 人 檔 維 護</a>
+              <a href="#" class="list-group-item h4">出 貨 人 檔 維 護
+              <a href="#" class="list-group-item h4">信 用 額 度 維 護</a>
+              <a href="#" class="list-group-item h4">備註說明 對 照 維 護</a>
+              <a href="#" class="list-group-item h4">費用名稱 對 照 維 護</a>
+              <a href="#" class="list-group-item h4">發 票 參 數 設 定</a>
+              <a href="#" class="list-group-item h4">匯 率 查 詢 維 護</a>
+              <a href="#" class="list-group-item h4">轉 換 ＡＣＣＳ 媒 體 檔 案</a>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}

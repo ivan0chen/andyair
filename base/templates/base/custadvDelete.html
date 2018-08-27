@@ -1,0 +1,17 @@
+
+{% extends "base/base.html" %}
+
+{% block app_content %}
+
+{% include "base/nav.html" with custadv=custadv title=title %}
+
+<form method="post">{% csrf_token %}
+    <h3>
+    Are you sure you want to delete "{{ custadv }}" ?<br><br>
+
+    <input class="btn btn-info btn-lg" type="submit" value="Delete" />
+    <a class="btn btn-warning btn-lg" href="{% url 'base:custadvList' %}">放棄</a>
+    </h3>
+</form>
+
+{% endblock app_content %}

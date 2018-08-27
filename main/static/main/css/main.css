@@ -1,0 +1,11 @@
+body {
+    /*background: url(../img/andyair.jpg) fixed;
+    background-repeat: repeat;*/
+    background-color: lightgray;
+}
+
+thead {
+    background-color:darkslateblue;
+    color:white;
+}
+
