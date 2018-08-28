@@ -4,13 +4,13 @@
 {% block app_content %}
 
 {% include "base/nav.html" with custadv=custadv title=title %}
-
+{% include "base/custadvData.html" %}
 <form method="post">{% csrf_token %}
     <h3>
     Are you sure you want to delete "{{ custadv }}" ?<br><br>
 
-    <input class="btn btn-info btn-lg" type="submit" value="Delete" />
-    <a class="btn btn-warning btn-lg" href="{% url 'base:custadvList' %}">放棄</a>
+    <input class="btn btn-danger btn-lg" type="submit" value="刪除" />
+    <a class="btn btn-info btn-lg" href="{% url 'base:custadvList' %}">取消</a>
     </h3>
 </form>
 

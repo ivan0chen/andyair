@@ -16,7 +16,7 @@ def custadvCreate(request, template_name='base/custadvForm.html'):
     form = CustadvForm(request.POST or None)
     if form.is_valid():
         new_cust = form.save(commit=True)
-        return redirect('base:custadvView', new_cust.id)
+        return redirect('base:custadvUpdate', new_cust.id)
     ctx = {}
     ctx['form'] = form
     ctx['title'] = 'New'
@@ -24,7 +24,6 @@ def custadvCreate(request, template_name='base/custadvForm.html'):
 
 def custadvView(request, pk, template_name='base/custadvView.html'):
     custadv = get_object_or_404(Custadv, pk=pk)
-    form = CustqtnForm(request.POST or None)
     ctx = {}
     ctx['custadv'] = custadv
     ctx['custqtns'] = Custqtn.objects.filter(custadv=custadv)
@@ -36,9 +35,10 @@ def custadvUpdate(request, pk, template_name='base/custadvForm.html'):
     form = CustadvForm(request.POST or None, instance=custadv)
     if form.is_valid():
         form.save()
-        return redirect('base:custadvList')
+        return redirect('base:custadvUpdate', custadv.id)
     ctx = {}
     ctx['custadv'] = custadv
+    ctx['custqtns'] = Custqtn.objects.filter(custadv=custadv)
     ctx['form'] = form
     ctx['title'] = 'Edit'
     return render(request, template_name, ctx)
@@ -50,6 +50,7 @@ def custadvDelete(request, pk, template_name='base/custadvDelete.html'):
         return redirect('base:custadvList')
     ctx = {}
     ctx['custadv'] = custadv
+    ctx['custqtns'] = Custqtn.objects.filter(custadv=custadv)
     ctx['title'] = 'Delete'
     return render(request, template_name, ctx)
 
@@ -60,7 +61,7 @@ def custqtnNew(request, parent_pk, template_name='base/custqtnNew.html'):
         custqtn = form.save(commit=False)
         custqtn.custadv = custadv
         custqtn.save()
-        return redirect('base:custadvView', parent_pk)
+        return redirect('base:custadvUpdate', parent_pk)
     ctx = {}
     ctx["form"] = form
     ctx["custadv"] = custadv
