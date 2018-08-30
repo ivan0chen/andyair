@@ -1,0 +1,33 @@
+    <table class="table table-bordered table-responsive">
+      <tbody>
+      <tr>
+      <td>客戶代號</td>
+      <td>{{ custadv.cuno }}</td>
+      <td>應通知公司</td>
+      <td colspan="3">{{ custadv.ipntfy }}</td>
+      </tr>
+  
+      <tr>
+      <td>貨主聯絡</td>
+      <td>{{ custadv.ipntfym }}</td>
+      <td>電話號碼</td>
+      <td>{{ custadv.ipntftl }}</td>
+      <td>傳真號碼</td>
+      <td>{{ custadv.ipntffx }}</td>
+      </tr>
+      
+      <tr>
+      <td>是否月結</td>
+      <td>{% if custadv.ipmnspay %}YES{% else %}NO{% endif %}</td>
+      <td>是否報關</td>
+      <td>{% if custadv.ipentry %}YES{% else %}NO{% endif %}</td>
+      <td>是否進口指定貨</td>
+      <td>{% if custadv.iprtord %}YES{% else %}NO{% endif %}</td>
+      </tr>
+      
+      <tr>
+        <td>備註</td>
+        <td colspan="5">{{ custadv.ipntfmk }}</td>
+      </tr>
+      </tbody>
+    </table>

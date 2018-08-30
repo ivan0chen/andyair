@@ -4,6 +4,7 @@
 {% block app_content %}
 
 {% include "base/nav.html" with custadv=custadv title=title %}
+
 {% include "base/custadvData.html" %}
 <form method="post">{% csrf_token %}
     <h3>

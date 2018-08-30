@@ -9,3 +9,6 @@ thead {
     color:white;
 }
 
+table {
+    font-size: inherit;
+}

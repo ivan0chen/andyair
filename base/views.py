@@ -54,6 +54,18 @@ def custadvDelete(request, pk, template_name='base/custadvDelete.html'):
     ctx['title'] = 'Delete'
     return render(request, template_name, ctx)
 
+def custadvData(request, pk):
+    custadv = get_object_or_404(Custadv, pk=pk)
+    ctx = {}
+    print(request.POST.get('requestData'))
+    if request.POST.get('requestData') == 'master':
+        ctx['custadv'] = custadv
+        template_name = 'base/custMaster.html'
+    else:
+        ctx['custqtns'] = Custqtn.objects.filter(custadv=custadv)
+        template_name = 'base/custDetail.html'
+    return render(request, template_name, ctx)
+
 def custqtnNew(request, parent_pk, template_name='base/custqtnNew.html'):
     custadv = get_object_or_404(Custadv, pk=parent_pk)
     form = CustqtnForm(request.POST or None)
@@ -68,45 +80,6 @@ def custqtnNew(request, parent_pk, template_name='base/custqtnNew.html'):
     ctx['custqtns'] = Custqtn.objects.filter(custadv=custadv)
     ctx['title'] = ' New Detail'
     return render(request, template_name, ctx)
-
-# def custqtnCreate(request, parent_pk, template_name='base/custqtnForm.html'):
-#     custadv = get_object_or_404(Custadv, pk=parent_pk)
-#     form = CustqtnForm(request.POST or None)
-#     if form.is_valid():
-#         custqtn = form.save(commit=False)
-#         custqtn.custadv = custadv
-#         custqtn.save()
-#         return redirect('base:custadvView', parent_pk)
-#     ctx = {}
-#     ctx["form"] = form
-#     ctx["custadv"] = custadv
-#     ctx['title'] = ' New Detail'
-#     return render(request, template_name, ctx)
-#
-# def custqtnUpdate(request, pk, template_name='base/custqtnForm.html'):
-#     custqtn = get_object_or_404(Custqtn, pk=pk)
-#     parent_pk = custqtn.custadv.pk
-#     form = CustqtnForm(request.POST or None, instance=custqtn)
-#     if form.is_valid():
-#         form.save()
-#         return redirect('base:custadvView', parent_pk)
-#     ctx={}
-#     ctx['form'] = form
-#     ctx['custadv'] = custqtn.custadv
-#     ctx['title'] = ' Edit Detail'
-#     return render(request, template_name, ctx)
-#
-# def custqtnDelete(request, pk, template_name='base/custqtnDelete.html'):
-#     custqtn = get_object_or_404(Custqtn, pk=pk)
-#     parent_pk = custqtn.custadv.pk
-#     if request.method == 'POST':
-#         custqtn.delete()
-#         return redirect('base:custadvView', parent_pk)
-#     ctx = {}
-#     ctx['custqtn'] = custqtn
-#     ctx['custadv'] = custqtn.custadv
-#     ctx['title'] = ' Delete Detail'
-#     return render(request, template_name, ctx)
 
 def custqtnTabledit(request):
     if request.method == 'POST':
