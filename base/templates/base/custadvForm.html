@@ -74,45 +74,53 @@
     </div>
   </form>
   </div>
-  <div class="form-row">
+  <div id="custqtnEdit" class="form-row">
     <table style="margin-left: 1em; width: 97.5%;" id="custqtn" class="table table-hover table-bordered table-responsive">
       <thead>
         <tr>
-          <th style="width: 1%;vertical-align: middle;">#ID</th>
+          <th style="display:none;width: 1%;vertical-align: middle;">#ID</th>
           <th style="width: 1%;vertical-align: middle;">No.</th>
           <th style="vertical-align: middle">ORG</th>
           <th style="vertical-align: middle">日期</th>
           <th style="vertical-align: middle">說明</th>
           <th class="text-center">
             {% if custadv %}
-              <a href="{% url 'base:custqtnNew' custadv.id %}" class="btn btn-info btn-sm" id="newqtn">
-              <span class="glyphicon glyphicon-plus"></span>&nbsp;<b>Line</b></a>
+              <input type="hidden" id="Url" data-url="{% url 'base:custqtnNew' custadv.id %}" />
+              <button onclick="newqtnForm()" class="btn btn-info btn-sm" id="newqtn">
+              <span class="glyphicon glyphicon-plus"></span>&nbsp;<b>Line</b></button>
             {% endif %}
           </th>
-
         </tr>
       </thead>
       <tbody style="background-color:white">
           {% for custqtn in custqtns %}
             <tr>
-            <td>{{ custqtn.id }}</td>
+            <td style="display:none">{{ custqtn.id }}</td>
             <td>{{ forloop.counter }}</td>
             <td>{{ custqtn.org }}</td>
             <td>{{ custqtn.qtndd|date:"Y-m-d" }}</td>
             <td>{{ custqtn.qtns }}</td>
-
             </tr>
           {% endfor %}
       </tbody>
     </table>
   </div>
+  <div id="custqtnNew" class="form-row"></div>
 </div>
 <script>
+    function newqtnForm() {
+        var url = $("#Url").attr("data-url");
+        $.get(url, {'request': 'custqtn'}, function (data, status) {
+            $('#custqtnEdit').hide();
+            $('#custqtnNew').html(data);
+        });
+    }
+    
     $(document).ready(function() {
         $.ajaxSetup({
             data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
             });
-
+        
         $('#custqtn').Tabledit({
             url: '{% url "base:custqtnTabledit" %}',
             restoreButton: false,
@@ -158,31 +166,36 @@
                 console.log(serialize);
             }
         });
-        
+
         $('#custqtn thead tr th:last-child').remove();
-
-/*
-
-        $('#newqtn1').click(function() {
-            var table = $('#custqtn');
-            var body = $('#custqtn tbody');
-            var nextId = body.find('tr').length + 1;
-            body.prepend($('' + nextId + ''));
-            table.Tabledit('update');
-        });
         
-        $("#newqtn2").click(function(e){
-            var table = $(this).attr('for-table');  //get the target table selector
-            var $tr = $(table + ">tbody>tr:last-child").clone(true, true);  //clone the last row
-            var nextID = parseInt($tr.find("input.tabledit-identifier").val()) + 1; //get the ID and add one.
-            $tr.find("input.tabledit-identifier").val(nextID);  //set the row identifier
-            $tr.find("span.tabledit-identifier").text(nextID);  //set the row identifier
-            $(table + ">tbody").append($tr);    //add the row to the table
-            $tr.find(".tabledit-edit-button").click();  //pretend to click the edit button
-            $tr.find("input:not([type=hidden]), select").val("");   //wipe out the inputs.
-        });
-*/
+
+
+
+
+        
+
+        // $('#newqtn1').click(function() {
+        //     var table = $('#custqtn');
+        //     var body = $('#custqtn tbody');
+        //     var nextId = body.find('tr').length + 1;
+        //     body.prepend($('' + nextId + ''));
+        //     table.Tabledit('update');
+        // });
+
+        // $("#newqtn2").click(function(e){
+        //     var table = $(this).attr('for-table');  //get the target table selector
+        //     var $tr = $(table + ">tbody>tr:last-child").clone(true, true);  //clone the last row
+        //     var nextID = parseInt($tr.find("input.tabledit-identifier").val()) + 1; //get the ID and add one.
+        //     $tr.find("input.tabledit-identifier").val(nextID);  //set the row identifier
+        //     $tr.find("span.tabledit-identifier").text(nextID);  //set the row identifier
+        //     $(table + ">tbody").append($tr);    //add the row to the table
+        //     $tr.find(".tabledit-edit-button").click();  //pretend to click the edit button
+        //     $tr.find("input:not([type=hidden]), select").val("");   //wipe out the inputs.
+        // });
+
     })
   
 </script>
+
 {% endblock app_content%}

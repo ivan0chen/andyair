@@ -2,8 +2,21 @@
   <div id="custMaster">
   
   </div>
-  <div id="custDetail">
-  
+  <div id="custDetail" style="background-color:white">
+      <table class="table table-striped table-bordered table-responsive">
+      <thead>
+        <tr>
+          <th style="width: 1%;vertical-align: middle;">#ID</th>
+          <th style="width: 1%;vertical-align: middle;">No.</th>
+          <th style="vertical-align: middle">ORG</th>
+          <th style="vertical-align: middle">日期</th>
+          <th style="vertical-align: middle">說明</th>
+        </tr>
+      </thead>
+      <tbody>
+
+      </tbody>
+    </table>
   </div>
 </div>
 <script>
@@ -15,7 +28,7 @@
       });
       $.post("{% url 'base:custadvData' custadv.id %}",{'requestData':'detail'},   //post函数到后端
         function(data,status) {                                                     //回调函数
-            $("#custDetail").html(data);                                         //将id为custMaster的标签的html替换为返回的data
+            $("#custDetail tbody").html(data);                                         //将id为custMaster的标签的html替换为返回的data
       });
   })
 </script>

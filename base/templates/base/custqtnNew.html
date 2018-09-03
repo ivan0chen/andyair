@@ -1,104 +1,83 @@
-{% extends "base/base.html" %}
-
-{% block app_content %}
-
-{% include "base/nav.html" with custadv=custadv title=title %}
-
-<div>
-  <div id="custMaster" style="background-color:white; border-radius:10px;" class="form-group">
-
-  </div>
-  <div class="form-group">
-    <table id="custqtn" class="table table-hover table-bordered table-responsive">
-      <thead>
+<form role="form" method="post" action="{% url 'base:custqtnNew' custadv.id %}">{% csrf_token %}
+  <table style="margin-left: 1em; width: 97.5%;" class="table table-hover table-bordered table-responsive">
+    <thead>
+      <tr>
+        <th style="width: 1%;vertical-align: middle;">#ID</th>
+        <th style="width: 1%;vertical-align: middle;">No.</th>
+        <th style="vertical-align: middle">ORG</th>
+        <th style="vertical-align: middle">日期</th>
+        <th style="vertical-align: middle">說明</th>
+        <th class="text-center">
+        <button class="btn btn-default btn-md" disabled>
+          <span class="glyphicon glyphicon-hand-down"></span>&nbsp;Action</button>
+        </th>
+      </tr>
+    </thead>
+    <tbody style="background-color:white">
+      <tr style="vertical-align: middle;padding-bottom: 0px">
+        {{ form.non_field_errors }}
+        <td>
+          <div class="form-group">
+             {{ form.org.errors}}
+             {{ form.id }}
+          </div>
+        </td>
+        <td></td>
+        <td>
+          <div class="form-group">
+             {{ form.org.errors}}
+             {{ form.org }}
+          </div>
+        </td>
+        <td>
+          <div class="form-group">
+            {{ form.qtndd.errors}}
+            <div class='input-group date' id='datepicker1'>
+              {{ form.qtndd }}
+              <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+              </span>
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class="form-group">
+            {{ form.qtns.errors}}
+            {{ form.qtns }}
+          </div>
+        </td>
+        <td class="text-center">
+          <input class="btn btn-success btn-sm" type="submit" value="存檔" />
+          <!--<a class="btn btn-warning btn-sm" href="{% url 'base:custadvUpdate' custadv.id %}">取消</a>-->
+          <button onclick="custqtnEdit()" class="btn btn-warning btn-sm">取消</button>
+        </td>
+      </tr>
+      {% for custqtn in custqtns %}
         <tr>
-          <th style="width: 1%;vertical-align: middle;">#ID</th>
-          <th style="width: 1%;vertical-align: middle;">No.</th>
-          <th style="vertical-align: middle">ORG</th>
-          <th style="vertical-align: middle">日期</th>
-          <th style="vertical-align: middle">說明</th>
-          <th class="text-center">
-          <button class="btn btn-default btn-md" id="newqtn" disabled>
-            <span class="glyphicon glyphicon-hand-down"></span>&nbsp;Action</button>
-          </th>
+        <td>{{ custqtn.id }}</td>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ custqtn.org }}</td>
+        <td>{{ custqtn.qtndd|date:"Y-m-d" }}</td>
+        <td>{{ custqtn.qtns }}</td>
+        <td></td>
         </tr>
-      </thead>
-      <tbody style="background-color:white">
-        <tr style="vertical-align: middle;padding-bottom: 0px">
-          <form role="form" method="post" action="{% url 'base:custqtnNew' custadv.id %}">{% csrf_token %}
-            {{ form.non_field_errors }}
-            <td>
-              <div class="form-group">
-                 {{ form.org.errors}}
-                 {{ form.id }}
-              </div>
-            </td>
-            <td></td>
-            <td>
-              <div class="form-group">
-                 {{ form.org.errors}}
-                 {{ form.org }}
-              </div>
-            </td>
-            <td>
-              <div class="form-group">
-                {{ form.qtndd.errors}}
-                <div class='input-group date' id='datepicker1'>
-                  {{ form.qtndd }}
-                  <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-calendar"></span>
-                  </span>
-                </div>
-              </div>
-            </td>
-            <td>
-              <div class="form-group">
-                {{ form.qtns.errors}}
-                {{ form.qtns }}
-              </div>
-            </td>
-            <td class="text-center">
-              <input class="btn btn-success btn-sm" type="submit" value="存檔" />
-              <a class="btn btn-warning btn-sm" href="{% url 'base:custadvUpdate' custadv.id %}">取消</a>
-            </td>
-          </form>
-        </tr>
-        {% for custqtn in custqtns %}
-          <tr>
-          <td>{{ custqtn.id }}</td>
-          <td>{{ forloop.counter }}</td>
-          <td>{{ custqtn.org }}</td>
-          <td>{{ custqtn.qtndd|date:"Y-m-d" }}</td>
-          <td>{{ custqtn.qtns }}</td>
-          <td></td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-</div>
-<script type="text/javascript">
-   $(function () {
-      $('#datepicker1').datepicker({
-          format:"yyyy-mm-dd",
-          todayBtn: "linked",
-          autoclose: true,
-          todayHighlight: true,
-          toggleActive: true
-      });
-      
-     $.post("{% url 'base:custadvData' custadv.id %}",{'requestData':'master'},   //post函数到后端
-        function(data,status){                                                     //回调函数
-             $("#custMaster").html(data);                                          //将id为custMaster的标签的html替换为返回的data
-      });
-   });
+      {% endfor %}
    
-</script>
+    </tbody>
+  </table>
+</form>
 <script>
-  $(document).ready(function() {
-
-
-
-  })
+    function custqtnEdit() {
+            $('#custqtnEdit').show();
+            $('#custqtnNew').html('');
+    }
+    $(document).ready(function(){
+        $('#datepicker1').datepicker({
+            format:"yyyy-mm-dd",
+            todayBtn: "linked",
+            autoclose: true,
+            todayHighlight: true,
+            toggleActive: true
+        }).datepicker("setDate", "0");
+    })
 </script>
-{% endblock app_content %}

@@ -57,7 +57,6 @@ def custadvDelete(request, pk, template_name='base/custadvDelete.html'):
 def custadvData(request, pk):
     custadv = get_object_or_404(Custadv, pk=pk)
     ctx = {}
-    print(request.POST.get('requestData'))
     if request.POST.get('requestData') == 'master':
         ctx['custadv'] = custadv
         template_name = 'base/custMaster.html'
