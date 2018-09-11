@@ -1,10 +1,71 @@
-{% extends "main/base.html" %}
-
+{% extends 'main/base.html' %}
+{% block title %}-註冊{% endblock %}
 {% block content %}
-<br><br>
-<form method="post" action="{% url 'account:register' %}">
-  {% csrf_token %}
-  {{ userForm.as_p }}
-  <input class="btn" type="submit" value="送出">
-</form>
+{% include 'main/messages.html' %}
+<div class="col-md-6 col-md-offset-3" style="margin-top:50px;">
+  {% if user.is_authenticated %}
+    <h3>用戶資料修改:</h3>
+  {% else %}
+    <h3>新用戶註冊:</h3>
+  {% endif %}
+    <small>&nbsp;&nbsp;&nbsp;&nbsp;請輸入以下資料</small>
+    <br/><br/>
+  <form role="form" method="post">{% csrf_token %}
+    {{ userForm.non_field_errors }}
+    <div class="form-row">
+      <div class="form-group col-md-6">
+         {{ userForm.username.errors}}
+         <span class="glyphicon glyphicon-user"></span>&nbsp;{{ userForm.username.label_tag}}
+         {{ userForm.username }}
+      </div>
+      <div class="form-group col-md-6">
+         {{ userForm.fullname.errors}}
+         {{ userForm.fullname.label_tag}}
+         {{ userForm.fullname }}
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+         {{ userForm.password.errors}}
+         <span class="glyphicon glyphicon-eye-close"></span>&nbsp;{{ userForm.password.label_tag}}
+         {{ userForm.password }}
+      </div>
+      <div class="form-group col-md-6">
+         {{ userForm.password2.errors}}
+         {{ userForm.password2.label_tag}}
+         {{ userForm.password2 }}
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-12">
+         {{ userForm.email.errors}}
+         <span class="glyphicon glyphicon glyphicon-envelope"></span>&nbsp;{{ userForm.email.label_tag}}
+         {{ userForm.email }}
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-12">
+         {{ userForm.website.errors}}
+         <span class="glyphicon glyphicon glyphicon-globe"></span>&nbsp;{{ userForm.website.label_tag}}
+         {{ userForm.website }}
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-12">
+         {{ userForm.address.errors}}
+         <span class="glyphicon glyphicon glyphicon-home"></span>&nbsp;{{ userForm.address.label_tag}}
+         {{ userForm.address }}
+      </div>
+    </div>
+      <!--{{ userForm.as_p }}-->
+    <div class="form-group col-md-6">
+      <input class="btn btn-success btn-md" type="submit" value="存檔" />
+      <a class="btn btn-primary btn-md" href="{% url 'main:main' %}">離開</a>
+    </div>
+  </form>
+</div>
+
 {% endblock content %}
+
+
+

@@ -1,0 +1,51 @@
+
+    <div class="modal-dialog modal-md" role="document">
+      <div class="modal-content">
+        <div class="modal-header" style="background-color:darkslateblue;color:white;">
+          <button type="button" class="close" data-dismiss="modal" style="color:white;">&times;</button>
+          <h4 class="modal-title"><span class="glyphicon glyphicon-lock">&nbsp;登入系統</h4>
+        </div>
+        <div id="div_messages" class="text-center align-middle" style="height: 40px"></div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+              <form id="loginForm" role="form" method="post" action="{% url 'account:login' %}">{% csrf_token %}
+                {{ form.non_field_errors }}
+                <div class="form-row">
+                  <div class="form-group">
+                     {{ form.username.errors}}
+                     <span class="glyphicon glyphicon-user"></span>&nbsp;{{ form.username.label_tag}}
+                     {{ form.username }}
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                     {{ form.password.errors}}
+                     <span class="glyphicon glyphicon-eye-close"></span>&nbsp;{{ form.password.label_tag}}
+                     {{ form.password }}
+                  </div>
+                </div>
+                {% if nextURL %}
+                  <input type="hidden" name="nextURL" value="{{ nextURL }}">
+                {% endif %}
+                <div class="form-group text-center">
+                  <input type="submit" value="Login" class="btn btn-lg btn-primary btn-block" />
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+          <div class="modal-footer">
+            <div class="text-center">
+              <div class="pull-left">
+                <a href="#" onclick="$('#loginModal .close').click();">忘記密碼</a>&nbsp;
+                <span>|</span>&nbsp;
+                <a href="{% url 'account:userCreate' %}" onclick="$('#loginModal .close').click();"><span class="glyphicon glyphicon-user"></span> 註冊</a>
+              </div>
+              <input type="button" value="Close" class="btn btn-md btn-secondary pull-right" data-dismiss="modal" />
+            </div>
+          </div>
+      </div>
+    </div>
+
+

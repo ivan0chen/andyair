@@ -4,20 +4,9 @@
 
 {% include "base/nav.html" with custadv=custadv title=title %}
 
-<div>
-  <div>
+<div class="mt-0">
   <form role="form" method="post">{% csrf_token %}
-    <div style="margin-top:0px;margin-bottom:0px;" class="form-row">
-      <div class="form-group col-md-12" style="text-align:right">
-          <input class="btn btn-success btn-md" type="submit" value="存檔" />
-          <!--
-          {% if custadv %}
-            <a class="btn btn-warning btn-md" href="{% url 'base:custadvUpdate' custadv.id %}">取消</a>
-          {% endif %}
-          -->
-          <a class="btn btn-primary btn-md" href="{% url 'base:custadvList' %}">離開</a>
-      </div>
-    </div>
+
     {{ form.non_field_errors }}
     <div>
       <div class="form-row">
@@ -49,33 +38,40 @@
           {{ form.ipntffx }}
         </div>
       </div>
-      <div>
-        <div class="form-group col-md-4">
+      <div class="form-row">
+        <div class="form-group col-md-4 form-check form-check-inline">
           {{ form.ipmnspay.errors}}
           <label>{{ form.ipmnspay }}{{ form.ipmnspay.label }}</label>
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-4 form-check form-check-inline">
           {{ form.ipentry.errors}}
           <label>{{ form.ipentry }}{{ form.ipentry.label }}</label>
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-4 form-check form-check-inline">
           {{ form.iprtord.errors}}
           <label>{{ form.iprtord }}{{ form.iprtord.label }}</label>
         </div>
       </div>
-      <div>
-      <div class="form-group col-md-8">
-          {{ form.ipntfmk.errors}}
-          {{ form.ipntfmk.label_tag}}
-          {{ form.ipntfmk }}
-      </div>
-
+      <div class="form-row align-text-top">
+        <div class="form-group col-md-8">
+            {{ form.ipntfmk.errors}}
+            {{ form.ipntfmk.label_tag}}
+            {{ form.ipntfmk }}
+        </div>
+          <div class="form-group col-md-4" style="position:fixed;top:110px;right:263px;width:160px;height:50px;text-align:right">
+              <input class="btn btn-success btn-md" type="submit" value="存檔" />
+              <!--
+              {% if custadv %}
+                <a class="btn btn-warning btn-md" href="{% url 'base:custadvUpdate' custadv.id %}">取消</a>
+              {% endif %}
+              -->
+              <a class="btn btn-primary btn-md" href="{% url 'base:custadvList' %}">離開</a>
+          </div>
       </div>
     </div>
   </form>
-  </div>
   <div id="custqtnEdit" class="form-row">
-    <table style="margin-left: 1em; width: 97.5%;" id="custqtn" class="table table-hover table-bordered table-responsive">
+    <table style="margin-left: 1em; width: 97.5%;" id="custqtn" class="table table-hover table-bordered table-responsive table-condensed">
       <thead>
         <tr>
           <th style="display:none;width: 1%;vertical-align: middle;">#ID</th>
@@ -86,7 +82,7 @@
           <th class="text-center">
             {% if custadv %}
               <input type="hidden" id="Url" data-url="{% url 'base:custqtnNew' custadv.id %}" />
-              <button onclick="newqtnForm()" class="btn btn-info btn-sm" id="newqtn">
+              <button onclick="newqtnForm()" class="btn btn-info btn-block btn-sm active" id="newqtn">
               <span class="glyphicon glyphicon-plus"></span>&nbsp;<b>Line</b></button>
             {% endif %}
           </th>
@@ -198,4 +194,4 @@
   
 </script>
 
-{% endblock app_content%}
+{% endblock app_content %}

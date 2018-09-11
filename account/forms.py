@@ -2,16 +2,17 @@ from django import forms
 from account.models import User
 
 class UserForm(forms.ModelForm):
-    username = forms.CharField(label='帳號')
-    password = forms.CharField(label='密碼', widget=forms.PasswordInput())
-    password2 = forms.CharField(label='確認密碼', widget=forms.PasswordInput())
-    fullname = forms.CharField(label='姓名', max_length=128)
-    website = forms.URLField(label='個人網址', max_length=128)
-    address = forms.CharField(label='住址', max_length=128)
+    username = forms.CharField(label='帳號', widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'enter user account'}))
+    password = forms.CharField(label='密碼', widget=forms.PasswordInput(attrs={'class':'form-control','placeholder':'enter password'}))
+    password2 = forms.CharField(label='確認密碼', widget=forms.PasswordInput(attrs={'class':'form-control','placeholder':'enter password'}))
+    email = forms.CharField(label='E-Mail', max_length=128, widget=forms.EmailInput(attrs={'class':'form-control','placeholder':'enter email'}))
+    fullname = forms.CharField(label='姓名', max_length=128, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'full name'}))
+    website = forms.URLField(label='個人網址', max_length=128, required=False, widget=forms.URLInput(attrs={'class':'form-control', 'placeholder':'url'}))
+    address = forms.CharField(label='住址', max_length=128, required=False, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'address'}))
 
     class Meta:
         model = User
-        fields = ['username', 'password', 'password2', 'fullname', 'website', 'address']
+        fields = ['username', 'password', 'password2', 'fullname', 'email', 'website', 'address']
 
     def clean_password2(self):
         password = self.cleaned_data.get('password')
@@ -28,8 +29,8 @@ class UserForm(forms.ModelForm):
         return user
 
 class LoginForm(forms.ModelForm):
-    username = forms.CharField(label='帳號')
-    password = forms.CharField(label='密碼', widget=forms.PasswordInput())
+    username = forms.CharField(label='帳號', widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'enter user account'}))
+    password = forms.CharField(label='密碼', widget=forms.PasswordInput(attrs={'class':'form-control','placeholder':'enter password'}))
 
     class Meta:
         model = User

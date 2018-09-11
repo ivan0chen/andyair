@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from datetime import datetime
+from django.contrib.auth.decorators import login_required
 from base.models import Custadv, Custqtn
 from base.forms import CustadvForm, CustqtnForm
 
-
+@login_required
 def custadvList(request, template_name='base/custadvList.html'):
     custadvs = Custadv.objects.all()
     ctx = {}
@@ -12,6 +13,7 @@ def custadvList(request, template_name='base/custadvList.html'):
     ctx['title'] = 'List'
     return render(request, template_name, ctx)
 
+@login_required
 def custadvCreate(request, template_name='base/custadvForm.html'):
     form = CustadvForm(request.POST or None)
     if form.is_valid():
@@ -22,6 +24,7 @@ def custadvCreate(request, template_name='base/custadvForm.html'):
     ctx['title'] = 'New'
     return render(request, template_name, ctx)
 
+@login_required
 def custadvView(request, pk, template_name='base/custadvView.html'):
     custadv = get_object_or_404(Custadv, pk=pk)
     ctx = {}
@@ -30,6 +33,7 @@ def custadvView(request, pk, template_name='base/custadvView.html'):
     ctx['title'] = 'View'
     return render(request, template_name, ctx)
 
+@login_required
 def custadvUpdate(request, pk, template_name='base/custadvForm.html'):
     custadv = get_object_or_404(Custadv, pk=pk)
     form = CustadvForm(request.POST or None, instance=custadv)
@@ -43,6 +47,7 @@ def custadvUpdate(request, pk, template_name='base/custadvForm.html'):
     ctx['title'] = 'Edit'
     return render(request, template_name, ctx)
 
+@login_required
 def custadvDelete(request, pk, template_name='base/custadvDelete.html'):
     custadv = get_object_or_404(Custadv, pk=pk)
     if request.method == 'POST':
@@ -54,6 +59,7 @@ def custadvDelete(request, pk, template_name='base/custadvDelete.html'):
     ctx['title'] = 'Delete'
     return render(request, template_name, ctx)
 
+@login_required
 def custadvData(request, pk):
     custadv = get_object_or_404(Custadv, pk=pk)
     ctx = {}
@@ -65,6 +71,7 @@ def custadvData(request, pk):
         template_name = 'base/custDetail.html'
     return render(request, template_name, ctx)
 
+@login_required
 def custqtnNew(request, parent_pk, template_name='base/custqtnNew.html'):
     custadv = get_object_or_404(Custadv, pk=parent_pk)
     form = CustqtnForm(request.POST or None)
@@ -80,6 +87,7 @@ def custqtnNew(request, parent_pk, template_name='base/custqtnNew.html'):
     ctx['title'] = ' New Detail'
     return render(request, template_name, ctx)
 
+@login_required
 def custqtnTabledit(request):
     if request.method == 'POST':
         custqtn = get_object_or_404(Custqtn, pk=request.POST.get('id'))

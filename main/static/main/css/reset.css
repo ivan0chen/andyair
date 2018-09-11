@@ -38,6 +38,7 @@ q:before, q:after {
 	content: none;
 }
 table {
+	font-size: inherit;
 	border-collapse: collapse;
 	border-spacing: 0;
 }
