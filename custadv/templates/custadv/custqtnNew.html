@@ -1,4 +1,4 @@
-<form role="form" method="post" action="{% url 'base:custqtnNew' custadv.id %}">{% csrf_token %}
+<form role="form" method="post" action="{% url 'custadv:custqtnNew' custadv.id %}">{% csrf_token %}
   <table style="margin-left: 1em; width: 97.5%;" class="table table-hover table-bordered table-responsive">
     <thead>
       <tr>
@@ -48,7 +48,7 @@
         </td>
         <td class="text-center">
           <input class="btn btn-success btn-sm" type="submit" value="存檔" />
-          <!--<a class="btn btn-warning btn-sm" href="{% url 'base:custadvUpdate' custadv.id %}">取消</a>-->
+          <!--<a class="btn btn-warning btn-sm" href="{% url 'custadv:custadvUpdate' custadv.id %}">取消</a>-->
           <button onclick="custqtnEdit()" class="btn btn-warning btn-sm">取消</button>
         </td>
       </tr>
