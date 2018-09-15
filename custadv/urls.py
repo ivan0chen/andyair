@@ -1,10 +1,10 @@
 from django.urls import path
 from main import views as mainViews
-from base import views
+from custadv import views
 
-app_name = 'base'
+app_name = 'custadv'
 urlpatterns = [
-    path('', mainViews.main, name='base'),
+    path('', mainViews.main, name='custadv'),
     path('custadvList/', views.custadvList, name='custadvList'),
     path('custadvCreate/', views.custadvCreate, name='custadvCreate'),
     path('custadvView/<int:pk>/', views.custadvView, name='custadvView'),

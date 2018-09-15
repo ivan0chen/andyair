@@ -47,7 +47,7 @@ class Migration(migrations.Migration):
                 ('qtns', models.CharField(blank=True, max_length=60)),
                 ('trashed_at', models.DateTimeField(blank=True, null=True)),
                 ('created_by', models.ForeignKey(blank=True, db_column='created_by', default=1, null=True, on_delete=django.db.models.deletion.SET_DEFAULT, related_name='base_custqtn_created_by', to=settings.AUTH_USER_MODEL)),
-                ('custadv', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='base.Custadv')),
+                ('custadv', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='custadv.Custadv')),
                 ('last_updated_by', models.ForeignKey(blank=True, db_column='last_updated_by', default=1, null=True, on_delete=django.db.models.deletion.SET_DEFAULT, related_name='base_custqtn_last_updated_by', to=settings.AUTH_USER_MODEL)),
             ],
             options={

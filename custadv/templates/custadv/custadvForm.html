@@ -1,8 +1,8 @@
-{% extends "base/base.html" %}
+{% extends "custadv/base.html" %}
 
 {% block app_content %}
 
-{% include "base/nav.html" with custadv=custadv title=title %}
+{% include "custadv/nav.html" with custadv=custadv title=title %}
 {% include 'main/messages.html' %}
 <div id="div_messages" class="text-center align-middle" style="position:fixed;top:60px;right:0;width:160px;height:50px;border-radius:25px;"></div>
 <div>
@@ -63,10 +63,10 @@
               <input class="btn btn-success btn-md" type="submit" value="存檔"/>
               <!--
               {% if custadv %}
-                <a class="btn btn-warning btn-md" href="{% url 'base:custadvUpdate' custadv.id %}">取消</a>
+                <a class="btn btn-warning btn-md" href="{% url 'custadv:custadvUpdate' custadv.id %}">取消</a>
               {% endif %}
               -->
-              <a class="btn btn-primary btn-md" href="{% url 'base:custadvList' %}">離開</a>
+              <a class="btn btn-primary btn-md" href="{% url 'custadv:custadvList' %}">離開</a>
           </div>
       </div>
     </div>
@@ -82,7 +82,7 @@
           <th style="vertical-align: middle">說明</th>
           <th class="text-center" style="width:5%">
             {% if custadv %}
-              <input type="hidden" id="Url" data-url="{% url 'base:custqtnNew' custadv.id %}" />
+              <input type="hidden" id="Url" data-url="{% url 'custadv:custqtnNew' custadv.id %}" />
               <button onclick="newqtnForm()" class="btn btn-info btn-block btn-sm active" id="newqtn">
               <span class="glyphicon glyphicon-plus"></span>&nbsp;<b>Line</b></button>
             {% endif %}
@@ -128,7 +128,7 @@
             });
         
         $('#custqtn').Tabledit({
-            url: '{% url "base:custqtnTabledit" %}',
+            url: '{% url "custadv:custqtnTabledit" %}',
             restoreButton: false,
             hideIdentifier: true,
             columns: {

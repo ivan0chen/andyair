@@ -1,5 +1,5 @@
 from django import forms
-from base.models import Custadv, Custqtn
+from custadv.models import Custadv, Custqtn
 
 
 class CustadvForm(forms.ModelForm):

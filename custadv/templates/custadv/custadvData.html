@@ -22,11 +22,11 @@
 <script>
   $(document).ready(function() {
 
-      $.post("{% url 'base:custadvData' custadv.id %}",{'requestData':'master'},   //post函数到后端
+      $.post("{% url 'custadv:custadvData' custadv.id %}",{'requestData':'master'},   //post函数到后端
         function(data,status){                                                     //回调函数
              $("#custMaster").html(data);                                          //将id为custMaster的标签的html替换为返回的data
       });
-      $.post("{% url 'base:custadvData' custadv.id %}",{'requestData':'detail'},   //post函数到后端
+      $.post("{% url 'custadv:custadvData' custadv.id %}",{'requestData':'detail'},   //post函数到后端
         function(data,status) {                                                     //回调函数
             $("#custDetail tbody").html(data);                                         //将id为custMaster的标签的html替换为返回的data
       });

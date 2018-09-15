@@ -1,0 +1,12 @@
+{% extends "custadv/base.html" %}
+
+{% block app_content %}
+
+{% include "custadv/nav.html" with custadv=custadv title=title %}
+<div class="btn-group btn-group-lg" style="float: right;">
+  <a href="{% url 'custadv:custadvUpdate' custadv.id %}" class="tabledit-edit-button btn btn-md btn-default active"><span class="glyphicon glyphicon-pencil"></span></a>
+  <a href="{% url 'custadv:custadvDelete' custadv.id %}" class="tabledit-delete-button btn btn-md btn-default active"><span class="glyphicon glyphicon-trash"></span></a>
+</div>
+{% include "custadv/custadvData.html" %}
+
+{% endblock app_content %}

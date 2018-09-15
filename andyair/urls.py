@@ -21,6 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('main/', include('main.urls', namespace='main')),
     path('account/', include('account.urls',namespace='account')),
-    path('base/', include('base.urls', namespace='base')),
+    path('custadv/', include('custadv.urls', namespace='custadv')),
     re_path('.*', views.main),
 ]

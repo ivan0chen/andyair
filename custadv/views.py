@@ -3,11 +3,11 @@ from django.contrib import messages
 from django.http import JsonResponse
 from datetime import datetime
 from django.contrib.auth.decorators import login_required
-from base.models import Custadv, Custqtn
-from base.forms import CustadvForm, CustqtnForm
+from custadv.models import Custadv, Custqtn
+from custadv.forms import CustadvForm, CustqtnForm
 
 @login_required
-def custadvList(request, template_name='base/custadvList.html'):
+def custadvList(request, template_name='custadv/custadvList.html'):
     custadvs = Custadv.objects.all()
     ctx = {}
     ctx['custadvs'] = custadvs
@@ -15,7 +15,7 @@ def custadvList(request, template_name='base/custadvList.html'):
     return render(request, template_name, ctx)
 
 @login_required
-def custadvCreate(request, template_name='base/custadvForm.html'):
+def custadvCreate(request, template_name='custadv/custadvForm.html'):
     form = CustadvForm(request.POST or None)
     if form.is_valid():
         new_cust = form.save(commit=False)
@@ -23,14 +23,14 @@ def custadvCreate(request, template_name='base/custadvForm.html'):
         new_cust.last_updated_by = request.user
         new_cust.save()
         messages.success(request, '資料已新增！')
-        return redirect('base:custadvUpdate', new_cust.id)
+        return redirect('custadv:custadvUpdate', new_cust.id)
     ctx = {}
     ctx['form'] = form
     ctx['title'] = 'New'
     return render(request, template_name, ctx)
 
 @login_required
-def custadvView(request, pk, template_name='base/custadvView.html'):
+def custadvView(request, pk, template_name='custadv/custadvView.html'):
     custadv = get_object_or_404(Custadv, pk=pk)
     ctx = {}
     ctx['custadv'] = custadv
@@ -39,7 +39,7 @@ def custadvView(request, pk, template_name='base/custadvView.html'):
     return render(request, template_name, ctx)
 
 @login_required
-def custadvUpdate(request, pk, template_name='base/custadvForm.html'):
+def custadvUpdate(request, pk, template_name='custadv/custadvForm.html'):
     custadv = get_object_or_404(Custadv, pk=pk)
     form = CustadvForm(request.POST or None, instance=custadv)
     if form.is_valid():
@@ -47,7 +47,7 @@ def custadvUpdate(request, pk, template_name='base/custadvForm.html'):
         custadv_obj.last_updated_by = request.user
         custadv_obj.save()
         messages.success(request, '資料已更新！')
-        return redirect('base:custadvUpdate', custadv.id)
+        return redirect('custadv:custadvUpdate', custadv.id)
     ctx = {}
     ctx['custadv'] = custadv
     ctx['custqtns'] = Custqtn.objects.filter(custadv=custadv)
@@ -56,12 +56,12 @@ def custadvUpdate(request, pk, template_name='base/custadvForm.html'):
     return render(request, template_name, ctx)
 
 @login_required
-def custadvDelete(request, pk, template_name='base/custadvDelete.html'):
+def custadvDelete(request, pk, template_name='custadv/custadvDelete.html'):
     custadv = get_object_or_404(Custadv, pk=pk)
     if request.method == 'POST':
         custadv.delete()
         messages.success(request, '資料已刪除！')
-        return redirect('base:custadvList')
+        return redirect('custadv:custadvList')
     ctx = {}
     ctx['custadv'] = custadv
     ctx['custqtns'] = Custqtn.objects.filter(custadv=custadv)
@@ -74,14 +74,14 @@ def custadvData(request, pk):
     ctx = {}
     if request.POST.get('requestData') == 'master':
         ctx['custadv'] = custadv
-        template_name = 'base/custMaster.html'
+        template_name = 'custadv/custMaster.html'
     else:
         ctx['custqtns'] = Custqtn.objects.filter(custadv=custadv)
-        template_name = 'base/custDetail.html'
+        template_name = 'custadv/custDetail.html'
     return render(request, template_name, ctx)
 
 @login_required
-def custqtnNew(request, parent_pk, template_name='base/custqtnNew.html'):
+def custqtnNew(request, parent_pk, template_name='custadv/custqtnNew.html'):
     custadv = get_object_or_404(Custadv, pk=parent_pk)
     form = CustqtnForm(request.POST or None)
     if form.is_valid():
@@ -91,7 +91,7 @@ def custqtnNew(request, parent_pk, template_name='base/custqtnNew.html'):
         custqtn.last_updated_by = request.user
         custqtn.save()
         messages.success(request, '明細資料已新增！')
-        return redirect('base:custadvUpdate', parent_pk)
+        return redirect('custadv:custadvUpdate', parent_pk)
     ctx = {}
     ctx["form"] = form
     ctx["custadv"] = custadv
