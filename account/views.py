@@ -52,9 +52,10 @@ def login(request, template_name='account/login.html'):
         if user and user.is_active:
             #login success
             auth_login(request, user)
-            nextURL = request.POST.get('nextURL')
-            if nextURL:
-                return redirect(nextURL)
+            # nextURL = request.POST.get('nextURL')
+            # print(nextURL)
+            # if nextURL:
+            #     return redirect(nextURL)
             messages.success(request, '登入成功！')
             result = 'Success'
             # return redirect('main:main')
@@ -76,7 +77,7 @@ def login(request, template_name='account/login.html'):
         return JsonResponse(ctx)
 
     ctx['form'] = form
-    ctx['nextURL'] = request.GET.get('next')
+    # ctx['nextURL'] = request.GET.get('next')
     print(ctx)
     return render(request, template_name, ctx)
 

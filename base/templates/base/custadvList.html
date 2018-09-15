@@ -3,6 +3,7 @@
 
 {% block app_content %}
 {% include "base/nav.html" with title=title %}
+{% include 'main/messages.html' %}
 <div>
   <table class="table table-striped table-bordered table-responsive table-condensed" id="custadvList">
     <thead>
@@ -11,9 +12,9 @@
         <th style="vertical-align: middle">應通知公司</th>
         <th style="vertical-align: middle">貨主聯絡人</th>
         <th style="vertical-align: middle">電話號碼</th>
-        <th class="text-center" style="float: none;">
+        <th id="newCust" class="text-center">
           <a href="{% url 'base:custadvCreate' %}" class="btn btn-block btn-info btn-sm active">
-            <span class="glyphicon glyphicon-plus"></span><b>&nbsp;New&nbsp;</b></a>
+            <span class="glyphicon glyphicon-plus"></span><b>&nbsp;New</b></a>
         </th>
       </tr>
     </thead>
@@ -53,7 +54,7 @@
                 }
             ]
         });
-        
+        $('#newCust').removeClass('sorting_disabled').removeAttr('aria-label').css('padding','8px');
     });
     
 </script>

@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
 from django.http import JsonResponse
 from datetime import datetime
 from django.contrib.auth.decorators import login_required
@@ -17,7 +18,11 @@ def custadvList(request, template_name='base/custadvList.html'):
 def custadvCreate(request, template_name='base/custadvForm.html'):
     form = CustadvForm(request.POST or None)
     if form.is_valid():
-        new_cust = form.save(commit=True)
+        new_cust = form.save(commit=False)
+        new_cust.created_by = request.user
+        new_cust.last_updated_by = request.user
+        new_cust.save()
+        messages.success(request, '資料已新增！')
         return redirect('base:custadvUpdate', new_cust.id)
     ctx = {}
     ctx['form'] = form
@@ -38,7 +43,10 @@ def custadvUpdate(request, pk, template_name='base/custadvForm.html'):
     custadv = get_object_or_404(Custadv, pk=pk)
     form = CustadvForm(request.POST or None, instance=custadv)
     if form.is_valid():
-        form.save()
+        custadv_obj = form.save(commit=False)
+        custadv_obj.last_updated_by = request.user
+        custadv_obj.save()
+        messages.success(request, '資料已更新！')
         return redirect('base:custadvUpdate', custadv.id)
     ctx = {}
     ctx['custadv'] = custadv
@@ -52,6 +60,7 @@ def custadvDelete(request, pk, template_name='base/custadvDelete.html'):
     custadv = get_object_or_404(Custadv, pk=pk)
     if request.method == 'POST':
         custadv.delete()
+        messages.success(request, '資料已刪除！')
         return redirect('base:custadvList')
     ctx = {}
     ctx['custadv'] = custadv
@@ -78,7 +87,10 @@ def custqtnNew(request, parent_pk, template_name='base/custqtnNew.html'):
     if form.is_valid():
         custqtn = form.save(commit=False)
         custqtn.custadv = custadv
+        custqtn.created_by = request.user
+        custqtn.last_updated_by = request.user
         custqtn.save()
+        messages.success(request, '明細資料已新增！')
         return redirect('base:custadvUpdate', parent_pk)
     ctx = {}
     ctx["form"] = form
@@ -95,12 +107,26 @@ def custqtnTabledit(request):
             custqtn.org = request.POST.get('org')
             custqtn.qtndd = datetime.strptime(request.POST.get('qtndd'),"%Y-%m-%d").date()
             custqtn.qtns = request.POST.get('qtns')
-            custqtn.last_update_date = datetime.now()
-            custqtn.last_updated_by = 1
+            custqtn.last_updated_by = request.user
             custqtn.save()
+            messages.success(request, '明細資料已更新！')
         if request.POST.get('action') == 'delete':
             custqtn.delete()
-        return JsonResponse(request.POST)
+            messages.success(request, '明細資料已刪除！')
+
+        django_messages = []
+        for message in messages.get_messages(request):
+            django_messages.append({
+                "level": message.level,
+                "message": message.message,
+                "tags": message.tags,
+            })
+        ctx = {}
+        ctx['request'] = request.POST
+        ctx['messages'] = django_messages
+
+        return JsonResponse(ctx)
+        # return JsonResponse(request.POST)
     else:
         return render(request, 'main/main.html')
 

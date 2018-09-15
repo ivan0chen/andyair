@@ -13,16 +13,14 @@
   <!--<link rel="stylesheet" href="{% static 'main/css/reset.css' %}">-->
   <link rel="stylesheet" href="{% static 'main/css/normalize.css' %}">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <!--<link rel="stylesheet" href="{% static 'main/css/materialize.min.css' %}">-->
   <link rel="stylesheet" href="{% static 'main/css/bootstrap-datepicker3.css' %}">
-  <!--<link rel="stylesheet" href="{% static 'main/css/dataTables.bootstrap.min.css' %}">-->
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css">
+  <link rel="stylesheet" href="{% static 'main/css/dataTables.bootstrap.min.css' %}">
+  <!--<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css">-->
   <link rel="stylesheet" href="{% static 'main/css/main.css' %}">
 
     <!--JS -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <!--<script src="{% static 'main/js/materialize.min.js' %}"></script>-->
   <script src="{% static 'main/js/csrf.js' %}"></script>
   <script src="{% static 'main/js/jquery.tabledit.min.js' %}"></script>
   <script src="{% static 'main/js/moment.js' %}"></script>
@@ -51,14 +49,17 @@
           <li><a id="login" href="#" data-form="{% url 'account:login' %}" title="Login" data-toggle="modal">
             <span class="glyphicon glyphicon-log-in"></span> 登入</a></li>
           <li><a href="{% url 'account:userCreate' %}"><span class="glyphicon glyphicon-user"></span> 註冊</a></li>
-          <script>
-              setTimeout(function() {
-                  document.getElementById("login").click();
-              }, 1000);
-          </script>
+          {% if nextURL %}
+            <script>
+                setTimeout(function() {
+                    document.getElementById('login').click();
+                }, 500);
+            </script>
+          {% endif %}
         {% endif %}
       </ul>
     </div>
+
   </nav>
   <br>
 
@@ -70,7 +71,6 @@
     <small style="text-align:center;">&nbsp;&nbsp;&copy; 2018 ANDY Air Transport Co., Ltd. | ADMIRAL Freight Service Inc. 台北市內湖區瑞光路66巷23號3樓(台北內湖科技園區)</small>
   </footer>
 <script>
-
     $(document).ready(function(){
 
         $.ajaxSetup({
@@ -80,12 +80,12 @@
      
         $(".alert").fadeOut(3000);
         
-        $("#login").click(function(ev) {
-            ev.preventDefault(); // prevent navigation
+        $("#login").bind('click',function(event) {
+            event.preventDefault(); // prevent navigation
             var url = $(this).data("form"); // get the login form url
             $("#loginModal").load(url, function() { // load the url into the modal
                 $(this).modal('show'); // display the modal on url load
-                
+
             });
             return false; // prevent the click propagation
         });
@@ -94,7 +94,7 @@
             $.ajax({
                 type: $(this).attr('method'),
                 url: this.action,
-                data: $(this).serialize(),
+                data: $(this).serialize() + '&nextURL=' + '{{ nextURL }}',
                 context: this,
                 success: function(data, status) {
                     update_messages(data.messages);
@@ -106,7 +106,8 @@
                         // alert('登入成功');
                         setTimeout(function() {
                             $('#loginModal').modal('hide');
-                            location.reload(); },
+                            // location.reload(); },
+                            location.assign('{{ nextURL }}'); },
                             500);
                         // $('body').on('hidden.bs.modal', '.modal', function () {
                         //     $(this).removeData('bs.modal');

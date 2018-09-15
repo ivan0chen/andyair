@@ -136,7 +136,7 @@ STATIC_URL = '/static/'
 
 AUTH_USER_MODEL = 'account.User'
 
-LOGIN_URL = '/account/login/'
+LOGIN_URL = '/main/'
 
 
 

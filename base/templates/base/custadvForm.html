@@ -3,9 +3,10 @@
 {% block app_content %}
 
 {% include "base/nav.html" with custadv=custadv title=title %}
-
-<div class="mt-0">
-  <form role="form" method="post">{% csrf_token %}
+{% include 'main/messages.html' %}
+<div id="div_messages" class="text-center align-middle" style="position:fixed;top:60px;right:0;width:160px;height:50px;border-radius:25px;"></div>
+<div>
+  <form id="masterForm" role="form" method="post">{% csrf_token %}
 
     {{ form.non_field_errors }}
     <div>
@@ -59,7 +60,7 @@
             {{ form.ipntfmk }}
         </div>
           <div class="form-group col-md-4" style="position:fixed;top:110px;right:263px;width:160px;height:50px;text-align:right">
-              <input class="btn btn-success btn-md" type="submit" value="存檔" />
+              <input class="btn btn-success btn-md" type="submit" value="存檔"/>
               <!--
               {% if custadv %}
                 <a class="btn btn-warning btn-md" href="{% url 'base:custadvUpdate' custadv.id %}">取消</a>
@@ -79,7 +80,7 @@
           <th style="vertical-align: middle">ORG</th>
           <th style="vertical-align: middle">日期</th>
           <th style="vertical-align: middle">說明</th>
-          <th class="text-center">
+          <th class="text-center" style="width:5%">
             {% if custadv %}
               <input type="hidden" id="Url" data-url="{% url 'base:custqtnNew' custadv.id %}" />
               <button onclick="newqtnForm()" class="btn btn-info btn-block btn-sm active" id="newqtn">
@@ -104,6 +105,7 @@
   <div id="custqtnNew" class="form-row"></div>
 </div>
 <script>
+ 
     function newqtnForm() {
         var url = $("#Url").attr("data-url");
         $.get(url, {'request': 'custqtn'}, function (data, status) {
@@ -113,6 +115,14 @@
     }
     
     $(document).ready(function() {
+
+        $('#masterForm input[type="submit"]').prop('disabled', true);
+
+        $('#masterForm').bind('change keyup', function () {
+            $('#masterForm input[type="submit"]').prop('disabled', false);
+            console.log('changed');
+        });
+        
         $.ajaxSetup({
             data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
             });
@@ -127,7 +137,6 @@
             },
             onDraw: function () {
                 // Select all inputs of second column and apply datepicker each of them
-                //$('table tr td:nth-child(2) input').each(function() {
                 $('table tr td:nth-child(4)').each(function () {
                     $(this).datepicker({
                         format: "yyyy-mm-dd",
@@ -142,10 +151,12 @@
                 console.log(data);
                 console.log(textStatus);
                 console.log(jqXHR);
-                if (data.action == 'delete')
+                if (data['request'].action == 'delete')
                  {
-                  $('#'+data.id).remove();
+                  $('#'+data['request'].id).remove();
                  }
+                 update_messages(data.messages);
+                 $(".alert").fadeOut(3000);
             },
             onFail: function (jqXHR, textStatus, errorThrown) {
                 console.log('onFail(jqXHR, textStatus, errorThrown)');
@@ -165,33 +176,14 @@
 
         $('#custqtn thead tr th:last-child').remove();
         
-
-
-
-
-        
-
-        // $('#newqtn1').click(function() {
-        //     var table = $('#custqtn');
-        //     var body = $('#custqtn tbody');
-        //     var nextId = body.find('tr').length + 1;
-        //     body.prepend($('' + nextId + ''));
-        //     table.Tabledit('update');
-        // });
-
-        // $("#newqtn2").click(function(e){
-        //     var table = $(this).attr('for-table');  //get the target table selector
-        //     var $tr = $(table + ">tbody>tr:last-child").clone(true, true);  //clone the last row
-        //     var nextID = parseInt($tr.find("input.tabledit-identifier").val()) + 1; //get the ID and add one.
-        //     $tr.find("input.tabledit-identifier").val(nextID);  //set the row identifier
-        //     $tr.find("span.tabledit-identifier").text(nextID);  //set the row identifier
-        //     $(table + ">tbody").append($tr);    //add the row to the table
-        //     $tr.find(".tabledit-edit-button").click();  //pretend to click the edit button
-        //     $tr.find("input:not([type=hidden]), select").val("");   //wipe out the inputs.
-        // });
-
-    })
-  
+    });
+    function update_messages(messages) {
+        $("#div_messages").html("");
+        $.each(messages, function (i, m) {
+            var html = "<div class='alert alert-"+m.tags+" alert-dismissible fade in'>"+"<strong>"+m.message+"</strong>"+"</div>";
+            $("#div_messages").append(html);
+        });
+    }
 </script>
 
 {% endblock app_content %}

@@ -64,7 +64,14 @@
     </div>
   </form>
 </div>
-
+<script>
+  $(document).ready(function(){
+      $('form input[type="submit"]').prop('disabled', true);
+      $('form').bind('change keyup',function(){
+          $('form input[type="submit"]').prop('disabled', false);
+      });
+  })
+</script>
 {% endblock content %}
 
 

@@ -1,5 +1,4 @@
 from django import forms
-#from django.contrib.admin.widgets import AdminDateWidget
 from base.models import Custadv, Custqtn
 
 
@@ -16,7 +15,7 @@ class CustadvForm(forms.ModelForm):
 
     class Meta:
         model = Custadv
-        fields = ['cuno', 'ipntfy', 'ipntfym', 'ipntftl', 'ipntffx', 'ipmnspay', 'ipentry', 'iprtord', 'ipntfmk',]
+        fields = ['cuno', 'ipntfy', 'ipntfym', 'ipntftl', 'ipntffx', 'ipmnspay', 'ipentry', 'iprtord', 'ipntfmk']
 
 class CustqtnForm(forms.ModelForm):
 
@@ -26,4 +25,4 @@ class CustqtnForm(forms.ModelForm):
 
     class Meta:
         model = Custqtn
-        fields = ['org', 'qtndd', 'qtns',]
+        fields = ['org', 'qtndd', 'qtns']
