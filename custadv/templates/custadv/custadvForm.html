@@ -4,7 +4,7 @@
 
 {% include "custadv/nav.html" with custadv=custadv title=title %}
 {% include 'main/messages.html' %}
-<div id="div_messages" class="text-center align-middle" style="position:fixed;top:60px;right:0;width:160px;height:50px;border-radius:25px;"></div>
+<div id="div_messages" class="text-center align-middle" style="position:fixed;top:80px;right:0;width:160px;height:50px;border-radius:25px;"></div>
 <div>
   <form id="masterForm" role="form" method="post">{% csrf_token %}
 
@@ -76,7 +76,7 @@
       <thead>
         <tr>
           <th style="display:none;width: 1%;vertical-align: middle;">#ID</th>
-          <th style="width: 1%;vertical-align: middle;">No.</th>
+          <th style="width: 1%;vertical-align: middle;text-align:center">No.</th>
           <th style="vertical-align: middle">ORG</th>
           <th style="vertical-align: middle">日期</th>
           <th style="vertical-align: middle">說明</th>
@@ -85,6 +85,9 @@
               <input type="hidden" id="Url" data-url="{% url 'custadv:custqtnNew' custadv.id %}" />
               <button onclick="newqtnForm()" class="btn btn-info btn-block btn-sm active" id="newqtn">
               <span class="glyphicon glyphicon-plus"></span>&nbsp;<b>Line</b></button>
+            {% else %}
+              <button class="btn btn-info btn-block btn-sm active" id="newqtn" disabled>
+              <span class="glyphicon glyphicon-plus"></span>&nbsp;<b>Line</b></button>
             {% endif %}
           </th>
         </tr>
@@ -92,11 +95,11 @@
       <tbody style="background-color:white">
           {% for custqtn in custqtns %}
             <tr>
-            <td style="display:none">{{ custqtn.id }}</td>
-            <td>{{ forloop.counter }}</td>
-            <td>{{ custqtn.org }}</td>
-            <td>{{ custqtn.qtndd|date:"Y-m-d" }}</td>
-            <td>{{ custqtn.qtns }}</td>
+              <td style="display:none">{{ custqtn.id }}</td>
+              <td style="vertical-align: middle;text-align:center">{{ forloop.counter }}</td>
+              <td style="vertical-align: middle;">{{ custqtn.org }}</td>
+              <td style="vertical-align: middle;">{{ custqtn.qtndd|date:"Y-m-d" }}</td>
+              <td style="vertical-align: middle;">{{ custqtn.qtns }}</td>
             </tr>
           {% endfor %}
       </tbody>
@@ -156,7 +159,7 @@
                   $('#'+data['request'].id).remove();
                  }
                  update_messages(data.messages);
-                 $(".alert").fadeOut(3000);
+                 $(".alert").fadeOut(5000);
             },
             onFail: function (jqXHR, textStatus, errorThrown) {
                 console.log('onFail(jqXHR, textStatus, errorThrown)');

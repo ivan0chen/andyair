@@ -19,9 +19,9 @@ class CustadvForm(forms.ModelForm):
 
 class CustqtnForm(forms.ModelForm):
 
-    org = forms.CharField(label='ORG', max_length=3, widget=forms.TextInput(attrs={'class':'form-control'}))
-    qtndd = forms.DateField(label='日期', widget=forms.TextInput(attrs={'readonly':'readonly','class':'form-control'}))
-    qtns = forms.CharField(label='說明', max_length=60, required=False, widget=forms.TextInput(attrs={'class':'form-control'}))
+    org = forms.CharField(label='ORG', max_length=3, widget=forms.TextInput(attrs={'class':'tabledit-input form-control input-sm'}))
+    qtndd = forms.DateField(label='日期', widget=forms.TextInput(attrs={'readonly':'readonly','class':'tabledit-input form-control input-sm'}))
+    qtns = forms.CharField(label='說明', max_length=60, required=False, widget=forms.TextInput(attrs={'class':'tabledit-input form-control input-sm'}))
 
     class Meta:
         model = Custqtn
