@@ -1,0 +1,34 @@
+{% extends "shpr/base.html" %}
+
+{% block app_content %}
+
+{% include "shpr/nav.html" with shpr=shpr title=title %}
+{% include 'main/messages.html' %}
+<div id="div_messages" class="text-center align-middle" style="position:fixed;top:80px;right:0;width:160px;height:50px;border-radius:25px;"></div>
+
+  <form id="masterForm" role="form" method="post">{% csrf_token %}
+    <!--<div class="form-group col-sm-4" style="position:fixed;top:110px;right:260px;width:160px;height:50px;text-align:right">-->
+    <div class="btn-group btn-group-md" style="margin-top:-15px; float: right;">
+      <input class="btn btn-success btn-md" type="submit" value="存檔"/>
+      <a class="btn btn-primary btn-md" href="{% url 'shpr:shprList' %}">離開</a>
+    </div>
+    <div class="col-xs-12 col-sm-12">
+      {% include "shpr/shprData.html" %}
+    </div>
+  </form>
+  
+<script>
+  
+  $(document).ready(function(){
+      
+        // $('#actionDiv').css('display','block');
+        $('#masterForm input[type="submit"]').prop('disabled', true);
+
+        $('#masterForm').bind('change keyup', function () {
+            $('#masterForm input[type="submit"]').prop('disabled', false);
+            console.log('changed');
+        });
+        
+  });
+</script>
+{% endblock app_content %}

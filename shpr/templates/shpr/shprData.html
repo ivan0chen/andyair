@@ -1,0 +1,81 @@
+
+    {{ form.non_field_errors }}
+    <div class="form-row">
+      <div class="form-group col-sm-2">
+        {{ form.cscode.errors}}
+        {{ form.cscode.label_tag }}
+        {{ form.cscode }}
+      </div>
+      <div class="form-group col-sm-2" id="selectDiv">
+        {{ form.kind.errors}}
+        {{ form.kind.label_tag}}
+        {{ form.kind }}
+      </div>
+      <div class="form-group col-sm-8">
+        {{ form.csname.errors}}
+        {{ form.csname.label_tag}}
+        {{ form.csname }}
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-sm-12">
+        {{ form.address.errors}}
+        {{ form.address.label_tag}}
+        {{ form.address }}
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-sm-4">
+        {{ form.attn.errors}}
+        {{ form.attn.label_tag}}
+        {{ form.attn }}
+      </div>
+      <div class="form-group col-sm-4">
+        {{ form.tel1.errors}}
+        {{ form.tel1.label_tag}}
+        {{ form.tel1 }}
+      </div>
+      <div class="form-group col-sm-4">
+        {{ form.tel2.errors}}
+        {{ form.tel2.label_tag}}
+        {{ form.tel2 }}
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-sm-4">
+        {{ form.fax1.errors}}
+        {{ form.fax1.label_tag}}
+        {{ form.fax1 }}
+      </div>
+      <div class="form-group col-sm-4">
+        {{ form.fax2.errors}}
+        {{ form.fax2.label_tag}}
+        {{ form.fax2 }}
+      </div>
+      <div class="form-group col-sm-4">
+        {{ form.tlx.errors}}
+        {{ form.tlx.label_tag}}
+        {{ form.tlx }}
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-sm-6">
+        {{ form.dest.errors}}
+        {{ form.dest.label_tag}}
+        {{ form.dest }}
+      </div>
+      <div class="form-group col-sm-6">
+        {{ form.shipno.errors}}
+        {{ form.shipno.label_tag}}
+        {{ form.shipno }}
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-sm-12">
+        {{ form.remark.errors}}
+        {{ form.remark.label_tag}}
+        {{ form.remark }}
+      </div>
+    </div>
+
+

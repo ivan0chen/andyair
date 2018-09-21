@@ -1,0 +1,24 @@
+{% extends "custcsn/base.html" %}
+
+{% block app_content %}
+
+{% include "custcsn/nav.html" with custcsn=custcsn title=title %}
+
+  <div class="btn-group btn-group-md" style="margin-top:-15px; float: right;">
+    <a href="{% url 'custcsn:custcsnUpdate' custcsn.id %}" class="tabledit-edit-button btn btn-md btn-primary active"><span class="glyphicon glyphicon-pencil"></span></a>
+    <a href="{% url 'custcsn:custcsnDelete' custcsn.id %}" class="tabledit-delete-button btn btn-md btn-warning active"><span class="glyphicon glyphicon-trash"></span></a>
+  </div>
+<div class="col-xs-12 col-sm-12">
+  <form id="masterForm" role="form" method="post">{% csrf_token %}
+    {% include "custcsn/custcsnData.html" %}
+  </form>
+</div>
+<script>
+  $(document).ready(function(){
+      $('#masterForm :input').prop('readonly',true);
+      $('#id_cucd').attr("disabled", true);
+      $('#masterForm select').children('option').attr('disabled', true);
+      
+  });
+</script>
+{% endblock app_content %}

@@ -1,0 +1,59 @@
+
+{% extends "shpr/base.html" %}
+
+{% block app_content %}
+
+{% include "shpr/nav.html" with shpr=shpr title=title %}
+{% include 'main/messages.html' %}
+
+  <div class="btn-group btn-group-md" style="margin-top:-15px; float: right;">
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#shprDeleteModal">
+      刪除此收貨人資料
+    </button>
+  </div>
+<div class="col-xs-12 col-sm-12">
+  <form id="masterForm" role="form" method="post">{% csrf_token %}
+    {% include "shpr/shprData.html" %}
+  </form>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="shprDeleteModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color:darkslateblue;color:white;">
+        <button type="button" class="close" data-dismiss="modal" style="color:white;">&times;</button>
+        <h4 class="modal-title"><span class="glyphicon glyphicon-trash">&nbsp;出貨人資料刪除</span></h4>
+      </div>
+      <div id="div_messages" class="text-center align-middle" style="height: 40px"></div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-8 col-md-offset-2">
+             <form id="loginForm" method="post" action="{% url 'shpr:shprDelete' shpr.id %}">{% csrf_token %}
+                <h3>
+                    確定要刪除此出貨人資料 <br>"{{ shpr }}" ?<br><br>
+                    <input class="btn btn-danger btn-md" type="submit" value="確定刪除" />
+                    <a class="btn btn-primary btn-md" href="{% url 'shpr:shprList' %}">取消</a>
+                </h3>
+            </form>
+          </div>
+        </div>
+      </div>
+        <div class="modal-footer">
+          <div class="text-center">
+            <input type="button" value="Close" class="btn btn-md btn-secondary pull-right" data-dismiss="modal" />
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+<script>
+  $(document).ready(function(){
+      $('#masterForm :input').prop('readonly',true);
+      $('#id_kind').attr("disabled", true);
+      $('#masterForm select').children('option').attr('disabled', true);
+      
+  });
+</script>
+{% endblock app_content %}

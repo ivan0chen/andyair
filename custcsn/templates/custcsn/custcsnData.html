@@ -1,0 +1,149 @@
+
+    {{ form.non_field_errors }}
+    <div class="form-row">
+      <div class="form-group col-sm-2">
+        {{ form.cuno.errors}}
+        {{ form.cuno.label_tag }}
+        {{ form.cuno }}
+      </div>
+      <div class="form-group col-sm-2" id="selectDiv">
+        {{ form.cucd.errors}}
+        {{ form.cucd.label_tag}}
+        {{ form.cucd }}
+      </div>
+      <div class="form-group col-sm-8">
+        {{ form.cunme.errors}}
+        {{ form.cunme.label_tag}}
+        {{ form.cunme }}
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-sm-3">
+        {{ form.cudir.errors}}
+        {{ form.cudir.label_tag}}
+        {{ form.cudir }}
+      </div>
+      <div class="form-group col-sm-3">
+        {{ form.cuattn.errors}}
+        {{ form.cuattn.label_tag}}
+        {{ form.cuattn }}
+      </div>
+      <div class="form-group col-sm-6">
+        {{ form.cunmc.errors}}
+        {{ form.cunmc.label_tag}}
+        {{ form.cunmc }}
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-sm-3">
+        {{ form.cusale.errors}}
+        {{ form.cusale.label_tag}}
+        {{ form.cusale }}
+      </div>
+      <div class="form-group col-sm-3">
+        {{ form.cuid.errors}}
+        {{ form.cuid.label_tag}}
+        {{ form.cuid }}
+      </div>
+      <div class="form-group col-sm-6">
+        {{ form.cunminv.errors}}
+        {{ form.cunminv.label_tag}}
+        {{ form.cunminv }}
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-sm-4">
+        {{ form.cutel.errors}}
+        {{ form.cutel.label_tag}}
+        {{ form.cutel }}
+      </div>
+      <div class="form-group col-sm-4">
+        {{ form.cufax.errors}}
+        {{ form.cufax.label_tag}}
+        {{ form.cufax }}
+      </div>
+      <div class="form-group col-sm-4">
+        {{ form.cupcfax.errors}}
+        {{ form.cupcfax.label_tag}}
+        {{ form.cupcfax }}
+      </div>
+    </div>
+<!--<div style="margin-bottom:15px;">-->
+    <div class="form-row">
+        {{ form.cuchadd1.errors}}
+        <div class="col-sm-2 text-right" style="padding-top: 6px;">
+          {{ form.cuchadd1.label_tag}}
+        </div>
+        <div class="col-sm-10">
+          {{ form.cuchadd1 }}
+        </div>
+    </div>
+    <div class="form-row">
+        {{ form.cuchadd2.errors}}
+        <!--{{ form.cuchadd2.label_tag}}-->
+        <div class="col-sm-offset-2 col-sm-10" style="margin-bottom:15px;">
+          {{ form.cuchadd2 }}
+        </div>
+    </div>
+<!--</div>-->
+    <div class="form-row">
+        {{ form.cuenadd1.errors}}
+        <div class="col-sm-2 text-right" style="padding-top: 6px;">
+          {{ form.cuenadd1.label_tag}}
+        </div>
+        <div class="col-sm-10">
+          {{ form.cuenadd1 }}
+        </div>
+    </div>
+    <div class="form-row">
+        {{ form.cuenadd2.errors}}
+          <!--{{ form.cuenadd2.label_tag}}-->
+        <div class="col-sm-offset-2 col-sm-10">
+          {{ form.cuenadd2 }}
+        </div>
+    </div>
+    <div class="form-row">
+        {{ form.cuenadd3.errors}}
+          <!--{{ form.cuenadd3.label_tag}}-->
+        <div class="col-sm-offset-2 col-sm-10">
+          {{ form.cuenadd3 }}
+        </div>
+    </div>
+
+
+    <div class="form-row">
+      <div class="form-group col-sm-12">
+        {{ form.custmk.errors}}
+        {{ form.custmk.label_tag}}
+        {{ form.custmk }}
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-sm-4">
+        {{ form.cucgdt.errors}}
+        {{ form.cucgdt.label_tag}}
+        {{ form.cucgdt }}
+      </div>
+      <div class="form-group col-sm-4">
+        {{ form.cucrdt.errors}}
+        {{ form.cucrdt.label_tag}}
+        {{ form.cucrdt }}
+      </div>
+      <div class="form-group col-sm-4">
+        {{ form.cutrdt.errors}}
+        {{ form.cutrdt.label_tag}}
+        {{ form.cutrdt }}
+      </div>
+    </div>
+    <!--<div id="actionDiv" class="form-row" style="display:none;">-->
+      <!--<div class="form-group col-sm-4" style="position:fixed;top:110px;right:260px;width:160px;height:50px;text-align:right">-->
+        <!--<input class="btn btn-success btn-md" type="submit" value="存檔"/>-->
+        <!--&lt;!&ndash;-->
+        <!--{% if custcsn %}-->
+          <!--<a class="btn btn-warning btn-md" href="{% url 'custcsn:custcsnUpdate' custcsn.id %}">取消</a>-->
+        <!--{% endif %}-->
+        <!--&ndash;&gt;-->
+        <!--<a class="btn btn-primary btn-md" href="{% url 'custcsn:custcsnList' %}">離開</a>-->
+      <!--</div>-->
+    <!--</div>-->
+

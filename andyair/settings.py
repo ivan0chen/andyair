@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'account',
     'main',
     'custadv',
+    'custcsn',
+    'shpr',
 ]
 
 MIDDLEWARE = [

@@ -22,5 +22,7 @@ urlpatterns = [
     path('main/', include('main.urls', namespace='main')),
     path('account/', include('account.urls',namespace='account')),
     path('custadv/', include('custadv.urls', namespace='custadv')),
+    path('custcsn/', include('custcsn.urls', namespace='custcsn')),
+    path('shpr/', include('shpr.urls', namespace='shpr')),
     re_path('.*', views.main),
 ]
