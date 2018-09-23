@@ -8,11 +8,18 @@
 {% include "custadv/custadvData.html" %}
 <form method="post">{% csrf_token %}
     <h3>
-    Are you sure you want to delete "{{ custadv }}" ?<br><br>
-
-    <input class="btn btn-danger btn-md" type="submit" value="刪除" />
-    <a class="btn btn-primary btn-md" href="{% url 'custadv:custadvList' %}">取消</a>
+        <p class="text-danger blinking"><strong>確定要刪除此通知人資料 ? </strong></p><br>
+        <input class="btn btn-danger btn-md" type="submit" value="確定刪除" />
+        <a class="btn btn-primary btn-md" href="{% url 'custadv:custadvList' %}">取消</a>
     </h3>
 </form>
-
+<script>
+      
+      function blinker() {
+        $('.blinking').fadeOut(500);
+        $('.blinking').fadeIn(500);
+      }
+      setInterval(blinker, 1000);
+      
+</script>
 {% endblock app_content %}

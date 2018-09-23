@@ -1,0 +1,25 @@
+  <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color:darkslateblue;color:white;">
+        <button type="button" class="close" data-dismiss="modal" style="color:white;">&times;</button>
+        <h4 class="modal-title"><span class="glyphicon glyphicon-plus">&nbsp;備註說明資料新增</span></h4>
+      </div>
+      <div id="div_messages" class="text-center align-middle" style="height: 40px"></div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-8 col-md-offset-2">
+             <form id="inprmkForm" method="post" action="{% url 'inprmk:inprmkCreate' %}">{% csrf_token %}
+                  {{ form.as_p }}
+                  <input class="btn btn-primary btn-md" type="submit" value="存檔" />
+                  <a class="btn btn-warning btn-md" href="{% url 'inprmk:inprmkList' %}">取消</a>
+             </form>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="text-center">
+          <input type="button" value="Close" class="btn btn-md btn-secondary pull-right" data-dismiss="modal" />
+        </div>
+      </div>
+    </div>
+  </div>

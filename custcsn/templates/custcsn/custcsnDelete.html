@@ -30,11 +30,11 @@
       <div class="modal-body">
         <div class="row">
           <div class="col-md-8 col-md-offset-2">
-             <form id="loginForm" method="post" action="{% url 'custcsn:custcsnDelete' custcsn.id %}">{% csrf_token %}
-                <h3>
-                    確定要刪除此收貨人資料 <br>"{{ custcsn }}" ?<br><br>
-                    <input class="btn btn-danger btn-md" type="submit" value="確定刪除" />
-                    <a class="btn btn-primary btn-md" href="{% url 'custcsn:custcsnList' %}">取消</a>
+             <form method="post" action="{% url 'custcsn:custcsnDelete' custcsn.id %}">{% csrf_token %}
+                <h3>{{ custcsn }}
+                  <p class="text-danger blinking"><strong>確定要刪除此收貨人資料 ? </strong></p><br>
+                  <input class="btn btn-danger btn-md" type="submit" value="確定刪除" />
+                  <a class="btn btn-primary btn-md" href="{% url 'custcsn:custcsnList' %}">取消</a>
                 </h3>
             </form>
           </div>
@@ -53,6 +53,12 @@
       $('#masterForm :input').prop('readonly',true);
       $('#id_cucd').attr("disabled", true);
       $('#masterForm select').children('option').attr('disabled', true);
+      
+      function blinker() {
+        $('.blinking').fadeOut(500);
+        $('.blinking').fadeIn(500);
+      }
+      setInterval(blinker, 1000);
       
   });
 </script>

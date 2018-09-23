@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'custadv',
     'custcsn',
     'shpr',
+    'inprmk',
+    'inpfee',
 ]
 
 MIDDLEWARE = [

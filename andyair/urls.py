@@ -24,5 +24,7 @@ urlpatterns = [
     path('custadv/', include('custadv.urls', namespace='custadv')),
     path('custcsn/', include('custcsn.urls', namespace='custcsn')),
     path('shpr/', include('shpr.urls', namespace='shpr')),
+    path('inprmk/', include('inprmk.urls', namespace='inprmk')),
+    path('inpfee/', include('inpfee.urls', namespace='inpfee')),
     re_path('.*', views.main),
 ]
