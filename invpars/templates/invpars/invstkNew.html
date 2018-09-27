@@ -1,0 +1,108 @@
+<form role="form" method="post" action="{% url 'invpars:invstkNew' invpars.id %}">{% csrf_token %}
+  <table style="margin-left: 1em; width: 97.5%;" class="table table-hover table-bordered table-responsive ">
+    <thead>
+      <tr>
+        <th style="width: 1%;vertical-align: middle;display:none;">#ID</th>
+        <th style="width: 1%;vertical-align: middle;">No.</th>
+        <th style="vertical-align: middle">ORG</th>
+        <th style="vertical-align: middle">日期</th>
+        <th style="vertical-align: middle">說明</th>
+        <th class="text-center">
+        <button class="btn btn-default btn-sm" disabled>
+          <span class="glyphicon glyphicon-hand-down"></span>&nbsp;Action</button>
+        </th>
+      </tr>
+    </thead>
+    <tbody style="background-color:white">
+      <tr>
+        {{ form.non_field_errors }}
+        <td style="display:none;">
+          <div class="form-group">
+             {{ form.id.errors}}
+             {{ form.id }}
+          </div>
+        </td>
+        <td style="width: 1%;vertical-align: middle;text-align:center;">X</td>
+        <td class="tabledit-edit-mode">
+          <span class="tabledit-span" style="display:none"></span>
+             {{ form.invyymm.errors}}
+             {{ form.invyymm }}
+        </td>
+        <td class="tabledit-edit-mode">
+          <span class="tabledit-span" style="display:none"></span>
+             {{ form.invchar.errors}}
+             {{ form.invchar }}
+        </td>
+        <td class="tabledit-edit-mode">
+          <span class="tabledit-span" style="display:none"></span>
+             {{ form.sttno.errors}}
+             {{ form.sttno }}
+        </td>
+        <td class="tabledit-edit-mode">
+          <span class="tabledit-span" style="display:none"></span>
+             {{ form.endno.errors}}
+             {{ form.endno }}
+        </td>
+        <td class="tabledit-edit-mode">
+          <span class="tabledit-span" style="display:none"></span>
+             {{ form.nowno.errors}}
+             {{ form.nowno }}
+        </td>
+        <td class="tabledit-edit-mode">
+          <span class="tabledit-span" style="display:none"></span>
+          <div id='useDate'>
+            {{ form.usedd.errors}}
+            {{ form.usedd }}
+          </div>
+        </td>
+        <td class="tabledit-edit-mode">
+          <span class="tabledit-span" style="display:none"></span>
+            {{ form.boxno.errors}}
+            {{ form.boxno }}
+        </td>
+        <td class="tabledit-edit-mode">
+          <span class="tabledit-span" style="display:none"></span>
+            {{ form.machno.errors}}
+            {{ form.machno }}
+        </td>
+        <td style="white-space: nowrap; width: 1%;">
+          <div class="tabledit-toolbar btn-toolbar" style="text-align: left;">
+            <input class="tabledit-save-button btn btn-success btn-sm" type="submit" value="存檔" style="float: none;" />
+            <button onclick="invstkEdit()" class="tabledit-cancel-button btn btn-warning btn-sm" style="float: none;">取消</button>
+          </div>
+        </td>
+      </tr>
+      {% for invstk in invstks %}
+        <tr class="tabledit-view-mode">
+          <td style="display:none;">{{ invstk.id }}</td>
+          <td style="text-align:center;">{{ forloop.counter }}</td>
+          <td>{{ invstk.invyymm }}</td>
+          <td>{{ invstk.invchar }}</td>
+          <td>{{ invstk.sttno }}</td>
+          <td>{{ invstk.endno }}</td>
+          <td>{{ invstk.nowno }}</td>
+          <td>{{ invstk.usedd|date:"Y-m-d" }}</td>
+          <td>{{ invstk.boxno }}</td>
+          <td>{{ invstk.machno }}</td>
+          <td></td>
+        </tr>
+      {% endfor %}
+   
+    </tbody>
+  </table>
+</form>
+<script>
+    function invstkEdit() {
+        $('#invstkEdit').show();
+        $('#invstkNew').html('');
+    }
+    $(document).ready(function(){
+        $('#useDate input').datepicker({
+            format:"yyyy-mm-dd",
+            todayBtn: "linked",
+            autoclose: true,
+            todayHighlight: true,
+            toggleActive: true
+        }).datepicker("setDate", "0");
+    })
+</script>

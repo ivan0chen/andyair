@@ -1,0 +1,236 @@
+{% extends "invpars/base.html" %}
+
+{% block app_content %}
+
+{% include "invpars/nav.html" with invpars=invpars title=title %}
+{% include 'main/messages.html' %}
+<div id="div_messages" class="text-center align-middle" style="position:fixed;top:80px;right:0;width:160px;height:50px;border-radius:25px;"></div>
+<div>
+  <form id="masterForm" role="form" method="post">{% csrf_token %}
+
+    {{ form.non_field_errors }}
+    <div>
+      <div class="form-row">
+        <div class="form-group col-md-3">
+          {{ form.mname.errors}}
+          {{ form.mname.label_tag}}
+          {{ form.mname }}
+        </div>
+        <div class="form-group col-md-9">
+          {{ form.midno.errors}}
+          {{ form.midno.label_tag}}
+          {{ form.midno }}
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          {{ form.taxno.errors}}
+          {{ form.taxno.label_tag}}
+          {{ form.taxno }}
+        </div>
+        <div class="form-group col-md-4">
+          {{ form.seqyy.errors}}
+          {{ form.seqyy.label_tag}}
+          {{ form.seqyy }}
+        </div>
+        <div class="form-group col-md-4">
+          {{ form.seq01.errors}}
+          {{ form.seq01.label_tag}}
+          {{ form.seq01 }}
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          {{ form.seq02.errors}}
+          {{ form.seq02.label_tag}}
+          {{ form.seq02 }}
+        </div>
+        <div class="form-group col-md-4">
+          {{ form.seq03.errors}}
+          {{ form.seq03.label_tag}}
+          {{ form.seq03 }}
+        </div>
+        <div class="form-group col-md-4">
+          {{ form.seq04.errors}}
+          {{ form.seq04.label_tag}}
+          {{ form.seq04 }}
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          {{ form.seq05.errors}}
+          {{ form.seq05.label_tag}}
+          {{ form.seq05 }}
+        </div>
+        <div class="form-group col-md-4">
+          {{ form.seq06.errors}}
+          {{ form.seq06.label_tag}}
+          {{ form.seq06 }}
+        </div>
+        <div class="form-group col-md-4">
+          {{ form.seq07.errors}}
+          {{ form.seq07.label_tag}}
+          {{ form.seq07 }}
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          {{ form.seq08.errors}}
+          {{ form.seq08.label_tag}}
+          {{ form.seq08 }}
+        </div>
+        <div class="form-group col-md-4">
+          {{ form.seq09.errors}}
+          {{ form.seq09.label_tag}}
+          {{ form.seq09 }}
+        </div>
+        <div class="form-group col-md-4">
+          {{ form.seq10.errors}}
+          {{ form.seq10.label_tag}}
+          {{ form.seq10 }}
+        </div>
+        <div class="form-group col-md-4">
+          {{ form.seq11.errors}}
+          {{ form.seq11.label_tag}}
+          {{ form.seq11 }}
+        </div>
+        <div class="form-group col-md-4">
+          {{ form.seq12.errors}}
+          {{ form.seq12.label_tag}}
+          {{ form.seq12 }}
+        </div>
+      </div>
+
+      <div class="form-row align-text-top">
+          <div class="form-group col-md-4" style="position:fixed;top:110px;right:263px;width:160px;height:50px;text-align:right">
+              <input class="btn btn-success btn-md" type="submit" value="存檔"/>
+              <a class="btn btn-primary btn-md" href="{% url 'main:main' %}">離開</a>
+          </div>
+      </div>
+    </div>
+  </form>
+  <div id="invstkEdit" class="form-row">
+    <table style="margin-left: 1em; width: 97.5%;" id="invstk" class="table table-hover table-bordered table-responsive table-condensed">
+      <thead>
+        <tr>
+          <th style="display:none;width: 1%;vertical-align: middle;">#ID</th>
+          <th style="width: 1%;vertical-align: middle;text-align:center">No.</th>
+          <th style="vertical-align: middle">ORG</th>
+          <th style="vertical-align: middle">日期</th>
+          <th style="vertical-align: middle">說明</th>
+          <th class="text-center" style="width:5%">
+            {% if custadv %}
+              <input type="hidden" id="Url" data-url="{% url 'invpars:invstkNew' invpars.id %}" />
+              <button onclick="newInvstkForm()" class="btn btn-info btn-block btn-sm active" id="newInvstk">
+              <span class="glyphicon glyphicon-plus"></span>&nbsp;<b>Line</b></button>
+            {% else %}
+              <button class="btn btn-info btn-block btn-sm active" id="newInvstk" disabled>
+              <span class="glyphicon glyphicon-plus"></span>&nbsp;<b>Line</b></button>
+            {% endif %}
+          </th>
+        </tr>
+      </thead>
+      <tbody style="background-color:white">
+          {% for invstk in invstks %}
+            <tr>
+              <td style="display:none">{{ invstk.id }}</td>
+              <td style="vertical-align: middle;text-align:center">{{ forloop.counter }}</td>
+              <td style="vertical-align: middle;">{{ invstk.invyymm }}</td>
+              <td style="vertical-align: middle;">{{ invstk.invchar }}</td>
+              <td style="vertical-align: middle;">{{ invstk.sttno }}</td>
+              <td style="vertical-align: middle;">{{ invstk.endno }}</td>
+              <td style="vertical-align: middle;">{{ invstk.nowno }}</td>
+              <td style="vertical-align: middle;">{{ invstk.usedd|date:"Y-m-d" }}</td>
+              <td style="vertical-align: middle;">{{ invstk.boxno }}</td>
+              <td style="vertical-align: middle;">{{ invstk.machno }}</td>
+            </tr>
+          {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div id="invstkNew" class="form-row"></div>
+</div>
+<script>
+ 
+    function newInvstkForm() {
+        var url = $("#Url").attr("data-url");
+        $.get(url, {'request': 'invstk'}, function (data, status) {
+            $('#invstkEdit').hide();
+            $('#invstkNew').html(data);
+        });
+    }
+    
+    $(document).ready(function() {
+
+        $('#masterForm input[type="submit"]').prop('disabled', true);
+
+        $('#masterForm').bind('change keyup', function () {
+            $('#masterForm input[type="submit"]').prop('disabled', false);
+            console.log('changed');
+        });
+        
+        $.ajaxSetup({
+            data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+            });
+        
+        $('#invstk').Tabledit({
+            url: '{% url "invpars:invstkTabledit" %}',
+            restoreButton: false,
+            hideIdentifier: true,
+            columns: {
+                identifier: [0, 'id'],
+                editable: [[2, 'invyymm'], [3, 'invchar'], [4, 'sttno'], [5, 'endno'],
+                           [6, 'nowno'], [7, 'usedd'], [8, 'boxno'], [9, 'machno']]
+            },
+            onDraw: function () {
+                // Select all inputs of second column and apply datepicker each of them
+                $('table tr td:nth-child(7)').each(function () {
+                    $(this).datepicker({
+                        format: "yyyy-mm-dd",
+                        todayBtn: "linked",
+                        autoclose: true,
+                        todayHighlight: true,
+                    });
+                });
+            },
+            onSuccess: function (data, textStatus, jqXHR) {
+                console.log('onSuccess(data, textStatus, jqXHR)');
+                console.log(data);
+                console.log(textStatus);
+                console.log(jqXHR);
+                if (data['request'].action == 'delete')
+                 {
+                  $('#'+data['request'].id).remove();
+                 }
+                 update_messages(data.messages);
+                 $(".alert").fadeOut(5000);
+            },
+            onFail: function (jqXHR, textStatus, errorThrown) {
+                console.log('onFail(jqXHR, textStatus, errorThrown)');
+                console.log(jqXHR);
+                console.log(textStatus);
+                console.log(errorThrown);
+            },
+            onAlways: function () {
+                console.log('onAlways()');
+            },
+            onAjax: function (action, serialize) {
+                console.log('onAjax(action, serialize)');
+                console.log(action);
+                console.log(serialize);
+            }
+        });
+
+        $('#custqtn thead tr th:last-child').remove();
+        
+    });
+    function update_messages(messages) {
+        $("#div_messages").html("");
+        $.each(messages, function (i, m) {
+            var html = "<div class='alert alert-"+m.tags+" alert-dismissible fade in'>"+"<strong>"+m.message+"</strong>"+"</div>";
+            $("#div_messages").append(html);
+        });
+    }
+</script>
+
+{% endblock app_content %}

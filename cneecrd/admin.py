@@ -1,3 +1,4 @@
 from django.contrib import admin
+from cneecrd.models import Cneecrd
 
-# Register your models here.
+admin.site.register(Cneecrd)

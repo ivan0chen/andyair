@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'shpr',
     'inprmk',
     'inpfee',
+    'cneecrd',
+    'invpars',
 ]
 
 MIDDLEWARE = [

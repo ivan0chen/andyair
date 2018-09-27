@@ -1,0 +1,102 @@
+  <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <form id="cneecrdForm" method="post" action="{% url 'cneecrd:cneecrdUpdate' cneecrd.custcsn_id %}">{% csrf_token %}
+        <div class="modal-header" style="background-color:darkslateblue;color:white;">
+          <button type="button" class="close" data-dismiss="modal" style="color:white;">&times;</button>
+          <h4 class="modal-title"><span class="glyphicon glyphicon-pencil">&nbsp;信用額度資料修改</span></h4>
+        </div>
+        <div id="div_messages" class="text-center align-middle" style="height: 40px"></div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+              {{ form.non_field_errors }}
+              <div class="form-group">
+                {{ form.crdamt.errors }}
+                {{ form.crdamt.label_tag }}
+                <div class="input-group">
+                  <div class="input-group-addon">NT$</div>
+                    {{ form.crdamt }}
+                </div>
+              </div>
+              <div class="form-group">
+                {{ form.aro.errors }}
+                {{ form.aro.label_tag }}
+                <div class="input-group">
+                  <div class="input-group-addon">NT$</div>
+                    {{ form.aro }}
+                </div>
+              </div>
+              <div class="form-group">
+                {{ form.ars.errors }}
+                {{ form.ars.label_tag }}
+                <div class="input-group">
+                  <div class="input-group-addon">NT$</div>
+                    {{ form.ars }}
+                </div>
+              </div>
+              <div class="form-group">
+                {{ form.arc.errors }}
+                {{ form.arc.label_tag }}
+                <div class="input-group">
+                  <div class="input-group-addon">NT$</div>
+                    {{ form.arc }}
+                </div>
+              </div>
+              <div class="form-group">
+                {{ form.arcod.errors }}
+                {{ form.arcod.label_tag }}
+                <div class="input-group">
+                  <div class="input-group-addon">NT$</div>
+                    {{ form.arcod }}
+                </div>
+              </div>
+              <!--{{ form.as_p }}-->
+              <div class="pull-left">
+                  <input class="btn btn-primary btn-md " type="submit" value="存檔" />
+                  <a class="btn btn-warning btn-md" href="{% url 'cneecrd:cneecrdList' %}">取消</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      <div class="modal-footer">
+          <input type="button" value="Close" class="btn btn-md btn-secondary pull-right" data-dismiss="modal" />
+      </div>
+      <script>
+          $('#cneecrdModal').on('submit', '#cneecrdForm', function() {
+              $.ajax({
+                  type: $(this).attr('method'),
+                  url: this.action,
+                  data: $(this).serialize(),
+                  context: this,
+                  success: function (data, status) {
+                      update_messages(data.messages);
+                      $(".alert").fadeOut(3000);
+                      if (data.result === 'Failure') {
+                          // alert('輸入錯誤！ 信用額度（總）不得小於 出口應收+進口發單應收+進口報關應收')
+                      } else {
+                            setTimeout(function() {
+                              $('#cneecrdModal').modal('hide');
+                              location.reload(); },1000);
+                          }
+                      console.log("success");
+                      console.log(data);
+                      console.log(data.result);
+                  },
+                  error: function (request, status, error) {
+                      console.log("failure");
+                      console.log(request.responseText);
+                  }
+              });
+              return false;
+          });
+          function update_messages(messages) {
+              $("#div_messages").html("");
+              $.each(messages, function (i, m) {
+                  var html = "<div class='alert alert-"+m.tags+" alert-dismissible fade in'>"+"<strong>"+m.message+"</strong>"+"</div>";
+                  $("#div_messages").append(html);
+              });
+          }
+        </script>
+    </div>
+  </div>

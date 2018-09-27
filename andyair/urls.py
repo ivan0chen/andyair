@@ -26,5 +26,6 @@ urlpatterns = [
     path('shpr/', include('shpr.urls', namespace='shpr')),
     path('inprmk/', include('inprmk.urls', namespace='inprmk')),
     path('inpfee/', include('inpfee.urls', namespace='inpfee')),
+    path('cneecrd/', include('cneecrd.urls', namespace='cneecrd')),
     re_path('.*', views.main),
 ]
