@@ -44,14 +44,31 @@ def invparsUpdate(request, pk, template_name='invpars/invparsForm.html'):
 def invstkNew(request, parent_pk, template_name='invpars/invstkNew.html'):
     invpars = get_object_or_404(Invpars, pk=parent_pk)
     form = InvstkForm(request.POST or None)
-    if form.is_valid():
-        invstk = form.save(commit=False)
-        invstk.invpars = invpars
-        invstk.created_by = request.user
-        invstk.last_updated_by = request.user
-        invstk.save()
-        messages.success(request, '明細資料已新增！')
-        return redirect('invpars:invparsUpdate', parent_pk)
+    ctx = {}
+    if request.method == 'POST':
+        result = 'Failure'
+        if form.is_valid():
+            invstk = form.save(commit=False)
+            invstk.invpars = invpars
+            invstk.created_by = request.user
+            invstk.last_updated_by = request.user
+            invstk.save()
+            result = 'Success'
+            messages.success(request, '明細資料已新增！')
+            # return redirect('invpars:invparsUpdate', parent_pk)
+        else:
+            messages.success(request, '資料輸入錯誤，請更正！')
+        django_messages = []
+        for message in messages.get_messages(request):
+            django_messages.append({
+                "level": message.level,
+                "message": message.message,
+                "tags": message.tags,
+            })
+        ctx['request'] = request.POST
+        ctx['result'] = result
+        ctx['messages'] = django_messages
+        return JsonResponse(ctx)
     ctx = {}
     ctx["form"] = form
     ctx["invpars"] = invpars

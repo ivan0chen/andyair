@@ -1,4 +1,4 @@
-<form role="form" method="post" action="{% url 'invpars:invstkNew' invpars.id %}">{% csrf_token %}
+<form id="invstkForm" role="form" method="post" action="{% url 'invpars:invstkNew' invpars.id %}">{% csrf_token %}
   <table style="margin-left: 1em; width: 97.5%;" class="table table-hover table-bordered table-responsive ">
     <thead>
       <tr>
@@ -20,6 +20,7 @@
     </thead>
     <tbody style="background-color:white">
       <tr>
+        {{ form.errors }}
         {{ form.non_field_errors }}
         <td style="display:none;">
           <div class="form-group">
@@ -109,5 +110,34 @@
             todayHighlight: true,
             toggleActive: true
         }).datepicker("setDate", "0");
+        
+        $('#invstkNew').on('submit', '#invstkForm', function() {
+            $.ajax({
+                type: $(this).attr('method'),
+                url: this.action,
+                data: $(this).serialize(),
+                context: this,
+                success: function (data, status) {
+                    update_messages(data.messages);
+                    $(".alert").fadeOut(5000);
+                    if (data.result === 'Failure') {
+                        // alert('輸入錯誤！ 信用額度（總）不得小於 出口應收+進口發單應收+進口報關應收')
+                    } else {
+                          setTimeout(function() {
+                            $('#invstkNew').html('');
+                            location.reload(); },1000);
+                        }
+                    console.log("success");
+                    console.log(data);
+                    console.log(data.result);
+                },
+                error: function (request, status, error) {
+                    console.log("failure");
+                    console.log(request.responseText);
+                }
+            });
+            return false;
+        });
     })
+
 </script>
