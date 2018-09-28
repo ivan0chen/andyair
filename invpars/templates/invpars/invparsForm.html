@@ -4,7 +4,7 @@
 
 {% include "invpars/nav.html" with invpars=invpars title=title %}
 {% include 'main/messages.html' %}
-<div id="div_messages" class="text-center align-middle" style="position:fixed;top:80px;right:0;width:160px;height:50px;border-radius:25px;"></div>
+<div id="div_messages" class="text-center align-middle" style="position:fixed;top:110px;right:45%;width:200px;height:50px;border-radius:25px;"></div>
 <div>
   <form id="masterForm" role="form" method="post">{% csrf_token %}
     <div class="btn-group btn-group-md" style="margin-top:-15px; float: right;">
@@ -205,6 +205,9 @@
                  $(".alert").fadeOut(5000);
             },
             onFail: function (jqXHR, textStatus, errorThrown) {
+                var messages=[{level: 25, message: "資料輸入錯誤，請更正！", tags: "warning"}]
+                update_messages(messages);
+                $(".alert").fadeOut(5000);
                 console.log('onFail(jqXHR, textStatus, errorThrown)');
                 console.log(jqXHR);
                 console.log(textStatus);
