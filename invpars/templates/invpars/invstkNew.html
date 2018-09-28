@@ -4,9 +4,14 @@
       <tr>
         <th style="width: 1%;vertical-align: middle;display:none;">#ID</th>
         <th style="width: 1%;vertical-align: middle;">No.</th>
-        <th style="vertical-align: middle">ORG</th>
-        <th style="vertical-align: middle">日期</th>
-        <th style="vertical-align: middle">說明</th>
+          <th style="width: 10%;vertical-align: middle">年/月</th>
+          <th style="width: 6%;vertical-align: middle">字軌</th>
+          <th style="vertical-align: middle">起始號碼</th>
+          <th style="vertical-align: middle">訖止號碼</th>
+          <th style="vertical-align: middle">目前使用</th>
+          <th style="vertical-align: middle">使用日期</th>
+          <th style="width: 6%;vertical-align: middle">盒號</th>
+          <th style="width: 5%;vertical-align: middle">機器</th>
         <th class="text-center">
         <button class="btn btn-default btn-sm" disabled>
           <span class="glyphicon glyphicon-hand-down"></span>&nbsp;Action</button>
@@ -66,8 +71,8 @@
             {{ form.machno }}
         </td>
         <td style="white-space: nowrap; width: 1%;">
-          <div class="tabledit-toolbar btn-toolbar" style="text-align: left;">
-            <input class="tabledit-save-button btn btn-success btn-sm" type="submit" value="存檔" style="float: none;" />
+          <div class="tabledit-toolbar btn-toolbar btn-group btn-group-md text-center" style="text-align: center;">
+            <input class="tabledit-save-button btn btn-primary btn-sm" type="submit" value="存檔" style="float: none;" />
             <button onclick="invstkEdit()" class="tabledit-cancel-button btn btn-warning btn-sm" style="float: none;">取消</button>
           </div>
         </td>

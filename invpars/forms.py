@@ -60,4 +60,4 @@ class InvstkForm(forms.ModelForm):
 
     class Meta:
         model = Invstk
-        fields = '__all__'
+        exclude = '__all__'

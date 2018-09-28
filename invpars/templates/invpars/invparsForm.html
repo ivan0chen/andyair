@@ -7,22 +7,25 @@
 <div id="div_messages" class="text-center align-middle" style="position:fixed;top:80px;right:0;width:160px;height:50px;border-radius:25px;"></div>
 <div>
   <form id="masterForm" role="form" method="post">{% csrf_token %}
-
+    <div class="btn-group btn-group-md" style="margin-top:-15px; float: right;">
+      <input class="btn btn-primary btn-md" type="submit" value="存檔"/>
+      <a class="btn btn-warning btn-md" href="{% url 'invpars:invparsList' %}">離開</a>
+    </div>
     {{ form.non_field_errors }}
     <div>
       <div class="form-row">
-        <div class="form-group col-md-3">
+        <div class="form-group col-md-12">
           {{ form.mname.errors}}
           {{ form.mname.label_tag}}
           {{ form.mname }}
         </div>
-        <div class="form-group col-md-9">
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-4">
           {{ form.midno.errors}}
           {{ form.midno.label_tag}}
           {{ form.midno }}
         </div>
-      </div>
-      <div class="form-row">
         <div class="form-group col-md-4">
           {{ form.taxno.errors}}
           {{ form.taxno.label_tag}}
@@ -33,79 +36,70 @@
           {{ form.seqyy.label_tag}}
           {{ form.seqyy }}
         </div>
-        <div class="form-group col-md-4">
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-2">
           {{ form.seq01.errors}}
           {{ form.seq01.label_tag}}
           {{ form.seq01 }}
         </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-2">
           {{ form.seq02.errors}}
           {{ form.seq02.label_tag}}
           {{ form.seq02 }}
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-2">
           {{ form.seq03.errors}}
           {{ form.seq03.label_tag}}
           {{ form.seq03 }}
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-2">
           {{ form.seq04.errors}}
           {{ form.seq04.label_tag}}
           {{ form.seq04 }}
         </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-2">
           {{ form.seq05.errors}}
           {{ form.seq05.label_tag}}
           {{ form.seq05 }}
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-2">
           {{ form.seq06.errors}}
           {{ form.seq06.label_tag}}
           {{ form.seq06 }}
         </div>
-        <div class="form-group col-md-4">
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-2">
           {{ form.seq07.errors}}
           {{ form.seq07.label_tag}}
           {{ form.seq07 }}
         </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-2">
           {{ form.seq08.errors}}
           {{ form.seq08.label_tag}}
           {{ form.seq08 }}
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-2">
           {{ form.seq09.errors}}
           {{ form.seq09.label_tag}}
           {{ form.seq09 }}
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-2">
           {{ form.seq10.errors}}
           {{ form.seq10.label_tag}}
           {{ form.seq10 }}
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-2">
           {{ form.seq11.errors}}
           {{ form.seq11.label_tag}}
           {{ form.seq11 }}
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-2">
           {{ form.seq12.errors}}
           {{ form.seq12.label_tag}}
           {{ form.seq12 }}
         </div>
-      </div>
-
-      <div class="form-row align-text-top">
-          <div class="form-group col-md-4" style="position:fixed;top:110px;right:263px;width:160px;height:50px;text-align:right">
-              <input class="btn btn-success btn-md" type="submit" value="存檔"/>
-              <a class="btn btn-primary btn-md" href="{% url 'main:main' %}">離開</a>
-          </div>
       </div>
     </div>
   </form>
@@ -115,11 +109,16 @@
         <tr>
           <th style="display:none;width: 1%;vertical-align: middle;">#ID</th>
           <th style="width: 1%;vertical-align: middle;text-align:center">No.</th>
-          <th style="vertical-align: middle">ORG</th>
-          <th style="vertical-align: middle">日期</th>
-          <th style="vertical-align: middle">說明</th>
+          <th style="vertical-align: middle">年/月</th>
+          <th style="vertical-align: middle">字軌</th>
+          <th style="vertical-align: middle">起始號碼</th>
+          <th style="vertical-align: middle">訖止號碼</th>
+          <th style="vertical-align: middle">目前使用</th>
+          <th style="vertical-align: middle">使用日期</th>
+          <th style="vertical-align: middle">盒號</th>
+          <th style="vertical-align: middle">機器</th>
           <th class="text-center" style="width:5%">
-            {% if custadv %}
+            {% if invpars %}
               <input type="hidden" id="Url" data-url="{% url 'invpars:invstkNew' invpars.id %}" />
               <button onclick="newInvstkForm()" class="btn btn-info btn-block btn-sm active" id="newInvstk">
               <span class="glyphicon glyphicon-plus"></span>&nbsp;<b>Line</b></button>
@@ -221,7 +220,7 @@
             }
         });
 
-        $('#custqtn thead tr th:last-child').remove();
+        $('#invstk thead tr th:last-child').remove();
         
     });
     function update_messages(messages) {

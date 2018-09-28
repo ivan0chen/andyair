@@ -7,6 +7,14 @@ from invpars.models import Invpars, Invstk
 from invpars.forms import InvparsForm, InvstkForm
 
 @login_required
+def invparsList(request, template_name='invpars/invparsList.html'):
+    invparss = Invpars.objects.all()
+    ctx = {}
+    ctx['invparss'] = invparss
+    ctx['title'] = 'List'
+    return render(request, template_name, ctx)
+
+@login_required
 def invparsView(request, pk, template_name='invpars/invparsView.html'):
     invpars = get_object_or_404(Invpars, pk=pk)
     ctx = {}
@@ -27,7 +35,7 @@ def invparsUpdate(request, pk, template_name='invpars/invparsForm.html'):
         return redirect('invpars:invparsUpdate', invpars.id)
     ctx = {}
     ctx['invpars'] = invpars
-    ctx['invstks'] = Invpars.objects.filter(invpars=invpars)
+    ctx['invstks'] = Invstk.objects.filter(invpars=invpars)
     ctx['form'] = form
     ctx['title'] = 'Edit'
     return render(request, template_name, ctx)
