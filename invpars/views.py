@@ -15,15 +15,6 @@ def invparsList(request, template_name='invpars/invparsList.html'):
     return render(request, template_name, ctx)
 
 @login_required
-def invparsView(request, pk, template_name='invpars/invparsView.html'):
-    invpars = get_object_or_404(Invpars, pk=pk)
-    ctx = {}
-    ctx['invpars'] = invpars
-    ctx['invstks'] = Invstk.objects.filter(invpars=invpars)
-    ctx['title'] = 'View'
-    return render(request, template_name, ctx)
-
-@login_required
 def invparsUpdate(request, pk, template_name='invpars/invparsForm.html'):
     invpars = get_object_or_404(Invpars, pk=pk)
     form = InvparsForm(request.POST or None, instance=invpars)
