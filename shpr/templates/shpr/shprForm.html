@@ -9,8 +9,8 @@
   <form id="masterForm" role="form" method="post">{% csrf_token %}
     <!--<div class="form-group col-sm-4" style="position:fixed;top:110px;right:260px;width:160px;height:50px;text-align:right">-->
     <div class="btn-group btn-group-md" style="margin-top:-15px; float: right;">
-      <input class="btn btn-success btn-md" type="submit" value="存檔"/>
-      <a class="btn btn-primary btn-md" href="{% url 'shpr:shprList' %}">離開</a>
+      <input class="btn btn-primary btn-md" type="submit" value="存檔"/>
+      <a class="btn btn-warning btn-md" href="{% url 'shpr:shprList' %}">離開</a>
     </div>
     <div class="col-xs-12 col-sm-12">
       {% include "shpr/shprData.html" %}

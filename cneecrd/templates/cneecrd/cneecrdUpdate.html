@@ -50,7 +50,6 @@
                     {{ form.arcod }}
                 </div>
               </div>
-              <!--{{ form.as_p }}-->
               <div class="pull-left">
                   <input class="btn btn-primary btn-md " type="submit" value="存檔" />
                   <a class="btn btn-warning btn-md" href="{% url 'cneecrd:cneecrdList' %}">取消</a>
@@ -63,6 +62,13 @@
           <input type="button" value="Close" class="btn btn-md btn-secondary pull-right" data-dismiss="modal" />
       </div>
       <script>
+          $('#cneecrdForm input[type="submit"]').prop('disabled', true);
+  
+          $('#cneecrdForm').bind('change keyup', function () {
+              $('#cneecrdForm input[type="submit"]').prop('disabled', false);
+              console.log('changed');
+          });
+          
           $('#cneecrdModal').on('submit', '#cneecrdForm', function() {
               $.ajax({
                   type: $(this).attr('method'),
@@ -71,7 +77,7 @@
                   context: this,
                   success: function (data, status) {
                       update_messages(data.messages);
-                      $(".alert").fadeOut(3000);
+                      $(".alert").fadeOut(5000);
                       if (data.result === 'Failure') {
                           // alert('輸入錯誤！ 信用額度（總）不得小於 出口應收+進口發單應收+進口報關應收')
                       } else {

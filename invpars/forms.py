@@ -14,27 +14,27 @@ class InvparsForm(forms.ModelForm):
     seq01 = forms.IntegerField(label='01', max_value=99999,
                                 widget=forms.NumberInput(attrs={'class': 'form-control', 'type': 'number'}))
     seq02 = forms.IntegerField(label='02', max_value=99999,
-                                widget=forms.NumberInput(attrs={'class': 'form-control', 'maxlength': 5, 'type': 'number'}))
+                                widget=forms.NumberInput(attrs={'class': 'form-control', 'type': 'number'}))
     seq03 = forms.IntegerField(label='03', max_value=99999,
-                                widget=forms.NumberInput(attrs={'class': 'form-control', 'maxlength': 5, 'type': 'number'}))
+                                widget=forms.NumberInput(attrs={'class': 'form-control', 'type': 'number'}))
     seq04 = forms.IntegerField(label='04', max_value=99999,
-                                widget=forms.NumberInput(attrs={'class': 'form-control', 'maxlength': 5, 'type': 'number'}))
+                                widget=forms.NumberInput(attrs={'class': 'form-control', 'type': 'number'}))
     seq05 = forms.IntegerField(label='05', max_value=99999,
-                                widget=forms.NumberInput(attrs={'class': 'form-control', 'maxlength': 5, 'type': 'number'}))
+                                widget=forms.NumberInput(attrs={'class': 'form-control', 'type': 'number'}))
     seq06 = forms.IntegerField(label='06', max_value=99999,
-                                widget=forms.NumberInput(attrs={'class': 'form-control', 'maxlength': 5, 'type': 'number'}))
+                                widget=forms.NumberInput(attrs={'class': 'form-control', 'type': 'number'}))
     seq07 = forms.IntegerField(label='07', max_value=99999,
-                                widget=forms.NumberInput(attrs={'class': 'form-control', 'maxlength': 5, 'type': 'number'}))
+                                widget=forms.NumberInput(attrs={'class': 'form-control', 'type': 'number'}))
     seq08 = forms.IntegerField(label='08', max_value=99999,
-                                widget=forms.NumberInput(attrs={'class': 'form-control', 'maxlength': 5, 'type': 'number'}))
+                                widget=forms.NumberInput(attrs={'class': 'form-control', 'type': 'number'}))
     seq09 = forms.IntegerField(label='09', max_value=99999,
-                                widget=forms.NumberInput(attrs={'class': 'form-control', 'maxlength': 5, 'type': 'number'}))
+                                widget=forms.NumberInput(attrs={'class': 'form-control', 'type': 'number'}))
     seq10 = forms.IntegerField(label='10', max_value=99999,
-                                widget=forms.NumberInput(attrs={'class': 'form-control', 'maxlength': 5, 'type': 'number'}))
+                                widget=forms.NumberInput(attrs={'class': 'form-control', 'type': 'number'}))
     seq11 = forms.IntegerField(label='11', max_value=99999,
-                                widget=forms.NumberInput(attrs={'class': 'form-control', 'maxlength': 5, 'type': 'number'}))
+                                widget=forms.NumberInput(attrs={'class': 'form-control', 'type': 'number'}))
     seq12 = forms.IntegerField(label='12', max_value=99999,
-                                widget=forms.NumberInput(attrs={'class': 'form-control', 'maxlength': 5, 'type': 'number'}))
+                                widget=forms.NumberInput(attrs={'class': 'form-control', 'type': 'number'}))
 
     class Meta:
         model = Invpars

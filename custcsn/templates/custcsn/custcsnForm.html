@@ -8,8 +8,8 @@
 
   <form id="masterForm" role="form" method="post">{% csrf_token %}
     <div class="btn-group btn-group-md" style="margin-top:-15px; float: right;">
-      <input class="btn btn-success btn-md" type="submit" value="存檔"/>
-      <a class="btn btn-primary btn-md" href="{% url 'custcsn:custcsnList' %}">離開</a>
+      <input class="btn btn-primary btn-md" type="submit" value="存檔"/>
+      <a class="btn btn-warning btn-md" href="{% url 'custcsn:custcsnList' %}">離開</a>
     </div>
     <div class="col-xs-12 col-sm-12">
       {% include "custcsn/custcsnData.html" %}

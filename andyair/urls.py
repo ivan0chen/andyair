@@ -27,5 +27,6 @@ urlpatterns = [
     path('inprmk/', include('inprmk.urls', namespace='inprmk')),
     path('inpfee/', include('inpfee.urls', namespace='inpfee')),
     path('cneecrd/', include('cneecrd.urls', namespace='cneecrd')),
+    path('nvpars/', include('invpars.urls', namespace='invpars')),
     re_path('.*', views.main),
 ]

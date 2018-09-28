@@ -7,7 +7,15 @@
 <div id="div_messages" class="text-center align-middle" style="position:fixed;top:80px;right:0;width:160px;height:50px;border-radius:25px;"></div>
 <div>
   <form id="masterForm" role="form" method="post">{% csrf_token %}
-
+    <div class="btn-group btn-group-md" style="margin-top:-15px; float: right;">
+      <input class="btn btn-primary btn-md" type="submit" value="存檔"/>
+      <!--
+      {% if custadv %}
+        <a class="btn btn-warning btn-md" href="{% url 'custadv:custadvUpdate' custadv.id %}">取消</a>
+      {% endif %}
+      -->
+      <a class="btn btn-warning btn-md" href="{% url 'custadv:custadvList' %}">離開</a>
+    </div>
     {{ form.non_field_errors }}
     <div>
       <div class="form-row">
@@ -59,15 +67,6 @@
             {{ form.ipntfmk.label_tag}}
             {{ form.ipntfmk }}
         </div>
-          <div class="form-group col-md-4" style="position:fixed;top:110px;right:263px;width:160px;height:50px;text-align:right">
-              <input class="btn btn-success btn-md" type="submit" value="存檔"/>
-              <!--
-              {% if custadv %}
-                <a class="btn btn-warning btn-md" href="{% url 'custadv:custadvUpdate' custadv.id %}">取消</a>
-              {% endif %}
-              -->
-              <a class="btn btn-primary btn-md" href="{% url 'custadv:custadvList' %}">離開</a>
-          </div>
       </div>
     </div>
   </form>

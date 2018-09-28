@@ -23,3 +23,11 @@
       </div>
     </div>
   </div>
+  <script>
+      $('#inpfeeForm input[type="submit"]').prop('disabled', true);
+  
+      $('#inpfeeForm').bind('change keyup', function () {
+          $('#inpfeeForm input[type="submit"]').prop('disabled', false);
+          console.log('changed');
+      });
+  </script>
