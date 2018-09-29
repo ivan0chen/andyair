@@ -9,5 +9,5 @@ class Exrate(WhoColumns):
     lastdate = models.DateField(null=True, blank=True)
 
     def __str__(self):
-        return self.code + '-' + currency + '-' + str(self.ex_irate) + '-' + str(self.ex_orate) + str(self.lastdate)
+        return self.code + '-' + self.currency + '-' + str(self.ex_irate) + '-' + str(self.ex_orate) + str(self.lastdate)
 
