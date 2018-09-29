@@ -1,3 +1,4 @@
 from django.contrib import admin
+from exrate.models import Exrate
 
-# Register your models here.
+admin.site.register(Exrate)
