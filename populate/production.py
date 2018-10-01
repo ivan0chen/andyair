@@ -5,7 +5,7 @@ from invpars.models import Invpars
 
 print('Creating admin account ... ', end='')
 User.objects.all().delete()
-User.objects.create_superuser(username='admin', password='andyair', email=None, fullName='管理者')
+User.objects.create_superuser(username='admin', password='andyair', email=None, fullname='管理者')
 print('done')
 
 print('Creating Invoice parameters ... ', end='')
