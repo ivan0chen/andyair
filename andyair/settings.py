@@ -24,6 +24,8 @@ SECRET_KEY = '(ovxl(s3p!!0b8m7y03!+@6blg7v&=0tt$!h-+v%l5q7t^)=bc'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+if 'DYNO' in os.environ:    # Running on Heroku
+    DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -86,17 +88,24 @@ WSGI_APPLICATION = 'andyair.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'andyairDB',
-        'USER': 'andyair',
-        'PASSWORD': 'andyair',
-        'HOST': 'localhost',
-        'POST': '3306',
-        'CHARSET': 'utf-8',
+if DEBUG:   # Running on the development environment
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'andyairDB',
+            'USER': 'andyair',
+            'PASSWORD': 'andyair',
+            'HOST': 'localhost',
+            'POST': '3306',
+            'CHARSET': 'utf-8',
+        }
     }
-}
+else:   # Running on Heroku
+    # Parse database configuration from $DATABASE_URL
+    import dj_database_url
+    DATABASES = {'default':dj_database_url.config()}
+    # Honor the 'X-Forwarded-Proto' header for request.is_secure()
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 
 # Password validation
@@ -144,6 +153,9 @@ STATIC_URL = '/static/'
 AUTH_USER_MODEL = 'account.User'
 
 LOGIN_URL = '/main/'
+
+# For Heroku deployment
+STATIC_ROOT = 'staticfiles'
 
 
 
