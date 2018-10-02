@@ -2,9 +2,9 @@
     {% for message in messages %}
       <!--<div style="position:fixed;top:50px;right:0;width:180px;height:50px;border-radius:25%;">-->
         <!--<div {% if message.tags %} class="alert alert-{{ message.tags }} text-center alert-dismissible fade in"{% endif %} data-alert="alert" style="position:fixed;top:80px;right:0;width:160px;height:50px;border-radius:25px;">-->
-        <div {% if message.tags %} class="alert alert-{{ message.tags }} text-center alert-dismissible fade in"{% endif %} data-alert="alert" style="position:fixed;top:110px;right:45%;width:200px;height:50px;border-radius:25px;">
+        <div {% if message.tags %} class="alert alert-{{ message.tags }} text-center alert-dismissible fade in"{% endif %} data-alert="alert" style="position:fixed;top:15%;right:45%;width:200px;height:50px;border-radius:25px;">
           <!--<a class="close" data-dismiss="alert" href="#">&times;</a>-->
-          <strong>{{ message }}</strong>
+          <h4><strong>{{ message }}</strong></h4>
         </div>
       <!--</div>-->
     {% endfor %}
