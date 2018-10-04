@@ -29,5 +29,6 @@ urlpatterns = [
     path('cneecrd/', include('cneecrd.urls', namespace='cneecrd')),
     path('invpars/', include('invpars.urls', namespace='invpars')),
     path('exrate/', include('exrate.urls', namespace='exrate')),
+    path('awbin/', include('awbin.urls', namespace='awbin')),
     re_path('.*', views.main),
 ]

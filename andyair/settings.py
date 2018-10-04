@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'cneecrd',
     'invpars',
     'exrate',
+    'awbin',
 ]
 
 MIDDLEWARE = [

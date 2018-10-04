@@ -1,4 +1,3 @@
-
 from populate import base
 from invpars.models import Invpars
 from account.models import User
