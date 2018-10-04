@@ -1,3 +1,4 @@
 from django.contrib import admin
+from awbin.models import Mawbin
 
-# Register your models here.
+admin.site.register(Mawbin)

@@ -46,6 +46,3 @@ class Mawbin(WhoColumns):
 
     def __str__(self):
         return self.mawb + '-' + self.seqnr
-
-class Hawbin(WhoColumns):
-    pass
