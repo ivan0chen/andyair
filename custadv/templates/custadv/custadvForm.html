@@ -49,16 +49,22 @@
       </div>
       <div class="form-row">
         <div class="form-group col-md-4">
-          {{ form.ipmnspay.errors}}
-          <label class="checkbox-inline">{{ form.ipmnspay }}{{ form.ipmnspay.label }}</label>
+          <div class="form-check">
+            {{ form.ipmnspay.errors}}
+            <label class="checkbox-inline">{{ form.ipmnspay }}{{ form.ipmnspay.label }}</label>
+          </div>
         </div>
         <div class="form-group col-md-4">
-          {{ form.ipentry.errors}}
-          <label class="checkbox-inline">{{ form.ipentry }}{{ form.ipentry.label }}</label>
+          <div class="form-check">
+            {{ form.ipentry.errors}}
+            <label class="checkbox-inline">{{ form.ipentry }}{{ form.ipentry.label }}</label>
+          </div>
         </div>
         <div class="form-group col-md-4">
-          {{ form.iprtord.errors}}
-          <label class="checkbox-inline">{{ form.iprtord }}{{ form.iprtord.label }}</label>
+            <div class="form-check">
+            {{ form.iprtord.errors}}
+            <label class="checkbox-inline">{{ form.iprtord }}{{ form.iprtord.label }}</label>
+          </div>
         </div>
       </div>
       <div class="form-row align-text-top">
