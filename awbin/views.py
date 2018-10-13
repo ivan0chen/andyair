@@ -6,7 +6,7 @@ from awbin.forms import MawbinForm
 
 
 @login_required
-def mawbinList(request, template_name='mawbin/mawbinList.html'):
+def mawbinList(request, template_name='awbin/mawbinList.html'):
     mawbins = Mawbin.objects.all()
     ctx = {}
     ctx['mawbins'] = mawbins
@@ -14,7 +14,7 @@ def mawbinList(request, template_name='mawbin/mawbinList.html'):
     return render(request, template_name, ctx)
 
 @login_required
-def mawbinCreate(request, template_name='mawbin/mawbinForm.html'):
+def mawbinCreate(request, template_name='awbin/mawbinForm.html'):
     form = MawbinForm(request.POST or None)
     if form.is_valid():
         new_mawb = form.save(commit=False)
@@ -22,15 +22,15 @@ def mawbinCreate(request, template_name='mawbin/mawbinForm.html'):
         new_mawb.last_updated_by = request.user
         new_mawb.save()
         messages.success(request, '資料已新增！')
-        # return redirect('mawbin:mawbinUpdate', new_mawb.id)
-        return redirect('mawbin:mawbinList')
+        # return redirect('awbin:mawbinUpdate', new_mawb.id)
+        return redirect('awbin:mawbinList')
     ctx = {}
     ctx['form'] = form
     ctx['title'] = 'New'
     return render(request, template_name, ctx)
 
 @login_required
-def mawbinView(request, pk, template_name='mawbin/mawbinView.html'):
+def mawbinView(request, pk, template_name='awbin/mawbinView.html'):
     mawbin = get_object_or_404(Mawbin, pk=pk)
     form = MawbinForm(instance=mawbin)
     ctx = {}
@@ -40,7 +40,7 @@ def mawbinView(request, pk, template_name='mawbin/mawbinView.html'):
     return render(request, template_name, ctx)
 
 @login_required
-def mawbinUpdate(request, pk, template_name='mawbin/mawbinForm.html'):
+def mawbinUpdate(request, pk, template_name='awbin/mawbinForm.html'):
     mawbin = get_object_or_404(Mawbin, pk=pk)
     form = MawbinForm(request.POST or None, instance=mawbin)
     if form.is_valid():
@@ -48,8 +48,8 @@ def mawbinUpdate(request, pk, template_name='mawbin/mawbinForm.html'):
         mawbin_obj.last_updated_by = request.user
         mawbin_obj.save()
         messages.success(request, '資料已更新！')
-        # return redirect('mawbin:mawbinUpdate', mawbin.id)
-        return redirect('mawbin:mawbinList')
+        # return redirect('awbin:mawbinUpdate', mawbin.id)
+        return redirect('awbin:mawbinList')
     ctx = {}
     ctx['mawbin'] = mawbin
     ctx['form'] = form
@@ -57,13 +57,13 @@ def mawbinUpdate(request, pk, template_name='mawbin/mawbinForm.html'):
     return render(request, template_name, ctx)
 
 @login_required
-def mawbinDelete(request, pk, template_name='mawbin/mawbinDelete.html'):
+def mawbinDelete(request, pk, template_name='awbin/mawbinDelete.html'):
     mawbin = get_object_or_404(Mawbin, pk=pk)
     form = MawbinForm(instance=mawbin)
     if request.method == 'POST':
         mawbin.delete()
         messages.success(request, '資料已刪除！')
-        return redirect('mawbin:mawbinList')
+        return redirect('awbin:mawbinList')
     ctx = {}
     ctx['mawbin'] = mawbin
     ctx['form'] = form

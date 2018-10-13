@@ -1,0 +1,78 @@
+{% extends "awbin/base.html" %}
+
+{% block app_content %}
+
+{% include "awbin/nav.html" with mawbin=mawbin title=title %}
+{% include 'main/messages.html' %}
+<div id="div_messages" class="text-center align-middle" style="position:fixed;top:80px;right:0;width:160px;height:50px;border-radius:25px;"></div>
+
+  <form id="masterForm" role="form" method="post">{% csrf_token %}
+    <div class="btn-group btn-group-md" style="margin-top:-15px; float: right;">
+      <input class="btn btn-primary btn-md" type="submit" value="存檔"/>
+      <a class="btn btn-warning btn-md" href="{% url 'awbin:mawbinList' %}">離開</a>
+    </div>
+    <div class="col-xs-12 col-sm-12">
+      {% include "awbin/mawbinInput.html" %}
+      <!--{{ form.as_p }}-->
+    </div>
+  </form>
+  
+<script>
+  
+  $(document).ready(function(){
+      
+        $('#masterForm input[type="submit"]').prop('disabled', true);
+
+        $('#masterForm').bind('change keyup', function () {
+            $('#masterForm input[type="submit"]').prop('disabled', false);
+            console.log('changed');
+        
+            var m_cusdept = document.getElementById("id_mcusdept").value;
+            if (m_cusdept === "CA") {
+                document.getElementById("id_marvapt").value = "TWTPE";
+                
+                var m_marvflt = document.getElementById("id_marvflt").value;
+                document.getElementById("id_munlodwh").value = "C2001";
+                if (m_marvflt.substr(0,2).indexOf("CV,NX,FM,") !== -1){
+                    document.getElementById("id_munlodwh").value = "C2009";
+                }
+                if (m_marvflt.substr(0,2).indexOf("NW,TG,CP,PO,UA,") !== -1){
+                    document.getElementById("id_munlodwh").value = "C2007";
+                }
+
+            }
+            else{
+                document.getElementById("id_marvapt").value = "TWKHH";
+                document.getElementById("id_munlodwh").value = "B2140";
+            }
+
+            var m_mgwunit = document.getElementById("id_mgwunit").value;
+            var m_mchgunit = document.getElementById("id_mchgunit").value;
+            if (!m_mchgunit && m_mgwunit){
+                document.getElementById("id_mchgunit").value = m_mgwunit;
+                document.getElementById("id_mchgwt").value = document.getElementById("id_mgw").value
+            }
+            
+            var m_mchgwt = document.getElementById("id_mchgwt").value;
+            if (m_mchgunit === "KGS"){
+                document.getElementById("id_mkgchgwt").value = m_mchgwt;
+            }
+            else if (m_mchgunit === "LBS"){
+                document.getElementById("id_mkgchgwt").value = parseInt(m_mchgwt/2.2046+0.9);
+            }
+          
+        });
+        
+        $('.datepicker').datepicker({
+            format: "yyyy-mm-dd",
+            todayBtn: "linked",
+            autoclose: true,
+            todayHighlight: true,
+            toggleActive: true
+        }).datepicker("setDate", "0");
+
+        
+        
+  });
+</script>
+{% endblock app_content %}

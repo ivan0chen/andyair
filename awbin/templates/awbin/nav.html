@@ -1,0 +1,11 @@
+<h4 class="mt-0">
+<a href="/">主選單</a>&gt;
+<a href="{% url 'awbin:mawbinList' %}"> 主提單列表</a>
+{% if mawbin %}
+  &gt; <a href="{% url 'awbin:mawbinView' mawbin.id %}">{{ mawbin.mawb }} {{ mawbin.seqnr }}</a>
+{% endif %}
+{% if title %}
+    -&nbsp;{{ title }}
+{% endif %}
+</h4>
+<hr class="mt-0">

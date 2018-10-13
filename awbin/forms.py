@@ -1,36 +1,47 @@
 from django import forms
+from custcsn.models import Custcsn
+from main.models import OrgDest
 from awbin.models import Mawbin
 
 class MawbinForm(forms.ModelForm):
     mawb = forms.CharField(label='主提單', max_length=12, widget=forms.TextInput(attrs={'class':'form-control input-sm'}))
     seqnr = forms.CharField(label='總LOT號', max_length=15, widget=forms.TextInput(attrs={'class':'form-control input-sm'}))
-    prsdd = forms.DateField(label='日期', widget=forms.TextInput(attrs={'readonly':'readonly','class':'form-control input-sm'}))
+    prsdd = forms.DateField(label='日期', widget=forms.TextInput(attrs={'readonly':'readonly','class':'form-control input-sm datepicker'}))
     nrhbhold = forms.IntegerField(label='POD', min_value=0, max_value=99, widget=forms.NumberInput(attrs={'size':'2', 'class': 'form-control input-sm'}))
     podfax = forms.CharField(label='FAX', max_length=1, widget=forms.TextInput(attrs={'class':'form-control input-sm'}))
-    agtcode = forms.CharField(label='AGENT', max_length=6, widget=forms.TextInput(attrs={'class':'form-control input-sm'}))
-    mfrom = forms.CharField(label='起運站', max_length=3, widget=forms.TextInput(attrs={'class':'form-control input-sm'}))
-    mdepdd = forms.DateField(label='起飛日期', widget=forms.TextInput(attrs={'readonly':'readonly','class':'form-control input-sm'}))
+    agtcode = forms.ModelChoiceField(label='AGENT', queryset=Custcsn.objects.all().order_by('cunme'),
+                                     widget=forms.Select(attrs={'class':'form-control input-sm'}))
+    mfrom = forms.ModelChoiceField(label='起運站', queryset=OrgDest.objects.all().order_by('code'),
+                            widget=forms.Select(attrs={'class':'form-control input-sm'}))
+    mdepdd = forms.DateField(label='起飛日期', widget=forms.TextInput(attrs={'readonly':'readonly','class':'form-control input-sm datepicker'}))
     metaflt = forms.CharField(label='預定班機', max_length=7, widget=forms.TextInput(attrs={'class':'form-control input-sm'}))
-    metadd = forms.DateField(label='', widget=forms.TextInput(attrs={'readonly':'readonly','class':'form-control input-sm'}))
+    metadd = forms.DateField(label='預定日期', widget=forms.TextInput(attrs={'style':'width:150px','readonly':'readonly','class':'form-control input-sm datepicker'}))
     marvflt = forms.CharField(label='到達班機', max_length=7, widget=forms.TextInput(attrs={'class':'form-control input-sm'}))
-    marvdd = forms.DateField(label='', widget=forms.TextInput(attrs={'readonly':'readonly','class':'form-control input-sm'}))
-    mpuawbdd = forms.DateField(label='領單日期', widget=forms.TextInput(attrs={'readonly':'readonly','class':'form-control input-sm'}))
-    mcusdept = forms.CharField(label='受理關別', max_length=2, widget=forms.TextInput(attrs={'class':'form-control input-sm'}))
-    msvcknd = forms.CharField(label='SVCKND', max_length=1, widget=forms.TextInput(attrs={'class':'form-control input-sm'}))
-    marvapt = forms.CharField(label='到達機場', max_length=5, widget=forms.TextInput(attrs={'class':'form-control input-sm'}))
-    munlodwh = forms.CharField(label='卸貨棧', max_length=6, widget=forms.TextInput(attrs={'class':'form-control input-sm'}))
+    marvdd = forms.DateField(label='到達日期', widget=forms.TextInput(attrs={'style':'width:150px','readonly':'readonly','class':'form-control input-sm datepicker'}))
+    mpuawbdd = forms.DateField(label='領單日期', widget=forms.TextInput(attrs={'readonly':'readonly','class':'form-control input-sm datepicker'}))
+    CHOICES1 = (('CA', '台北關'), ('BF', '高雄關'))
+    mcusdept = forms.CharField(label='受理關別', max_length=2, widget=forms.Select(choices=CHOICES1, attrs={'class':'form-control input-sm'}))
+    CHOICES2 = (('1', '直走單'), ('2', '非直走單'),('3','併裝莊主'),('4','併裝莊友'),('9','向同行領單'))
+    msvcknd = forms.CharField(label='SVCKND', max_length=1, widget=forms.Select(choices=CHOICES2, attrs={'class':'form-control input-sm'}))
+    CHOICES3 = (('TWTPE', '台北機場'), ('TWKHH', '高雄機場'))
+    marvapt = forms.CharField(label='到達機場', max_length=5, widget=forms.Select(choices=CHOICES3, attrs={'class':'form-control input-sm'}))
+    CHOICES4 = (('C2001', '台北貨運站'), ('C2007', '永儲'), ('C2009', '遠翔'), ('B2140', '高雄貨運站'))
+    munlodwh = forms.CharField(label='卸貨棧', max_length=6, widget=forms.Select(choices=CHOICES4, attrs={'class':'form-control input-sm'}))
     nrofhawb = forms.IntegerField(label='分提單筆數', min_value=0, max_value=99, widget=forms.NumberInput(attrs={'size':'2', 'class': 'form-control input-sm'}))
     mpkgnr = forms.IntegerField(label='箱數', min_value=0, max_value=99, widget=forms.NumberInput(attrs={'size':'2', 'class': 'form-control input-sm'}))
-    mpkgunit = forms.CharField(label='', max_length=6, widget=forms.TextInput(attrs={'class':'form-control input-sm'}))
+    CHOICES5 = (('CTN', 'CTN'), ('PKG', 'PKG'))
+    mpkgunit = forms.CharField(label='單位', max_length=6, widget=forms.Select(choices=CHOICES5, attrs={'class':'input-sm'}))
     mgw = forms.DecimalField(label='毛重', max_digits=7, decimal_places=1, max_value=999999.9,
                                 widget=forms.NumberInput(attrs={'class':'form-control input-sm','maxlength': 7, 'type': 'number'}))
-    mgwunit = forms.CharField(label='', max_length=3, widget=forms.TextInput(attrs={'class':'form-control input-sm'}))
+    CHOICES6 = (("","請選擇"),('KGS', 'KGS'), ('LBS', 'LBS'))
+    mgwunit = forms.CharField(label='單位', max_length=3, widget=forms.Select(choices=CHOICES6, attrs={'class':'input-sm'}))
     mchgwt = forms.DecimalField(label='計價重', max_digits=7, decimal_places=1, max_value=999999.9,
                                 widget=forms.NumberInput(attrs={'class':'form-control input-sm','maxlength': 7, 'type': 'number'}))
-    mchgunit = forms.CharField(label='', max_length=3, widget=forms.TextInput(attrs={'class':'form-control input-sm'}))
+    mchgunit = forms.CharField(label='單位', max_length=3, widget=forms.Select(choices=CHOICES6, attrs={'class':'input-sm'}))
     mkgchgwt = forms.DecimalField(label='=(KG)', max_digits=7, decimal_places=1, max_value=999999.9,
-                                widget=forms.NumberInput(attrs={'class':'form-control input-sm','maxlength': 7, 'type': 'number'}))
-    mccpp = forms.CharField(label='運費CP', max_length=2, widget=forms.TextInput(attrs={'class':'form-control input-sm'}))
+                                widget=forms.NumberInput(attrs={'readonly':'readonly','class':'form-control input-sm','maxlength': 7, 'type': 'number'}))
+    CHOICES7 = (('CC', 'CC'), ('PP', 'PP'))
+    mccpp = forms.CharField(label='運費CP', max_length=2, widget=forms.Select(choices=CHOICES7, attrs={'class':'form-control input-sm'}))
     mcurncy = forms.CharField(label='幣別', max_length=3, widget=forms.TextInput(attrs={'class':'form-control input-sm'}))
     mexchg = forms.DecimalField(label='匯率', max_digits=9, decimal_places=5, max_value=9999.99999,
                                 widget=forms.NumberInput(attrs={'class':'form-control input-sm','maxlength': 9, 'type': 'number'}))
