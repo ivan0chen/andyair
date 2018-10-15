@@ -34,3 +34,21 @@ table {
   text-align: left;
   vertical-align: middle;
 }
+
+/*.my-group .form-control{*/
+    /*width:50%;*/
+/*}*/
+
+/*.custom-input-group {*/
+  /*position: relative;*/
+    /*display: -ms-flexbox;*/
+    /*display: flex;*/
+    /*-ms-flex-align: stretch;*/
+    /*align-items: stretch;*/
+    /*width: 100%;*/
+/*}*/
+
+/*.custom-addon {*/
+/*!*You will need to add media queries to make this responsive.*!*/
+ /*width: 100%;*/
+/*}*/

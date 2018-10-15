@@ -1,5 +1,9 @@
-
-    {{ form.errors }}
+    {% if form.errors %}
+        <p style="margin-top:-30px; color: red;">
+            Please correct the error{{ form.errors|pluralize }} below.
+        </p>
+    {% endif %}
+    <!--{{ form.errors }}-->
     {{ form.non_field_errors }}
     <div class="row">
       <div class="form-group col-sm-3">
@@ -149,6 +153,7 @@
       </div>
       <div class="form-group col-sm-3">
         {{ form.mchgwt.errors}}
+        {{ form.mkgchgwt.errors}}
         {{ form.mchgwt.label_tag}}
         <div class="input-group">
           {{ form.mchgwt }}
@@ -160,7 +165,7 @@
         </div>
       </div>
       <div class="form-group col-sm-2">
-        {{ form.mkgchgwt.errors}}
+        <!--{{ form.mkgchgwt.errors}}-->
         {{ form.mkgchgwt.label_tag}}
         {{ form.mkgchgwt }}
       </div>
@@ -171,7 +176,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="form-group col-sm-1">
+      <div class="form-group col-sm-2">
         {{ form.mcurncy.errors}}
         {{ form.mcurncy.label_tag}}
         {{ form.mcurncy }}
@@ -181,7 +186,7 @@
         {{ form.mexchg.label_tag}}
         {{ form.mexchg }}
       </div>
-      <div class="form-group col-sm-3">
+      <div class="form-group col-sm-2">
         {{ form.mfrtrte.errors}}
         {{ form.mfrtrte.label_tag}}
         {{ form.mfrtrte }}

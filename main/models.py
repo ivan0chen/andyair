@@ -1,7 +1,17 @@
 from django.db import models
-# from django.utils import timezone
-from datetime import datetime
 from account.models import User
+
+class OrgDest(models.Model):
+    code5 = models.CharField(max_length=5, unique=True)
+    code = models.CharField(max_length=3, unique=True)
+    dest = models.CharField(max_length=30, blank=True)
+    iso = models.CharField(max_length=2, blank=True)
+    country = models.CharField(max_length=20, blank=True)
+    aircode = models.CharField(max_length=5, blank=True)
+
+    def __str__(self):
+        return self.code + ' - ' + self.dest
+
 
 class WhoColumns(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)         # 建立日期

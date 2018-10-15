@@ -30,4 +30,4 @@ class Custcsn(WhoColumns):
     # cutrdt.editable = True
 
     def __str__(self):
-        return self.cuno + '-' + self.cunme
+        return self.cuno + ' - ' + self.cunme

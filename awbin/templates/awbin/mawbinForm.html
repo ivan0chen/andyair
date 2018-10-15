@@ -1,5 +1,20 @@
 {% extends "awbin/base.html" %}
-
+{% block extra_style%}
+<style type="text/css">
+    ul.errorlist {
+        margin: 0;
+        padding: 0;
+    }
+    .errorlist li {
+        background-color: red;
+        color: white;
+        display: block;
+        font-size: 0.8em;
+        margin: 0 0 3px;
+        padding: 4px 5px;
+    }
+</style>
+{% endblock %}
 {% block app_content %}
 
 {% include "awbin/nav.html" with mawbin=mawbin title=title %}

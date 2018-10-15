@@ -1,4 +1,5 @@
 from django import forms
+import decimal
 from custcsn.models import Custcsn
 from main.models import OrgDest
 from awbin.models import Mawbin
@@ -42,7 +43,11 @@ class MawbinForm(forms.ModelForm):
                                 widget=forms.NumberInput(attrs={'readonly':'readonly','class':'form-control input-sm','maxlength': 7, 'type': 'number'}))
     CHOICES7 = (('CC', 'CC'), ('PP', 'PP'))
     mccpp = forms.CharField(label='運費CP', max_length=2, widget=forms.Select(choices=CHOICES7, attrs={'class':'form-control input-sm'}))
-    mcurncy = forms.CharField(label='幣別', max_length=3, widget=forms.TextInput(attrs={'class':'form-control input-sm'}))
+    CHOICES8 = (('EUR', 'EUR'), ('USD', 'USD'), ('TWD', 'TWD'), ('AUD', 'AUD'), ('ATS', 'ATS'), ('BEF', 'BEF'), ('CAD', 'CAD'), ('DEM', 'DEM'),
+                ('FRF', 'FRF'), ('HKD', 'HKD'), ('NLG', 'NLG'), ('GBP', 'GBP'), ('SGD', 'SGD'), ('ZAR', 'ZAR'), ('SEK', 'SEK'), ('CHF', 'CHF'),
+                ('JPY', 'JPY'), ('MYR', 'MYR'), ('ITL', 'ITL'), ('XEU', 'XEU'), ('ESP', 'ESP'), ('DKK', 'DKK'), ('FIM', 'FIM'), ('IDR', 'IDR'),
+                ('NZD', 'NZD'), ('NOK', 'NOK'), ('PHP', 'PHP'), ('KRW', 'KRW'), ('THB', 'THB'), ('RMB', 'RMB'))
+    mcurncy = forms.CharField(label='幣別', max_length=3, widget=forms.Select(choices=CHOICES8, attrs={'class':'form-control input-sm'}))
     mexchg = forms.DecimalField(label='匯率', max_digits=9, decimal_places=5, max_value=9999.99999,
                                 widget=forms.NumberInput(attrs={'class':'form-control input-sm','maxlength': 9, 'type': 'number'}))
     mfrtrte = forms.DecimalField(label='單價', max_digits=6, decimal_places=2, max_value=9999.99,
@@ -67,3 +72,33 @@ class MawbinForm(forms.ModelForm):
     class Meta:
         model = Mawbin
         fields = '__all__'
+
+
+    def clean_mkgchgwt(self):
+
+        cleaned_data = super(MawbinForm, self).clean()
+        mgwunit = cleaned_data.get('mgwunit')
+        mchgunit = cleaned_data.get('mchgunit')
+        mgw = cleaned_data.get('mgw')
+        mchgwt = cleaned_data.get('mchgwt')
+        mkgchgwt = cleaned_data.get('mkgchgwt')
+        print('mgwunit',mgwunit)
+        print('mgw',mgw)
+        print('mchgwt',mchgwt)
+        print('mchgunit',mchgunit)
+        print('mkgchgwt',mkgchgwt)
+        chgwt_check = True
+        if mgwunit == mchgunit:
+            if mchgwt < mgw:
+                chgwt_check = False
+        else:
+            if (mgwunit == "LBS"):
+                if (mchgwt < (mgw / decimal.Decimal.from_float(2.2046))):
+                    chgwt_check = False
+            else:
+                if (mkgchgwt < mgw):
+                    chgwt_check = False
+        if not chgwt_check:
+            raise forms.ValidationError("計價重不得小於毛重!!")
+
+        return mchgwt

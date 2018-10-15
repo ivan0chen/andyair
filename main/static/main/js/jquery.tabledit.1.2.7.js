@@ -980,7 +980,7 @@ if (typeof jQuery === 'undefined') {
       });
 
 
-      return;
+
     },
     update: function (options) {
 
@@ -1107,23 +1107,23 @@ if (typeof jQuery === 'undefined') {
      */
     // Executed after draw the structure
     onDraw: function () {
-      return;
+
     },
     // Executed when the ajax request is completed
     onSuccess: function () {
-      return;
+
     },
     // Executed when occurred an error on ajax request
     onFail: function () {
-      return;
+
     },
     // Executed whenever there is an ajax request
     onAlways: function () {
-      return;
+
     },
     // Executed before the ajax request
     onAjax: function () {
-      return;
+
     }
   };
 

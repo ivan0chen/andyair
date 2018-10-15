@@ -205,7 +205,7 @@
                  $(".alert").fadeOut(5000);
             },
             onFail: function (jqXHR, textStatus, errorThrown) {
-                var messages=[{level: 25, message: "資料輸入錯誤，請更正！", tags: "warning"}]
+                var messages=[{level: 25, message: "資料輸入錯誤，請更正！", tags: "warning"}];
                 update_messages(messages);
                 $(".alert").fadeOut(5000);
                 console.log('onFail(jqXHR, textStatus, errorThrown)');
