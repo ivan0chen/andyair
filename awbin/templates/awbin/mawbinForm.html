@@ -68,14 +68,38 @@
                 document.getElementById("id_mchgwt").value = document.getElementById("id_mgw").value
             }
             
-            var m_mchgwt = document.getElementById("id_mchgwt").value;
+            var m_mchgwt = parseFloat(document.getElementById("id_mchgwt").value).toFixed(1);
             if (m_mchgunit === "KGS"){
                 document.getElementById("id_mkgchgwt").value = m_mchgwt;
             }
             else if (m_mchgunit === "LBS"){
                 document.getElementById("id_mkgchgwt").value = parseInt(m_mchgwt/2.2046+0.9);
             }
-          
+            
+            var m_mcurncystr = $('#id_mcurncy').children('option:selected').text();
+            m_mexchg = m_mcurncystr.split("-").pop().trim();
+            document.getElementById("id_mexchg").value = m_mexchg;
+            
+            m_mfrtrte = parseFloat(document.getElementById("id_mfrtrte").value).toFixed(2);
+            if (m_mfrtrte && m_mchgwt){
+                m_mwtchrg = parseFloat(m_mchgwt*m_mfrtrte).toFixed(2).toString();
+                document.getElementById("id_mwtchrg").value = m_mwtchrg;
+            }
+            if (m_mwtchrg && m_mexchg){
+                m_mwtchtwd = parseInt(parseFloat(m_mwtchrg)*parseFloat(m_mexchg) + 0.9);
+                document.getElementById("id_mwtchtwd").value = m_mwtchtwd.toFixed(2).toString();
+            }
+            m_mduagt = document.getElementById("id_mduagt").value;
+            m_mducar = document.getElementById("id_mducar").value;
+            if (m_mwtchrg && m_mduagt && m_mducar){
+                m_mttlfrt = parseFloat(m_mwtchrg) + parseFloat(m_mduagt) + parseFloat(m_mducar);
+                document.getElementById("id_mttlfrt").value = m_mttlfrt.toFixed(2).toString();
+            }
+            if (m_mttlfrt && m_mexchg){
+                m_mtlfrtwd = parseInt(m_mttlfrt*parseFloat(m_mexchg) + 0.9);
+                document.getElementById("id_mtlfrtwd").value = m_mtlfrtwd.toFixed(2).toString();
+            }
+
         });
         
         $('.datepicker').datepicker({

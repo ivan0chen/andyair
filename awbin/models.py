@@ -1,6 +1,7 @@
 from django.db import models
 from custcsn.models import Custcsn
 from main.models import OrgDest
+# from exrate.models import Exrate
 from main.models import WhoColumns
 
 
@@ -10,8 +11,8 @@ class Mawbin(WhoColumns):
     prsdd = models.DateField(blank=True)
     nrhbhold = models.IntegerField(default=0, null=True, blank=True)
     podfax = models.CharField(max_length=1, blank=True)
-    agtcode = models.ForeignKey(Custcsn, on_delete=models.SET_NULL, max_length=6, blank=True, null=True)
-    mfrom = models.ForeignKey(OrgDest, on_delete=models.SET_NULL, max_length=3, blank=True, null=True)
+    agtcode = models.ForeignKey(Custcsn, on_delete=models.DO_NOTHING, max_length=6, blank=True, null=True)
+    mfrom = models.ForeignKey(OrgDest, on_delete=models.DO_NOTHING, max_length=3, blank=True, null=True)
     mdepdd = models.DateField(blank=True)
     metaflt = models.CharField(max_length=7, blank=True)
     metadd = models.DateField(blank=True)
@@ -31,7 +32,7 @@ class Mawbin(WhoColumns):
     mchgunit = models.CharField(max_length=3, blank=True)
     mkgchgwt = models.DecimalField(max_digits=7, decimal_places=1, null=True,blank=True)
     mccpp = models.CharField(max_length=2, blank=True)
-    mcurncy = models.CharField(max_length=3, blank=True)
+    mcurncy = models.CharField(max_length=3, blank=True, null=True)
     mexchg = models.DecimalField(max_digits=9, decimal_places=5, null=True,blank=True)
     mfrtrte = models.DecimalField(max_digits=6, decimal_places=2, null=True,blank=True)
     mwtchrg = models.DecimalField(max_digits=10, decimal_places=2, null=True,blank=True)

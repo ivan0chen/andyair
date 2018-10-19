@@ -16,7 +16,9 @@ def mawbinList(request, template_name='awbin/mawbinList.html'):
 @login_required
 def mawbinCreate(request, template_name='awbin/mawbinForm.html'):
     form = MawbinForm(request.POST or None)
+    # print(request.POST.get("mcurncy"))
     if form.is_valid():
+        print(request.POST.get("mcurncy"))
         new_mawb = form.save(commit=False)
         new_mawb.created_by = request.user
         new_mawb.last_updated_by = request.user

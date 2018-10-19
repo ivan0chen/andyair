@@ -10,13 +10,23 @@
   </div>
 <div class="col-xs-12 col-sm-12">
   <form id="masterForm" role="form" method="post">{% csrf_token %}
-    {% include "awbin/mawbinForm.html" %}
+    {% include "awbin/mawbinInput.html" %}
   </form>
 </div>
 <script>
   $(document).ready(function(){
       $('#masterForm :input').prop('readonly',true);
-      $('#id_cucd').attr("disabled", true);
+      $('#id_agtcode').attr("disabled", true);
+      $('#id_mfrom').attr("disabled", true);
+      $('#id_mcusdept').attr("disabled", true);
+      $('#id_msvcknd').attr("disabled", true);
+      $('#id_marvapt').attr("disabled", true);
+      $('#id_munlodwh').attr("disabled", true);
+      $('#id_mpkgunit').attr("disabled", true);
+      $('#id_mgwunit').attr("disabled", true);
+      $('#id_mchgunit').attr("disabled", true);
+      $('#id_mccpp').attr("disabled", true);
+      $('#id_mcurncy').attr("disabled", true);
       $('#masterForm select').children('option').attr('disabled', true);
       
   });
