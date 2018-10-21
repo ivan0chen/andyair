@@ -1,5 +1,7 @@
 from django.db import models
 from custcsn.models import Custcsn
+from custadv.models import Custadv
+from shpr.models import Shpr
 from main.models import OrgDest
 # from exrate.models import Exrate
 from main.models import WhoColumns
@@ -48,3 +50,75 @@ class Mawbin(WhoColumns):
 
     def __str__(self):
         return self.mawb + '-' + self.seqnr
+
+class Hawbin(WhoColumns):
+    hawb = models.CharField(max_length=12, unique=True)
+    hlotnr = models.CharField(max_length=9, blank=True)
+    belong = models.CharField(max_length=9, blank=True)
+    nrofshb = models.IntegerField(default=0, null=True, blank=True)
+    pkgofhb = models.IntegerField(default=0, null=True, blank=True)
+    hseqnr = models.CharField(max_length=4, blank=True)
+    hshpr = models.ForeignKey(Shpr, on_delete=models.DO_NOTHING, max_length=6, blank=True, null=True)
+    hcnee = models.ForeignKey(Custcsn, on_delete=models.DO_NOTHING, max_length=6, blank=True, null=True)
+    hnotify = models.ForeignKey(Custadv, on_delete=models.DO_NOTHING, max_length=6, blank=True, null=True)
+    hfrom = models.ForeignKey(OrgDest, on_delete=models.DO_NOTHING, max_length=3, blank=True, null=True)
+    hrlsdd = models.DateField(blank=True)
+    hrlstm = models.TimeField(blank=True)
+    ro = models.CharField(max_length=1, default="N", blank=True)
+    hslsman = models.CharField(max_length=2, blank=True)
+    hacct = models.CharField(max_length=1, default="N", blank=True)
+    trans = models.CharField(max_length=1, default="N", blank=True)
+    fnldest = models.CharField(max_length=3, blank=True)
+    trsdb = models.CharField(max_length=6, blank=True)
+    cusapp = models.CharField(max_length=1, default="N", blank=True)
+    dtd = models.CharField(max_length=1, default="N", blank=True)
+    dtddb = models.CharField(max_length=6, blank=True)
+    hgoods = models.CharField(max_length=150, blank=True)
+    skdpk = models.CharField(max_length=3, default="N  ", blank=True)
+    hpkgnr = models.IntegerField(default=0, null=True, blank=True)
+    hpkgunit = models.CharField(max_length=3, default="CTN", blank=True)
+    hgw = models.DecimalField(max_digits=7, decimal_places=1, null=True,blank=True)
+    hgwunit = models.CharField(max_length=3, default="KGS", blank=True)
+    hchgwt = models.DecimalField(max_digits=7, decimal_places=1, null=True,blank=True)
+    hchgunit = models.CharField(max_length=3, default="KGS", blank=True)
+    hkgchgwt = models.DecimalField(max_digits=7, decimal_places=1, null=True,blank=True)
+    hccpp = models.CharField(max_length=2, default="PP", blank=True)
+    hcurncy = models.CharField(max_length=3, blank=True, null=True)
+    hexchg = models.DecimalField(max_digits=9, decimal_places=5, null=True,blank=True)
+    hfrtrte = models.DecimalField(max_digits=6, decimal_places=2, null=True,blank=True)
+    hwtchrg = models.DecimalField(max_digits=10, decimal_places=2, null=True,blank=True)
+    hduagt = models.DecimalField(max_digits=10, decimal_places=2, null=True,blank=True)
+    httlfrt = models.DecimalField(max_digits=10, decimal_places=2, null=True,blank=True)
+    htlfrtwd = models.DecimalField(max_digits=10, decimal_places=2, null=True,blank=True)
+    vwdspct = models.DecimalField(max_digits=4, decimal_places=2, null=True,blank=True)
+    vwdskglb = models.DecimalField(max_digits=6, decimal_places=2, null=True,blank=True)
+    vwdsper = models.CharField(max_length=2, blank=True)
+    ttldsamt = models.DecimalField(max_digits=10, decimal_places=2, null=True,blank=True)
+    ttldstwd = models.DecimalField(max_digits=10, decimal_places=2, null=True,blank=True)
+    hflfrtwd = models.DecimalField(max_digits=10, decimal_places=2, null=True,blank=True)
+    hpayby = models.CharField(max_length=1, default="K", blank=True)
+    howe = models.IntegerField(default=0, null=True, blank=True)
+    hadvsdd = models.DateField(blank=True)
+    sccurn =  models.CharField(max_length=3, blank=True, null=True)
+    scpct = models.DecimalField(max_digits=4, decimal_places=2, null=True,blank=True)
+    scpkls = models.DecimalField(max_digits=6, decimal_places=2, null=True,blank=True)
+    scper = models.CharField(max_length=2, blank=True, null=True)
+    scamt = models.DecimalField(max_digits=10, decimal_places=2, null=True,blank=True)
+    scamtwd = models.DecimalField(max_digits=8, decimal_places=2, null=True,blank=True)
+    sctowho = models.CharField(max_length=12, blank=True, null=True)
+    codcurn = models.CharField(max_length=3, blank=True, null=True)
+    codamt = models.DecimalField(max_digits=10, decimal_places=2, null=True,blank=True)
+    codrcvdd = models.DateField(blank=True)
+    codpaydd = models.DateField(blank=True)
+    hrmk = models.CharField(max_length=1, blank=True, null=True)
+    hdb = models.CharField(max_length=1, default="P", blank=True)
+    hcd = models.CharField(max_length=1, default="P", blank=True)
+    httlamt = models.DecimalField(max_digits=9, decimal_places=2, null=True,blank=True)
+    ttlocamt = models.DecimalField(max_digits=9, decimal_places=2, null=True,blank=True)
+    dbcurn = models.CharField(max_length=3, blank=True, null=True)
+    dbexrate = models.DecimalField(max_digits=9, decimal_places=5, null=True,blank=True)
+    dbamount = models.DecimalField(max_digits=10, decimal_places=2, null=True,blank=True)
+    trsdb = models.CharField(max_length=6, blank=True, null=True)
+
+    def __str__(self):
+        return self.hawb + '-' + self.hlotnr

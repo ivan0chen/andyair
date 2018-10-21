@@ -63,12 +63,34 @@
 
             var m_mgwunit = document.getElementById("id_mgwunit").value;
             var m_mchgunit = document.getElementById("id_mchgunit").value;
+            var m_mgw = parseFloat(document.getElementById("id_mgw").value).toFixed(1);
             if (!m_mchgunit && m_mgwunit){
                 document.getElementById("id_mchgunit").value = m_mgwunit;
-                document.getElementById("id_mchgwt").value = document.getElementById("id_mgw").value
+                document.getElementById("id_mchgwt").value = m_mgw;
             }
             
             var m_mchgwt = parseFloat(document.getElementById("id_mchgwt").value).toFixed(1);
+            if (m_mchgunit === m_mgwunit){
+                if (m_mchgwt < m_mgw){
+                    m_mchgwt = m_mgw;
+                    document.getElementById("id_mchgwt").value = m_mchgwt;
+                }
+            }
+            else {
+                if (m_mchgunit === "KGS") {
+                    if (m_mchgwt < m_mgw / 2.2046) {
+                        m_mchgwt = parseFloat(m_mgw / 2.2046).toFixed(1);
+                        document.getElementById("id_mchgwt").value = m_mchgwt;
+                    }
+                }
+                if (m_mchgunit === "LBS"){
+                    if (m_mchgwt < m_mgw * 2.2046) {
+                        m_mchgwt = parseFloat(m_mgw * 2.2046).toFixed(1);
+                        document.getElementById("id_mchgwt").value = m_mchgwt;
+                    }                   
+                }
+            }
+            
             if (m_mchgunit === "KGS"){
                 document.getElementById("id_mkgchgwt").value = m_mchgwt;
             }
@@ -77,25 +99,29 @@
             }
             
             var m_mcurncystr = $('#id_mcurncy').children('option:selected').text();
-            m_mexchg = m_mcurncystr.split("-").pop().trim();
-            document.getElementById("id_mexchg").value = m_mexchg;
+            var m_mexchg;
+            if (m_mcurncystr){
+                m_mexchg = m_mcurncystr.split("-").pop().trim();
+                document.getElementById("id_mexchg").value = m_mexchg;
+            }
             
-            m_mfrtrte = parseFloat(document.getElementById("id_mfrtrte").value).toFixed(2);
-            if (m_mfrtrte && m_mchgwt){
-                m_mwtchrg = parseFloat(m_mchgwt*m_mfrtrte).toFixed(2).toString();
-                document.getElementById("id_mwtchrg").value = m_mwtchrg;
-            }
-            if (m_mwtchrg && m_mexchg){
+            var m_mfrtrte = parseFloat(document.getElementById("id_mfrtrte").value).toFixed(2);
+            var m_mwtchrg = parseFloat(m_mchgwt*m_mfrtrte).toFixed(2).toString();
+            
+            document.getElementById("id_mwtchrg").value = m_mwtchrg;
+         
+            if (m_mexchg){
                 m_mwtchtwd = parseInt(parseFloat(m_mwtchrg)*parseFloat(m_mexchg) + 0.9);
-                document.getElementById("id_mwtchtwd").value = m_mwtchtwd.toFixed(2).toString();
+                document.getElementById("id_mwtchtwd").value = m_mwtchtwd;
             }
-            m_mduagt = document.getElementById("id_mduagt").value;
-            m_mducar = document.getElementById("id_mducar").value;
-            if (m_mwtchrg && m_mduagt && m_mducar){
-                m_mttlfrt = parseFloat(m_mwtchrg) + parseFloat(m_mduagt) + parseFloat(m_mducar);
-                document.getElementById("id_mttlfrt").value = m_mttlfrt.toFixed(2).toString();
-            }
-            if (m_mttlfrt && m_mexchg){
+            
+            var m_mduagt = document.getElementById("id_mduagt").value;
+            var m_mducar = document.getElementById("id_mducar").value;
+            var m_mttlfrt = parseFloat(m_mwtchrg) + parseFloat(m_mduagt) + parseFloat(m_mducar);
+            
+            document.getElementById("id_mttlfrt").value = m_mttlfrt.toFixed(2).toString();
+
+            if (m_mexchg){
                 m_mtlfrtwd = parseInt(m_mttlfrt*parseFloat(m_mexchg) + 0.9);
                 document.getElementById("id_mtlfrtwd").value = m_mtlfrtwd.toFixed(2).toString();
             }
