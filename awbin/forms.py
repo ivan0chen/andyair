@@ -3,7 +3,7 @@ import decimal
 from custcsn.models import Custcsn
 from main.models import OrgDest
 from exrate.models import Exrate
-from awbin.models import Mawbin
+from awbin.models import Mawbin, Hawbin
 
 class MawbinForm(forms.ModelForm):
     mawb = forms.CharField(label='主提單', max_length=12, widget=forms.TextInput(attrs={'class':'form-control input-sm'}))
@@ -118,3 +118,8 @@ class MawbinForm(forms.ModelForm):
             raise forms.ValidationError("計價重不得小於毛重!!")
 
         return mchgwt
+
+class HawbinForm(forms.ModelForm):
+    class Meta:
+        model = Hawbin
+        exclude = ['mawb',]

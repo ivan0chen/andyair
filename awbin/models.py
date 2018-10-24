@@ -52,7 +52,8 @@ class Mawbin(WhoColumns):
         return self.mawb + '-' + self.seqnr
 
 class Hawbin(WhoColumns):
-    hawb = models.CharField(max_length=12, unique=True)
+    mawb = models.ForeignKey(Mawbin, on_delete=models.CASCADE)
+    hawb = models.CharField(max_length=12)
     hlotnr = models.CharField(max_length=9, blank=True)
     belong = models.CharField(max_length=9, blank=True)
     nrofshb = models.IntegerField(default=0, null=True, blank=True)
@@ -119,6 +120,9 @@ class Hawbin(WhoColumns):
     dbexrate = models.DecimalField(max_digits=9, decimal_places=5, null=True,blank=True)
     dbamount = models.DecimalField(max_digits=10, decimal_places=2, null=True,blank=True)
     trsdb = models.CharField(max_length=6, blank=True, null=True)
+
+    class Meta:
+        unique_together = (('mawb', 'hawb'),)
 
     def __str__(self):
         return self.hawb + '-' + self.hlotnr

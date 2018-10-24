@@ -1,0 +1,45 @@
+{% extends "awbin/base.html" %}
+{% block extra_style%}
+
+{% endblock %}
+{% block app_content %}
+
+{% include "awbin/nav.html" with hawbin=hawbin title=title %}
+{% include 'main/messages.html' %}
+<div id="div_messages" class="text-center align-middle" style="position:fixed;top:80px;right:0;width:160px;height:50px;border-radius:25px;"></div>
+
+  <form id="hawbForm" role="form" method="post">{% csrf_token %}
+    <div class="btn-group btn-group-md" style="margin-top:-15px; float: right;">
+      <input class="btn btn-primary btn-md" type="submit" value="存檔"/>
+      <a class="btn btn-warning btn-md" href="{% url 'awbin:hawbinList' %}">離開</a>
+    </div>
+    <div class="col-xs-12 col-sm-12">
+      <!--{% include "awbin/hawbinInput.html" %}-->
+      {{ form.as_p }}
+    </div>
+  </form>
+  
+<script>
+  
+  $(document).ready(function(){
+      
+        $('#hawbForm input[type="submit"]').prop('disabled', true);
+
+        $('#hawbForm').bind('change keyup', function () {
+            $('#hawbForm input[type="submit"]').prop('disabled', false);
+            console.log('changed');
+        });
+        
+        $('.datepicker').datepicker({
+            format: "yyyy-mm-dd",
+            todayBtn: "linked",
+            autoclose: true,
+            todayHighlight: true,
+            toggleActive: true
+        }).datepicker("setDate", "0");
+
+        
+        
+  });
+</script>
+{% endblock app_content %}
