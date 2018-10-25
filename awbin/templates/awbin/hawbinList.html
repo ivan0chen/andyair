@@ -1,15 +1,15 @@
 
   <table class="table table-striped table-bordered table-responsive table-condensed" id="hawbinList-{{ mawbin.id }}">
-    <thead style="background-color:royalblue;">
+    <thead style="background-color:dimgrey;">
       <tr>
-        <th style="vertical-align: middle;">HAWB#</th>
-        <th style="vertical-align: middle">HawbLot#</th>
-        <th style="vertical-align: middle">Belong</th>
-        <th style="vertical-align: middle">併分單筆數</th>
-        <th style="vertical-align: middle">件數</th>
-        <th style="vertical-align: middle">分號</th>
-        <th id="newHawbin" class="text-center">
-          <a href="{% url 'awbin:hawbinCreate' mawbin.id %}" class="btn btn-block btn-warning btn-xs active">
+        <th style="vertical-align: middle; width: 20%;">HAWB#</th>
+        <th style="vertical-align: middle; width: 20%;">HawbLot#</th>
+        <th style="vertical-align: middle; width: 20%;">Belong</th>
+        <th style="vertical-align: middle; width: 11%;">併分單筆數</th>
+        <th style="vertical-align: middle; width: 7%;">件數</th>
+        <th style="vertical-align: middle; width: 9%;">分號</th>
+        <th id="newHawbin-{{ mawbin.id }}" class="text-center">
+          <a href="{% url 'awbin:hawbinCreate' mawbin.id %}" class="btn btn-block btn-default btn-xs active">
             <span class="glyphicon glyphicon-plus"></span><b>&nbsp;New HAWB</b></a>
         </th>
       </tr>
@@ -40,13 +40,21 @@
 <script type="text/javascript">
     $(document).ready(function(){
         var table = $('#hawbinList-{{ mawbin.id }}').DataTable({
-            "searching": False,
-            "ordering": False,
-            "paging": Fals,
-            "order": [[ 1, "asc" ]],
+            "searching": false,
+            "ordering": true,
+            "paging": false,
+            "info": false,
+            "order": [[ 0, "asc" ]],
+            "columnDefs": [
+                {
+                    "targets": 6,
+                    "searchable": false,
+                    "orderable": false
+                },
+            ]
         });
 
-        $('#newHawbin').removeClass('sorting_disabled').removeAttr('aria-label').css('padding','8px');
+        $('#newHawbin-{{ mawbin.id }}').removeClass('sorting_disabled').removeAttr('aria-label').css('padding','8px');
         
     });
     

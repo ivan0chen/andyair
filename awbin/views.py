@@ -94,8 +94,9 @@ def hawbinCreate(request, parent_pk, template_name='awbin/hawbinForm.html'):
         new_hawb.save()
         messages.success(request, '資料已新增！')
         return redirect('awbin:hawbinUpdate', new_hawb.id)
-        # return redirect('awbin:hawbinList')
+        # return redirect('awbin:mawbinList')
     ctx = {}
+    ctx["mawbin"] = mawbin
     ctx['form'] = form
     ctx['title'] = 'HAWB New'
     return render(request, template_name, ctx)
@@ -120,7 +121,7 @@ def hawbinUpdate(request, pk, template_name='awbin/hawbinForm.html'):
         hawbin_obj.save()
         messages.success(request, '資料已更新！')
         # return redirect('awbin:hawbinUpdate', hawbin.id)
-        return redirect('awbin:hawbinList')
+        return redirect('awbin:mawbinList')
     ctx = {}
     ctx['hawbin'] = hawbin
     ctx['form'] = form
@@ -134,7 +135,7 @@ def hawbinDelete(request, pk, template_name='awbin/hawbinDelete.html'):
     if request.method == 'POST':
         hawbin.delete()
         messages.success(request, '資料已刪除！')
-        return redirect('awbin:hawbinList')
+        return redirect('awbin:mawbinList')
     ctx = {}
     ctx['hawbin'] = hawbin
     ctx['form'] = form
