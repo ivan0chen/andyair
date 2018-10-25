@@ -35,20 +35,23 @@ table {
   vertical-align: middle;
 }
 
-/*.my-group .form-control{*/
-    /*width:50%;*/
-/*}*/
+ul.errorlist {
+    margin: 0;
+    padding: 0;
+}
+.errorlist li {
+    background-color: red;
+    color: white;
+    display: block;
+    font-size: 0.8em;
+    margin: 0 0 3px;
+    padding: 4px 5px;
+}
 
-/*.custom-input-group {*/
-  /*position: relative;*/
-    /*display: -ms-flexbox;*/
-    /*display: flex;*/
-    /*-ms-flex-align: stretch;*/
-    /*align-items: stretch;*/
-    /*width: 100%;*/
-/*}*/
-
-/*.custom-addon {*/
-/*!*You will need to add media queries to make this responsive.*!*/
- /*width: 100%;*/
-/*}*/
+td.details-control {
+    background: url('{% static "main/images/details_open.png" %}') no-repeat center center;
+    cursor: pointer;
+}
+tr.shown td.details-control {
+    background: url('{% static "main/images/details_close.png" %}') no-repeat center center;
+}
