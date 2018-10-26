@@ -1,6 +1,8 @@
 from django import forms
 import decimal
 from custcsn.models import Custcsn
+from shpr.models import Shpr
+from custadv.models import Custadv
 from main.models import OrgDest
 from exrate.models import Exrate
 from awbin.models import Mawbin, Hawbin
@@ -120,6 +122,136 @@ class MawbinForm(forms.ModelForm):
         return mchgwt
 
 class HawbinForm(forms.ModelForm):
+    YN_CHOICES = (('Y', 'Y'), ('N', 'N'))
+    hawb = forms.CharField(label='HAWB#', max_length=12, widget=forms.TextInput(attrs={'class':'form-control input-sm'}))
+    hlotnr = forms.CharField(label='LOT#', max_length=9, widget=forms.TextInput(attrs={'class':'form-control input-sm'}))
+    belong = forms.CharField(label='Belong#', max_length=9, widget=forms.TextInput(attrs={'class':'form-control input-sm'}))
+    nrofshb = forms.IntegerField(label='併分單筆數', min_value=0, max_value=99, widget=forms.NumberInput(attrs={'size':'2', 'class': 'form-control input-sm'}))
+    pkgofhb = forms.IntegerField(label='件數', min_value=0, max_value=9999, widget=forms.NumberInput(attrs={'size':'4', 'class': 'form-control input-sm'}))
+    hseqnr = forms.CharField(label='分號', max_length=4, widget=forms.TextInput(attrs={'class':'form-control input-sm'}))
+    hshpr = forms.ModelChoiceField(label='出貨人', empty_label="請選擇出貨人", queryset=Shpr.objects.all().order_by('csname'),
+                                     widget=forms.Select(attrs={'class':'form-control input-sm'}))
+    hcnee = forms.ModelChoiceField(label='收貨人', empty_label="請選擇收貨人", queryset=Custcsn.objects.all().order_by('cunmc'),
+                                     widget=forms.Select(attrs={'class':'form-control input-sm'}))
+    hnotify = forms.ModelChoiceField(label='通知人', empty_label="請選擇通知人", queryset=Custadv.objects.all().order_by('ipntfy'),
+                                     widget=forms.Select(attrs={'class':'form-control input-sm'}))
+    hfrom = forms.ModelChoiceField(label='起運站', empty_label="選擇起運站", queryset=OrgDest.objects.all().order_by('code'),
+                                   widget=forms.Select(attrs={'class':'form-control input-sm'}))
+    hrlsdd = forms.DateField(label='贖單日',
+                             widget=forms.TextInput(attrs={'readonly':'readonly','class':'form-control input-sm datepicker'}))
+
+    ro = forms.CharField(label='指定貨?', max_length=1, initial='N',
+                         widget=forms.Select(choices=YN_CHOICES, attrs={'class': 'form-control input-sm'}))
+    hslsman = forms.CharField(label='業務', max_length=2,
+                         widget=forms.TextInput(attrs={'class':'form-control input-sm'}))
+    hacct = forms.CharField(label='月結?', max_length=1, initial='N',
+                            widget=forms.Select(choices=YN_CHOICES, attrs={'class': 'form-control input-sm'}))
+    trans = forms.CharField(label='押轉否? & D/N', max_length=1, initial='N',
+                            widget=forms.Select(choices=YN_CHOICES, attrs={'class': 'form-control input-sm'}))
+    fnldest = forms.ModelChoiceField(label='目的地', empty_label="選擇目的地", queryset=OrgDest.objects.all().order_by('code'),
+                                   widget=forms.Select(attrs={'class':'form-control input-sm'}))
+    trsdb = forms.CharField(label='D/N', max_length=6,
+                         widget=forms.TextInput(attrs={'style':'width:100px','class':'form-control input-sm'}))
+    cusapp = forms.CharField(label='報關否?', max_length=1, initial='N',
+                             widget=forms.Select(choices=YN_CHOICES, attrs={'class': 'form-control input-sm'}))
+    dtd = forms.CharField(label='到戶否? & D/N', max_length=1, initial='N',
+                          widget=forms.Select(choices=YN_CHOICES, attrs={'class': 'form-control input-sm'}))
+    dtddb = forms.CharField(label='D/N', max_length=6,
+                         widget=forms.TextInput(attrs={'style':'width:100px','class':'form-control input-sm'}))
+    hgoods = forms.CharField(label='品名', max_length=150,
+                         widget=forms.TextInput(attrs={'class':'form-control input-sm'}))
+    skdpk = forms.CharField(label='合成?', max_length=3, initial='N  ',
+                            widget=forms.Select(choices=YN_CHOICES, attrs={'class': 'form-control input-sm'}))
+    hpkgnr = forms.IntegerField(label='箱數', min_value=0, max_value=99999, widget=forms.NumberInput(attrs={'size':'5', 'class': 'form-control input-sm'}))
+    CHOICES5 = (('CTN', 'CTN'), ('PKG', 'PKG'))
+    hpkgunit = forms.CharField(label='單位', max_length=6, initial='CTN',
+                               widget=forms.Select(choices=CHOICES5, attrs={'class':'input-sm'}))
+    hgw = forms.DecimalField(label='毛重', max_digits=7, decimal_places=1, max_value=999999.9, min_value=0,
+                                widget=forms.NumberInput(attrs={'class':'form-control input-sm','maxlength': 7, 'type': 'number'}))
+    CHOICES6 = (("","單位"),('KGS', 'KGS'), ('LBS', 'LBS'))
+    hgwunit = forms.CharField(label='單位', max_length=3, initial='KGS',
+                              widget=forms.Select(choices=CHOICES6, attrs={'class':'input-sm'}))
+    hchgwt = forms.DecimalField(label='計價重', max_digits=7, decimal_places=1, max_value=999999.9, min_value=0,
+                                widget=forms.NumberInput(attrs={'class':'form-control input-sm','maxlength': 7, 'type': 'number'}))
+    hchgunit = forms.CharField(label='單位', max_length=3, initial='KGS',
+                              widget=forms.Select(choices=CHOICES6, attrs={'class':'input-sm'}))
+    hkgchgwt = forms.DecimalField(label='=(KG) & 運費CP', max_digits=7, decimal_places=1, max_value=999999.9, min_value=0,
+                                widget=forms.NumberInput(attrs={'class':'form-control input-sm','maxlength': 7, 'type': 'number'}))
+    CHOICES7 = (('CC', 'CC'), ('PP', 'PP'))
+    hccpp = forms.CharField(label='運費CP', max_length=2, initial='PP',
+                            widget=forms.Select(choices=CHOICES7, attrs={'class': 'input-sm'}))
+    hcurncy = forms.ModelChoiceField(label='幣別 & 匯率', empty_label="選擇幣別", queryset=Exrate.objects.all(), to_field_name='code', required=False,
+                                     widget=forms.Select(attrs={'class':'form-control input-sm'}))
+    hexchg = forms.DecimalField(label='匯率',max_digits=9, decimal_places=5, max_value=9999.99999, min_value=0, required=False,
+                                widget=forms.NumberInput(attrs={'style':'width:100px', 'readonly':'readonly', 'class':'form-control input-sm','maxlength': 9, 'type': 'number'}))
+    hfrtrte = forms.DecimalField(label='單價 & 運費', max_digits=6, decimal_places=2, max_value=9999.99, min_value=0, required=False,
+                                widget=forms.NumberInput(attrs={'class':'form-control input-sm','maxlength': 6, 'type': 'number'}))
+    hwtchrg =forms.DecimalField(label='運費', max_digits=10, decimal_places=2, max_value=99999999.99, min_value=0, required=False,
+                                widget=forms.NumberInput(attrs={'style':'width:100px', 'readonly':'readonly', 'class':'form-control input-sm','maxlength': 10, 'type': 'number'}))
+    hduagt = forms.DecimalField(label='DUAGT', max_digits=10, decimal_places=2, max_value=99999999.99, min_value=0, required=False,
+                                widget=forms.NumberInput(attrs={'class':'form-control input-sm','maxlength': 10, 'type': 'number'}))
+    httlfrt = forms.DecimalField(label='總運費', max_digits=10, decimal_places=2, max_value=99999999.99, min_value=0, required=False,
+                                widget=forms.NumberInput(attrs={'readonly':'readonly', 'class':'form-control input-sm','maxlength': 10, 'type': 'number'}))
+    htlfrtwd = forms.DecimalField(label='=TWD', max_digits=10, decimal_places=2, max_value=99999999.99, min_value=0, required=False,
+                                widget=forms.NumberInput(attrs={'readonly':'readonly', 'class':'form-control input-sm','maxlength': 10, 'type': 'number'}))
+
+    vwdspct = forms.DecimalField(label='體積差折讓%', max_digits=4, decimal_places=2, max_value=99.99, min_value=0, required=False,
+                                widget=forms.NumberInput(attrs={'class':'form-control input-sm','maxlength': 6, 'type': 'number'}))
+    vwdskglb = forms.DecimalField(label='總折', max_digits=6, decimal_places=2, max_value=9999.99, min_value=0, required=False,
+                                widget=forms.NumberInput(attrs={'class':'form-control input-sm','maxlength': 8, 'type': 'number'}))
+    vwdsper = forms.CharField(label='PER', max_length=2,
+                                widget=forms.TextInput(attrs={'class':'form-control input-sm'}))
+    ttldsamt = forms.DecimalField(label='金額', max_digits=10, decimal_places=2, max_value=99999999.99, min_value=0, required=False,
+                                widget=forms.NumberInput(attrs={'readonly':'readonly', 'class':'form-control input-sm','maxlength': 10, 'type': 'number'}))
+    ttldstwd = forms.DecimalField(label='=TWD', max_digits=10, decimal_places=2, max_value=99999999.99, min_value=0, required=False,
+                                widget=forms.NumberInput(attrs={'readonly':'readonly', 'class':'form-control input-sm','maxlength': 10, 'type': 'number'}))
+    hflfrtwd = forms.DecimalField(label='應收TWD', max_digits=10, decimal_places=2, max_value=99999999.99, min_value=0, required=False,
+                                widget=forms.NumberInput(attrs={'readonly':'readonly', 'class':'form-control input-sm','maxlength': 10, 'type': 'number'}))
+    hpayby = forms.CharField(label='付費方式', max_length=1, initial='K',
+                             widget=forms.TextInput(attrs={'class':'form-control input-sm'}))
+    howe = forms.IntegerField(label='尚欠', min_value=0, max_value=99999,
+                              widget=forms.NumberInput(attrs={'size':'5', 'class': 'form-control input-sm'}))
+    hadvsdd = forms.DateField(label='通知日期',
+                             widget=forms.TextInput(attrs={'readonly':'readonly','class':'form-control input-sm datepicker'}))
+    sccurn =  forms.ModelChoiceField(label='S/C => 幣別 & %', empty_label="選擇幣別", queryset=Exrate.objects.all(), to_field_name='code', required=False,
+                                     widget=forms.Select(attrs={'class':'form-control input-sm'}))
+    scpct = forms.DecimalField(label='SC%', max_digits=4, decimal_places=2, max_value=99.99, min_value=0, required=False,
+                                widget=forms.NumberInput(attrs={'style':'width:100px', 'class':'form-control input-sm','maxlength': 6, 'type': 'number'}))
+    scpkls = forms.DecimalField(label='PKLS & PER', max_digits=6, decimal_places=2, max_value=9999.99, min_value=0, required=False,
+                                widget=forms.NumberInput(attrs={'class':'form-control input-sm','maxlength': 8, 'type': 'number'}))
+    scper = forms.CharField(label='SCPER', max_length=2,
+                                widget=forms.TextInput(attrs={'style':'width:100px', 'class':'form-control input-sm'}))
+    scamt = forms.DecimalField(label='小計', max_digits=10, decimal_places=2, max_value=99999999.99, min_value=0, required=False,
+                                widget=forms.NumberInput(attrs={'readonly':'readonly', 'class':'form-control input-sm','maxlength': 10, 'type': 'number'}))
+    scamtwd = forms.DecimalField(label='計台幣', max_digits=8, decimal_places=2, max_value=999999.99, min_value=0, required=False,
+                                widget=forms.NumberInput(attrs={'readonly':'readonly', 'class':'form-control input-sm','maxlength': 8, 'type': 'number'}))
+    sctowho = forms.CharField(label='TO', max_length=12,
+                                widget=forms.TextInput(attrs={'class':'form-control input-sm'}))
+    codcurn = forms.ModelChoiceField(label='COD => 幣別', empty_label="選擇幣別", queryset=Exrate.objects.all(), to_field_name='code', required=False,
+                                     widget=forms.Select(attrs={'class':'form-control input-sm'}))
+    codamt = forms.DecimalField(label='COD金額', max_digits=10, decimal_places=2, max_value=99999999.99, min_value=0, required=False,
+                                widget=forms.NumberInput(attrs={'readonly':'readonly', 'class':'form-control input-sm','maxlength': 10, 'type': 'number'}))
+    codrcvdd = forms.DateField(label='收訖日',
+                             widget=forms.TextInput(attrs={'readonly':'readonly','class':'form-control input-sm datepicker'}))
+    codpaydd = forms.DateField(label='付給日',
+                             widget=forms.TextInput(attrs={'readonly':'readonly','class':'form-control input-sm datepicker'}))
+    hrmk = forms.CharField(label='附記', max_length=1,
+                                widget=forms.TextInput(attrs={'class':'form-control input-sm'}))
+    hdb = forms.CharField(label='是否完整收到=> RCVD D/N (CC ONLY)', max_length=1, initial='P',
+                             widget=forms.TextInput(attrs={'class':'form-control input-sm'}))
+    hcd = forms.CharField(label='RCVD C/N(針對指定貨)', max_length=1, initial='P',
+                             widget=forms.TextInput(attrs={'class':'form-control input-sm'}))
+    httlamt = forms.DecimalField(label='總應收', max_digits=9, decimal_places=2, max_value=9999999.99, min_value=0, required=False,
+                                widget=forms.NumberInput(attrs={'readonly':'readonly', 'class':'form-control input-sm','maxlength': 9, 'type': 'number'}))
+    ttlocamt = forms.DecimalField(label='ttlocamt', max_digits=9, decimal_places=2, max_value=9999999.99, min_value=0, required=False,
+                                widget=forms.NumberInput(attrs={'readonly':'readonly', 'class':'form-control input-sm','maxlength': 9, 'type': 'number'}))
+    dbcurn = forms.ModelChoiceField(label='DB幣別', empty_label="選擇幣別", queryset=Exrate.objects.all(), to_field_name='code', required=False,
+                                     widget=forms.Select(attrs={'class':'form-control input-sm'}))
+    dbexrate = forms.DecimalField(label='DB匯率',max_digits=9, decimal_places=5, max_value=9999.99999, min_value=0, required=False,
+                                widget=forms.NumberInput(attrs={'style':'width:100px', 'readonly':'readonly', 'class':'form-control input-sm','maxlength': 9, 'type': 'number'}))
+    dbamount = forms.DecimalField(label='dbamount', max_digits=10, decimal_places=2, max_value=99999999.99, min_value=0, required=False,
+                                widget=forms.NumberInput(attrs={'readonly':'readonly', 'class':'form-control input-sm','maxlength': 10, 'type': 'number'}))
+
     class Meta:
         model = Hawbin
         exclude = ['mawb',]

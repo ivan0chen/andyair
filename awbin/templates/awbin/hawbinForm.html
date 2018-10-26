@@ -14,8 +14,8 @@
       <a class="btn btn-warning btn-md" href="{% url 'awbin:mawbinList' %}">離開</a>
     </div>
     <div class="col-xs-12 col-sm-12">
-      <!--{% include "awbin/hawbinInput.html" %}-->
-      {{ form.as_p }}
+      {% include "awbin/hawbinInput.html" %}
+      <!--{{ form.as_p }}-->
     </div>
   </form>
   

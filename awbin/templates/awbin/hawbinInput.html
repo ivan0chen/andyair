@@ -6,256 +6,377 @@
     <!--{{ form.errors }}-->
     {{ form.non_field_errors }}
     <div class="row">
-      <div class="form-group col-sm-3">
-        {{ form.mawb.errors}}
-        {{ form.mawb.label_tag }}
-        {{ form.mawb }}
-      </div>
-      <div class="form-group col-sm-3">
-        {{ form.seqnr.errors}}
-        {{ form.seqnr.label_tag}}
-        {{ form.seqnr }}
-      </div>
-      <div class="form-group col-sm-3">
-        {{ form.prsdd.errors}}
-        {{ form.prsdd.label_tag}}
-        {{ form.prsdd }}
+      <div class="form-group col-sm-2">
+        {{ form.hawb.errors}}
+        {{ form.hawb.label_tag }}
+        {{ form.hawb }}
       </div>
       <div class="form-group col-sm-2">
-        {{ form.nrhbhold.errors}}
-        {{ form.nrhbhold.label_tag}}
-        {{ form.nrhbhold }}
+        {{ form.hlotnr.errors}}
+        {{ form.hlotnr.label_tag}}
+        {{ form.hlotnr }}
       </div>
-      <div class="form-group col-sm-1">
-        {{ form.podfax.errors}}
-        {{ form.podfax.label_tag}}
-        {{ form.podfax }}
+      <div class="form-group col-sm-2">
+        {{ form.belong.errors}}
+        {{ form.belong.label_tag}}
+        {{ form.belong }}
       </div>
-    </div>
-    <div class="row">
-      <div class="form-group col-sm-6">
-        {{ form.agtcode.errors}}
-        {{ form.agtcode.label_tag}}
-        {{ form.agtcode }}
+      <div class="form-group col-sm-2">
+        {{ form.nrofshb.errors}}
+        {{ form.nrofshb.label_tag}}
+        {{ form.nrofshb }}
       </div>
-
-      <div class="form-group col-sm-3">
-        {{ form.mfrom.errors}}
-        {{ form.mfrom.label_tag}}
-        {{ form.mfrom }}
+      <div class="form-group col-sm-2">
+        {{ form.pkgofhb.errors}}
+        {{ form.pkgofhb.label_tag}}
+        {{ form.pkgofhb }}
       </div>
-      <div class="form-group col-sm-3">
-        {{ form.mdepdd.errors}}
-        {{ form.mdepdd.label_tag}}
-        {{ form.mdepdd }}
+      <div class="form-group col-sm-2">
+        {{ form.hseqnr.errors}}
+        {{ form.hseqnr.label_tag}}
+        {{ form.hseqnr }}
       </div>
     </div>
     <div class="row">
       <div class="form-group col-sm-4">
-        {{ form.metaflt.errors}}
-        {{ form.metaflt.label_tag}}
-        <div class="input-group">
-          {{ form.metaflt }}
-          <span class="input-group-addon" style="padding: 0;">
-          {{ form.metadd.errors}}
-          <!--{{ form.metadd.label_tag}}-->
-          {{ form.metadd }}
-          </span>
-        </div>
+        {{ form.hshpr.errors}}
+        {{ form.hshpr.label_tag}}
+        {{ form.hshpr }}
       </div>
       <div class="form-group col-sm-4">
-        {{ form.marvflt.errors}}
-        {{ form.marvflt.label_tag}}
-        <div class="input-group">
-
-          {{ form.marvflt }}
-          <span class="input-group-addon" style="padding: 0;">
-          {{ form.marvdd.errors}}
-          <!--{{ form.marvdd.label_tag}}-->
-          {{ form.marvdd }}
-          </span>
-        </div>
+        {{ form.hcnee.errors}}
+        {{ form.hcnee.label_tag}}
+        {{ form.hcnee }}
       </div>
-      <div class="form-group col-sm-2">
-        {{ form.mpuawbdd.errors}}
-        {{ form.mpuawbdd.label_tag}}
-        {{ form.mpuawbdd }}
-      </div>
-      <div class="form-group col-sm-2">
-        {{ form.nrofhawb.errors}}
-        {{ form.nrofhawb.label_tag}}
-        {{ form.nrofhawb }}
-      </div>
-    </div>
-    <div class="row">
-      <div class="form-group col-sm-3">
-        {{ form.mcusdept.errors}}
-        {{ form.mcusdept.label_tag}}
-        {{ form.mcusdept }}
-      </div>
-      <div class="form-group col-sm-3">
-        {{ form.msvcknd.errors}}
-        {{ form.msvcknd.label_tag}}
-        {{ form.msvcknd }}
-      </div>
-      <div class="form-group col-sm-3">
-        {{ form.marvapt.errors}}
-        {{ form.marvapt.label_tag}}
-        {{ form.marvapt }}
-      </div>
-      <div class="form-group col-sm-3">
-        {{ form.munlodwh.errors}}
-        {{ form.munlodwh.label_tag}}
-        {{ form.munlodwh }}
-      </div>
-
-    </div>
-    <!---->
-    <!--<div class="row">-->
-          <!--<div class="col-sm-6">-->
-            <!--<div class="input-group">-->
-              <!--<input type="text" name="temp" class="form-control" aria-label="temperature">-->
-              <!--<span class="input-group-addon">-->
-              <!--<select name="unit_temp">-->
-                  <!--<option value="C"> &deg;C</option>-->
-                  <!--<option value="F"> &deg;F</option>-->
-                  <!--<option value="K"> &deg;K</option>-->
-                <!--</select></span>-->
-            <!--</div>-->
-          <!--</div>-->
-    <!--</div>-->
-    <!---->
-    <div class="row">
-      <fieldset>
-        <!--<legend>包裝與重量</legend>-->
-      <div class="form-group col-sm-3">
-          {{ form.mpkgnr.errors}}
-          {{ form.mpkgnr.label_tag}}
-        <div class="input-group">
-          {{ form.mpkgnr }}
-          <span class="input-group-addon" style="padding: 0;">
-          {{ form.mpkgunit.errors}}
-          <!--{{ form.mpkgunit.label_tag}}-->
-          {{ form.mpkgunit }}
-          </span>
-        </div>
-      </div>
-
-      <div class="form-group col-sm-3">
-        {{ form.mgw.errors}}
-        {{ form.mgw.label_tag}}
-        <div class="input-group">
-          {{ form.mgw }}
-          <span class="input-group-addon" style="padding: 0;">
-          {{ form.mgwunit.errors}}
-          <!--{{ form.mgwunit.label_tag}}-->
-          {{ form.mgwunit }}
-          </span>
-        </div>
-      </div>
-      <div class="form-group col-sm-3">
-        {{ form.mchgwt.errors}}
-        {{ form.mkgchgwt.errors}}
-        {{ form.mchgwt.label_tag}}
-        <div class="input-group">
-          {{ form.mchgwt }}
-          <span class="input-group-addon" style="padding: 0;">
-          {{ form.mchgunit.errors}}
-          <!--{{ form.mchgunit.label_tag}}-->
-          {{ form.mchgunit }}
-          </span>
-        </div>
-      </div>
-
-      <div class="form-group col-sm-3">
-        <!--{{ form.mkgchgwt.errors}}-->
-        {{ form.mkgchgwt.label_tag}}
-        <div class="input-group">
-          {{ form.mkgchgwt }}
-          <span class="input-group-addon" style="padding: 0;">
-            {{ form.mccpp.errors}}
-            <!--{{ form.mccpp.label_tag}}-->
-            {{ form.mccpp }}
-          </span>
-        </div>
-      </div>
-      </fieldset>
-    </div>
-
-    
-    <div class="row">
       <div class="form-group col-sm-4">
-        {{ form.mcurncy.errors}}
-        {{ form.mcurncy.label_tag}}
+        {{ form.hnotify.errors}}
+        {{ form.hnotify.label_tag}}
+        {{ form.hnotify }}
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-3">
+        {{ form.hfrom.errors}}
+        {{ form.hfrom.label_tag}}
+        {{ form.hfrom }}
+      </div>
+      <div class="form-group col-sm-3">
+        {{ form.fnldest.errors}}
+        {{ form.fnldest.label_tag}}
+        {{ form.fnldest }}
+      </div>
+      <div class="form-group col-sm-3">
+        {{ form.hrlsdd.errors}}
+        {{ form.hrlsdd.label_tag}}
+        {{ form.hrlsdd }}
+      </div>
+      <div class="form-group col-sm-3">
+        {{ form.hslsman.errors}}
+        {{ form.hslsman.label_tag}}
+        {{ form.hslsman }}
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-2">
+        {{ form.ro.errors}}
+        {{ form.ro.label_tag}}
+        {{ form.ro }}
+      </div>
+      <div class="form-group col-sm-2">
+        {{ form.hacct.errors}}
+        {{ form.hacct.label_tag}}
+        {{ form.hacct }}
+      </div>
+      <div class="form-group col-sm-2">
+        {{ form.cusapp.errors}}
+        {{ form.cusapp.label_tag}}
+        {{ form.cusapp }}
+      </div>
+      <div class="form-group col-sm-3">
+        {{ form.trans.errors}}
+        {{ form.trans.label_tag}}
         <div class="input-group">
-          {{ form.mcurncy }}
+          {{ form.trans }}
           <span class="input-group-addon" style="padding: 0;">
-          {{ form.mexchg.errors}}
-          <!--{{ form.mexchg.label_tag}}-->
-          {{ form.mexchg }}
+          {{ form.trsdb.errors}}
+          <!--{{ form.trsdb.label_tag}}-->
+          {{ form.trsdb }}
+          </span>
+        </div>
+      </div>
+      <div class="form-group col-sm-3">
+        {{ form.dtd.errors}}
+        {{ form.dtd.label_tag}}
+        <div class="input-group">
+          {{ form.dtd }}
+          <span class="input-group-addon" style="padding: 0;">
+            {{ form.dtddb.errors}}
+            <!--{{ form.dtddb.label_tag}}-->
+            {{ form.dtddb }}
+          </span>
+        </div>
+      </div>
+      
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-10">
+        {{ form.hgoods.errors}}
+        {{ form.hgoods.label_tag}}
+        {{ form.hgoods }}
+      </div>
+      <div class="form-group col-sm-2">
+        {{ form.skdpk.errors}}
+        {{ form.skdpk.label_tag}}
+        {{ form.skdpk }}
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-3">
+          {{ form.hpkgnr.errors}}
+          {{ form.hpkgnr.label_tag}}
+        <div class="input-group">
+          {{ form.hpkgnr }}
+          <span class="input-group-addon" style="padding: 0;">
+          {{ form.hpkgunit.errors}}
+          <!--{{ form.hpkgunit.label_tag}}-->
+          {{ form.hpkgunit }}
+          </span>
+        </div>
+      </div>
+      <div class="form-group col-sm-3">
+        {{ form.hgw.errors}}
+        {{ form.hgw.label_tag}}
+        <div class="input-group">
+          {{ form.hgw }}
+          <span class="input-group-addon" style="padding: 0;">
+          {{ form.hgwunit.errors}}
+          <!--{{ form.hgwunit.label_tag}}-->
+          {{ form.hgwunit }}
+          </span>
+        </div>
+      </div>
+      <div class="form-group col-sm-3">
+        {{ form.hchgwt.errors}}
+        {{ form.hkgchgwt.errors}}
+        {{ form.hchgwt.label_tag}}
+        <div class="input-group">
+          {{ form.hchgwt }}
+          <span class="input-group-addon" style="padding: 0;">
+          {{ form.hchgunit.errors}}
+          <!--{{ form.hchgunit.label_tag}}-->
+          {{ form.hchgunit }}
+          </span>
+        </div>
+      </div>
+      <div class="form-group col-sm-3">
+        <!--{{ form.hkgchgwt.errors}}-->
+        {{ form.hkgchgwt.label_tag}}
+        <div class="input-group">
+          {{ form.hkgchgwt }}
+          <span class="input-group-addon" style="padding: 0;">
+            {{ form.hccpp.errors}}
+            <!--{{ form.hccpp.label_tag}}-->
+            {{ form.hccpp }}
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-3">
+        {{ form.hcurncy.errors}}
+        {{ form.hcurncy.label_tag}}
+        <div class="input-group">
+          {{ form.hcurncy }}
+          <span class="input-group-addon" style="padding: 0;">
+          {{ form.hexchg.errors}}
+          <!--{{ form.hexchg.label_tag}}-->
+          {{ form.hexchg }}
+          </span>
+        </div>
+      </div>
+      <div class="form-group col-sm-3">
+        {{ form.hfrtrte.errors}}
+        {{ form.hfrtrte.label_tag}}
+        <div class="input-group">
+          {{ form.hfrtrte }}
+          <span class="input-group-addon" style="padding: 0;">
+            {{ form.hwtchrg.errors}}
+            <!--{{ form.hwtchrg.label_tag}}-->
+            {{ form.hwtchrg }}
           </span>
         </div>
       </div>
       <div class="form-group col-sm-2">
-        {{ form.mfrtrte.errors}}
-        {{ form.mfrtrte.label_tag}}
-        {{ form.mfrtrte }}
+        {{ form.hduagt.errors}}
+        {{ form.hduagt.label_tag}}
+        {{ form.hduagt }}
       </div>
-      <div class="form-group col-sm-3">
-        {{ form.mwtchrg.errors}}
-        {{ form.mwtchrg.label_tag}}
-        {{ form.mwtchrg }}
+      <div class="form-group col-sm-2">
+        {{ form.httlfrt.errors}}
+        {{ form.httlfrt.label_tag}}
+        {{ form.httlfrt }}
       </div>
-      <div class="form-group col-sm-3">
-        {{ form.mwtchtwd.errors}}
-        {{ form.mwtchtwd.label_tag}}
-        {{ form.mwtchtwd }}
-      </div>
-
-    </div>
-    <div class="row">
-      <div class="form-group col-sm-3">
-        {{ form.mduagt.errors}}
-        {{ form.mduagt.label_tag}}
-        {{ form.mduagt }}
-      </div>
-      <div class="form-group col-sm-3">
-        {{ form.mducar.errors}}
-        {{ form.mducar.label_tag}}
-        {{ form.mducar }}
-      </div>
-      <div class="form-group col-sm-3">
-        {{ form.mttlfrt.errors}}
-        {{ form.mttlfrt.label_tag}}
-        {{ form.mttlfrt }}
-      </div>
-      <div class="form-group col-sm-3">
-        {{ form.mtlfrtwd.errors}}
-        {{ form.mtlfrtwd.label_tag}}
-        {{ form.mtlfrtwd }}
+      <div class="form-group col-sm-2">
+        {{ form.htlfrtwd.errors}}
+        {{ form.htlfrtwd.label_tag}}
+        {{ form.htlfrtwd }}
       </div>
     </div>
     <div class="row">
-      <div class="form-group col-sm-3">
-        {{ form.rdbnr.errors}}
-        {{ form.rdbnr.label_tag}}
-        {{ form.rdbnr }}
+      <div class="form-group col-sm-2">
+        {{ form.vwdspct.errors}}
+        {{ form.vwdspct.label_tag}}
+        {{ form.vwdspct }}
+      </div>
+      <div class="form-group col-sm-2">
+        {{ form.vwdskglb.errors}}
+        {{ form.vwdskglb.label_tag}}
+        {{ form.vwdskglb }}
+      </div>
+      <div class="form-group col-sm-2">
+        {{ form.vwdsper.errors}}
+        {{ form.vwdsper.label_tag}}
+        {{ form.vwdsper }}
       </div>
       <div class="form-group col-sm-3">
-        {{ form.rcdnr.errors}}
-        {{ form.rcdnr.label_tag}}
-        {{ form.rcdnr }}
+        {{ form.ttldsamt.errors}}
+        {{ form.ttldsamt.label_tag}}
+        {{ form.ttldsamt }}
       </div>
       <div class="form-group col-sm-3">
-        {{ form.trsdbnr.errors}}
-        {{ form.trsdbnr.label_tag}}
-        {{ form.trsdbnr }}
-      </div>
-      <div class="form-group col-sm-3">
-        {{ form.dtddbnr.errors}}
-        {{ form.dtddbnr.label_tag}}
-        {{ form.dtddbnr }}
+        {{ form.ttldstwd.errors}}
+        {{ form.ttldstwd.label_tag}}
+        {{ form.ttldstwd }}
       </div>
     </div>
+    <div class="row">
+      <div class="form-group col-sm-3">
+        {{ form.hflfrtwd.errors}}
+        {{ form.hflfrtwd.label_tag}}
+        {{ form.hflfrtwd }}
+      </div>
+      <div class="form-group col-sm-3">
+        {{ form.hpayby.errors}}
+        {{ form.hpayby.label_tag}}
+        {{ form.hpayby }}
+      </div>
+      <div class="form-group col-sm-3">
+        {{ form.howe.errors}}
+        {{ form.howe.label_tag}}
+        {{ form.howe }}
+      </div>
+      <div class="form-group col-sm-3">
+        {{ form.hadvsdd.errors}}
+        {{ form.hadvsdd.label_tag}}
+        {{ form.hadvsdd }}
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-3">
+        {{ form.sccurn.errors}}
+        {{ form.sccurn.label_tag}}
+        <div class="input-group">
+          {{ form.sccurn }}
+          <span class="input-group-addon" style="padding: 0;">
+            {{ form.scpct.errors}}
+            <!--{{ form.scpct.label_tag}}-->
+            {{ form.scpct }}
+          </span>
+        </div>
+      </div>
+      <div class="form-group col-sm-3">
+        {{ form.scpkls.errors}}
+        {{ form.scpkls.label_tag}}
+        <div class="input-group">
+          {{ form.scpkls }}
+          <span class="input-group-addon" style="padding: 0;">
+            {{ form.scper.errors}}
+            <!--{{ form.scper.label_tag}}-->
+            {{ form.scper }}
+          </span>
+        </div>
+      </div>
+      <div class="form-group col-sm-2">
+        {{ form.scamt.errors}}
+        {{ form.scamt.label_tag}}
+        {{ form.scamt }}
+      </div>
+      <div class="form-group col-sm-2">
+        {{ form.scamtwd.errors}}
+        {{ form.scamtwd.label_tag}}
+        {{ form.scamtwd }}
+      </div>
+      <div class="form-group col-sm-2">
+        {{ form.sctowho.errors}}
+        {{ form.sctowho.label_tag}}
+        {{ form.sctowho }}
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-3">
+        {{ form.codcurn.errors}}
+        {{ form.codcurn.label_tag}}
+        {{ form.codcurn }}
+      </div>
+      <div class="form-group col-sm-3">
+        {{ form.codamt.errors}}
+        {{ form.codamt.label_tag}}
+        {{ form.codamt }}
+      </div>
+      <div class="form-group col-sm-2">
+        {{ form.codrcvdd.errors}}
+        {{ form.codrcvdd.label_tag}}
+        {{ form.codrcvdd }}
+      </div>
+      <div class="form-group col-sm-2">
+        {{ form.codpaydd.errors}}
+        {{ form.codpaydd.label_tag}}
+        {{ form.codpaydd }}
+      </div>
+      <div class="form-group col-sm-2">
+        {{ form.hrmk.errors}}
+        {{ form.hrmk.label_tag}}
+        {{ form.hrmk }}
+      </div>
+    </div>
+    <div class="row">
 
+      <div class="form-group col-sm-4">
+        {{ form.hdb.errors}}
+        {{ form.hdb.label_tag}}
+        {{ form.hdb }}
+      </div>
+      <div class="form-group col-sm-3">
+        {{ form.hcd.errors}}
+        {{ form.hcd.label_tag}}
+        {{ form.hcd }}
+      </div>
+      <div class="form-group col-sm-2">
+        {{ form.httlamt.errors}}
+        {{ form.httlamt.label_tag}}
+        {{ form.httlamt }}
+      </div>
+      <div class="form-group col-sm-3">
+        {{ form.ttlocamt.errors}}
+        {{ form.ttlocamt.label_tag}}
+        {{ form.ttlocamt }}
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-2">
+        {{ form.dbcurn.errors}}
+        {{ form.dbcurn.label_tag}}
+        {{ form.dbcurn }}
+      </div>
+      <div class="form-group col-sm-2">
+        {{ form.dbexrate.errors}}
+        {{ form.dbexrate.label_tag}}
+        {{ form.dbexrate }}
+      </div>
+      <div class="form-group col-sm-3">
+        {{ form.dbamount.errors}}
+        {{ form.dbamount.label_tag}}
+        {{ form.dbamount }}
+      </div>
+    </div>
 
