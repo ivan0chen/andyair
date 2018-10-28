@@ -13,7 +13,7 @@ class Custadv(WhoColumns):
     ipntfmk = models.CharField(max_length=30, blank=True)      #備註
 
     def __str__(self):
-        return self.cuno + '-' + self.ipntfy
+        return self.cuno + '-' + self.ipntfy + '電話:' + self.ipntftl + '傳真:' + self.ipntffx
 
 class Custqtn(WhoColumns):
     custadv = models.ForeignKey(Custadv, on_delete=models.CASCADE)
