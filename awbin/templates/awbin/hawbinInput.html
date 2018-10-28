@@ -48,23 +48,7 @@
         {{ form.hcnee.label_tag}}
         {{ form.hcnee }}
       </div>
-      <div class="form-group col-sm-4">
-        {{ form.hnotify.errors}}
-        {{ form.hnotify.label_tag}}
-        {{ form.hnotify }}
-      </div>
-    </div>
-    <div class="row">
-      <div class="form-group col-sm-3">
-        {{ form.hfrom.errors}}
-        {{ form.hfrom.label_tag}}
-        {{ form.hfrom }}
-      </div>
-      <div class="form-group col-sm-3">
-        {{ form.fnldest.errors}}
-        {{ form.fnldest.label_tag}}
-        {{ form.fnldest }}
-      </div>
+
       <div class="form-group col-sm-3">
         {{ form.hrlsdd.errors}}
         {{ form.hrlsdd.label_tag}}
@@ -74,12 +58,29 @@
                 <span class="glyphicon glyphicon-calendar"></span>
             </span>
         </div>
-        <!--{{ form.hrlsdd }}-->
       </div>
-      <div class="form-group col-sm-3">
+      <div class="form-group col-sm-1">
         {{ form.hslsman.errors}}
         {{ form.hslsman.label_tag}}
         {{ form.hslsman }}
+      </div>
+
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-6">
+        {{ form.hnotify.errors}}
+        {{ form.hnotify.label_tag}}
+        {{ form.hnotify }}
+      </div>
+      <div class="form-group col-sm-3">
+        {{ form.hfrom.errors}}
+        {{ form.hfrom.label_tag}}
+        {{ form.hfrom }}
+      </div>
+      <div class="form-group col-sm-3">
+        {{ form.fnldest.errors}}
+        {{ form.fnldest.label_tag}}
+        {{ form.fnldest }}
       </div>
     </div>
     <div class="row">

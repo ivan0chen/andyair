@@ -116,10 +116,9 @@ class Hawbin(WhoColumns):
     hcd = models.CharField(max_length=1, default="P", blank=True)
     httlamt = models.DecimalField(max_digits=9, decimal_places=2, null=True,blank=True)
     ttlocamt = models.DecimalField(max_digits=9, decimal_places=2, null=True,blank=True)
-    dbcurn = models.CharField(max_length=3, blank=True, null=True)
-    dbexrate = models.DecimalField(max_digits=9, decimal_places=5, null=True,blank=True)
-    dbamount = models.DecimalField(max_digits=10, decimal_places=2, null=True,blank=True)
-    trsdb = models.CharField(max_length=6, blank=True, null=True)
+    # dbcurn = models.CharField(max_length=3, blank=True, null=True)
+    # dbexrate = models.DecimalField(max_digits=9, decimal_places=5, null=True,blank=True)
+    # dbamount = models.DecimalField(max_digits=10, decimal_places=2, null=True,blank=True)
 
     class Meta:
         unique_together = (('mawb', 'hawb'),)
