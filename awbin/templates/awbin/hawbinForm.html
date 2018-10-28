@@ -1,7 +1,14 @@
 {% extends "awbin/base.html" %}
-{% block extra_style%}
 
+{% block extra_style%}
 {% endblock %}
+{% block extra_js%}
+<link rel="stylesheet" href="{% static 'main/css/bootstrap-datetimepicker.min.css' %}">
+<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" integrity="sha256-yMjaV542P+q1RnH6XByCPDfUFhmOafWbeLPmqKh11zo=" crossorigin="anonymous" />-->
+<script src="{% static 'main/js/bootstrap-datetimepicker.min.js' %}"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js" integrity="sha256-5YmaxAwMjIpMrVlK84Y/+NjCpKnFYa8bWWBbUHSBGfU=" crossorigin="anonymous"></script>-->
+{% endblock %}
+
 {% block app_content %}
 
 {% include "awbin/nav.html" with hawbin=hawbin title=title %}
@@ -15,7 +22,6 @@
     </div>
     <div class="col-xs-12 col-sm-12">
       {% include "awbin/hawbinInput.html" %}
-      <!--{{ form.as_p }}-->
     </div>
   </form>
   
@@ -38,7 +44,13 @@
             toggleActive: true
         }).datepicker("setDate", "0");
 
-        
+        $('#datetimepicker1').datetimepicker({
+            format: 'yyyy-mm-dd hh:ii',
+            todayBtn: "linked",
+            autoclose: true,
+            todayHighlight: true,
+            toggleActive: true
+        });
         
   });
 </script>

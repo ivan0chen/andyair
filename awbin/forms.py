@@ -138,7 +138,7 @@ class HawbinForm(forms.ModelForm):
     hfrom = forms.ModelChoiceField(label='起運站', empty_label="選擇起運站", queryset=OrgDest.objects.all().order_by('code'),
                                    widget=forms.Select(attrs={'class':'form-control input-sm'}))
     hrlsdd = forms.DateField(label='贖單日',
-                             widget=forms.TextInput(attrs={'readonly':'readonly','class':'form-control input-sm datepicker'}))
+                             widget=forms.TextInput(attrs={'readonly':'readonly','class':'form-control input-sm'}))
 
     ro = forms.CharField(label='指定貨?', max_length=1, initial='N',
                          widget=forms.Select(choices=YN_CHOICES, attrs={'class': 'form-control input-sm'}))
