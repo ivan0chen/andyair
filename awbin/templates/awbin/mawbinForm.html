@@ -24,6 +24,10 @@
   <form id="masterForm" role="form" method="post">{% csrf_token %}
     <div class="btn-group btn-group-md" style="margin-top:-15px; float: right;">
       {% if mawbin %}
+        <a class="btn btn-dark btn-md" href="#debit">Debit Note</a>
+        <a class="btn btn-dark btn-md" href="#credit">Credit Note</a>
+        <a class="btn btn-dark btn-md" href="#cod">COD</a>
+        <a class="btn btn-dark btn-md" href="#remark">Remark</a>
         <a class="btn btn-success btn-md" href="{% url 'awbin:hawbinCreate' mawbin.id %}">New HAWB</a>
       {% endif %}
       <input class="btn btn-primary btn-md" type="submit" value="存檔"/>
@@ -31,7 +35,10 @@
     </div>
     <div class="col-xs-12 col-sm-12">
       {% include "awbin/mawbinInput.html" %}
-      <!--{{ form.as_p }}-->
+      <h4 id="cod">COD</h4>
+      <h4 id="debit">Debit Note</h4>
+      <h4 id="credit">Credit Note</h4>
+      <h4 id="remark">Remark</h4>
     </div>
   </form>
   

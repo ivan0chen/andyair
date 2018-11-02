@@ -3,6 +3,7 @@ from custcsn.models import Custcsn
 from custadv.models import Custadv
 from shpr.models import Shpr
 from main.models import OrgDest
+# from inpfee.models import Inpfee
 # from exrate.models import Exrate
 from main.models import WhoColumns
 
@@ -125,3 +126,69 @@ class Hawbin(WhoColumns):
 
     def __str__(self):
         return self.hawb + '-' + self.hlotnr
+
+class Acctin(WhoColumns):
+    mawb = models.ForeignKey(Mawbin, on_delete=models.CASCADE)
+    hawb = models.ForeignKey(Hawbin, on_delete=models.CASCADE)
+    dc = models.CharField(max_length=1, blank=True, null=True)
+    dcno = models.CharField(max_length=9)
+    dccurn = models.CharField(max_length=3, blank=True, null=True)
+    exrate1 = models.DecimalField(max_digits=9, decimal_places=5, null=True,blank=True)
+    dcamt = models.DecimalField(max_digits=10, decimal_places=2, null=True,blank=True)
+    issdd = models.DateField(blank=True)
+    status0 = models.CharField(max_length=1, blank=True, null=True)
+    status1 = models.CharField(max_length=1, blank=True, null=True)
+    status2 = models.CharField(max_length=1, blank=True, null=True)
+    status3 = models.CharField(max_length=1, blank=True, null=True)
+    rcvdd = models.DateField(blank=True)
+    rcvamt = models.DecimalField(max_digits=10, decimal_places=2, null=True,blank=True)
+    balamt = models.DecimalField(max_digits=10, decimal_places=2, null=True,blank=True)
+    payclr = models.CharField(max_length=1, blank=True, null=True)
+    actagno1 = models.ForeignKey(Custcsn, on_delete=models.DO_NOTHING, max_length=6, blank=True, null=True)
+
+    def __str__(self):
+        return  self.dcno + ' - ' + str(self.dcamt)
+
+class Rmkin(WhoColumns):
+    mawb = models.ForeignKey(Mawbin, on_delete=models.CASCADE)
+    hawb = models.ForeignKey(Hawbin, on_delete=models.CASCADE)
+    codr = models.CharField(max_length=3)
+    statement = models.CharField(max_length=60)
+    irrno = models.CharField(max_length=2)
+
+    def __str__(self):
+        return  self.codr + ' - ' + self.statement
+
+class Accin(WhoColumns):
+    mawb = models.ForeignKey(Mawbin, on_delete=models.CASCADE)
+    hawb = models.ForeignKey(Hawbin, on_delete=models.CASCADE)
+    accno = models.CharField(max_length=10, unique=True)
+    cscode = models.ForeignKey(Custcsn, on_delete=models.DO_NOTHING, max_length=6, blank=True, null=True)
+    invidno = models.CharField(max_length=10)
+    accdate = models.DateField(blank=True)
+    accamt = models.DecimalField(max_digits=10, decimal_places=2, null=True,blank=True)
+    ttltax = models.DecimalField(max_digits=9, decimal_places=2, null=True,blank=True)
+    recamt = models.DecimalField(max_digits=10, decimal_places=2, null=True,blank=True)
+    balamt = models.DecimalField(max_digits=10, decimal_places=2, null=True,blank=True)
+    invno = models.CharField(max_length=11, null=True,blank=True)
+    dpt = models.CharField(max_length=1, null=True,blank=True)
+    mth = models.CharField(max_length=1, null=True,blank=True)
+    appdate = models.DateField(blank=True, null=True)
+    invno2 = models.CharField(max_length=11, null=True,blank=True)
+
+    def __str__(self):
+        return self.accno + '-' + str(self.accamt) + '-' + str(self.ttltax)
+
+class Accdtl(WhoColumns):
+    mawb = models.ForeignKey(Mawbin, on_delete=models.CASCADE)
+    hawb = models.ForeignKey(Hawbin, on_delete=models.CASCADE)
+    accno = models.CharField(max_length=10, unique=True)
+    codo = models.CharField(max_length=3)
+    ocname = models.CharField(max_length=30)
+    tax = models.CharField(max_length=1)
+    ocamt = models.DecimalField(max_digits=9, decimal_places=2, null=True,blank=True)
+    occost = models.DecimalField(max_digits=9, decimal_places=2, null=True,blank=True)
+
+    def __str__(self):
+        return self.accno + '-' + self.codo + '-' + str(self.ocamt)
+

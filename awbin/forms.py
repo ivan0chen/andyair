@@ -123,6 +123,7 @@ class MawbinForm(forms.ModelForm):
 
 class HawbinForm(forms.ModelForm):
     YN_CHOICES = (('Y', 'Y'), ('N', 'N'))
+    RCVD_CHOICES = (('Y', 'Y'), ('N', 'N'), ('X', 'X'), ('P', 'P'))
     hawb = forms.CharField(label='HAWB#', max_length=12, widget=forms.TextInput(attrs={'class':'form-control input-sm'}))
     hlotnr = forms.CharField(label='LOT#', max_length=9, widget=forms.TextInput(attrs={'class':'form-control input-sm'}))
     belong = forms.CharField(label='Belong#', max_length=9, widget=forms.TextInput(attrs={'class':'form-control input-sm'}))
@@ -218,7 +219,7 @@ class HawbinForm(forms.ModelForm):
     sccurn =  forms.ModelChoiceField(label='S/C => 幣別 & %', empty_label="選擇幣別", queryset=Exrate.objects.all(), to_field_name='code', required=False,
                                      widget=forms.Select(attrs={'class':'form-control input-sm'}))
     scpct = forms.DecimalField(label='SC%', max_digits=4, decimal_places=2, max_value=99.99, min_value=0, required=False,
-                                widget=forms.NumberInput(attrs={'style':'width:100px', 'class':'form-control input-sm','placeholder':'%'}))
+                                widget=forms.NumberInput(attrs={'style':'width:75px', 'class':'form-control input-sm','placeholder':'%'}))
     scpkls = forms.DecimalField(label='PKLS & PER', max_digits=6, decimal_places=2, max_value=9999.99, min_value=0, required=False,
                                 widget=forms.NumberInput(attrs={'class':'form-control input-sm','maxlength': 8, 'type': 'number'}))
     scper = forms.CharField(label='SCPER', max_length=2,
@@ -240,9 +241,9 @@ class HawbinForm(forms.ModelForm):
     hrmk = forms.CharField(label='附記', max_length=1,
                                 widget=forms.TextInput(attrs={'class':'form-control input-sm'}))
     hdb = forms.CharField(label='是否完整收到=> RCVD D/N (CC ONLY)', max_length=1, initial='P',
-                             widget=forms.TextInput(attrs={'class':'form-control input-sm'}))
+                          widget=forms.Select(choices=RCVD_CHOICES, attrs={'class': 'form-control input-sm'}))
     hcd = forms.CharField(label='RCVD C/N(針對指定貨)', max_length=1, initial='P',
-                             widget=forms.TextInput(attrs={'class':'form-control input-sm'}))
+                          widget=forms.Select(choices=RCVD_CHOICES, attrs={'class': 'form-control input-sm'}))
     httlamt = forms.DecimalField(label='總應收', max_digits=9, decimal_places=2, max_value=9999999.99, min_value=0, required=False,
                                 widget=forms.NumberInput(attrs={'readonly':'readonly', 'class':'form-control input-sm','maxlength': 9, 'type': 'number'}))
     ttlocamt = forms.DecimalField(label='ttlocamt', max_digits=9, decimal_places=2, max_value=9999999.99, min_value=0, required=False,
