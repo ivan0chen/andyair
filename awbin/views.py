@@ -1,8 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from awbin.models import Mawbin, Hawbin
-from awbin.forms import MawbinForm, HawbinForm
+from awbin.models import Mawbin, Hawbin, Acctin
+from awbin.forms import MawbinForm, HawbinForm, DebitForm
 
 
 @login_required
@@ -140,4 +140,27 @@ def hawbinDelete(request, pk, template_name='awbin/hawbinDelete.html'):
     ctx['hawbin'] = hawbin
     ctx['form'] = form
     ctx['title'] = 'HAWB Delete'
+    return render(request, template_name, ctx)
+
+@login_required
+def dbnoteNew(request, parent_pk, template_name='awbin/dbnoteNew.html'):
+    mawbin = get_object_or_404(Mawbin, pk=parent_pk)
+    # print(mawbin)
+    form = DebitForm(request.POST or None)
+    # print(form)
+    # print(form.is_valid())
+    if form.is_valid():
+        dbnote = form.save(commit=False)
+        dbnote.mawbin = mawbin
+        dbnote.created_by = request.user
+        dbnote.last_updated_by = request.user
+        dbnote.save()
+        print(dbnote)
+        messages.success(request, 'Debit資料已新增！')
+        return redirect('awbin:mawbinUpdate', parent_pk)
+    ctx = {}
+    ctx["form"] = form
+    ctx["mawbin"] = mawbin
+    ctx['debits'] = Acctin.objects.filter(mawb=mawbin)
+    ctx['title'] = ' New Debit'
     return render(request, template_name, ctx)

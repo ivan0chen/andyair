@@ -128,19 +128,19 @@ class Hawbin(WhoColumns):
         return self.hawb + '-' + self.hlotnr
 
 class Acctin(WhoColumns):
-    mawb = models.ForeignKey(Mawbin, on_delete=models.CASCADE)
-    hawb = models.ForeignKey(Hawbin, on_delete=models.CASCADE)
+    mawb = models.ForeignKey(Mawbin, on_delete=models.SET_NULL, blank=True, null=True,)
+    hawb = models.ForeignKey(Hawbin, on_delete=models.SET_NULL, blank=True, null=True,)
     dc = models.CharField(max_length=1, blank=True, null=True)
     dcno = models.CharField(max_length=9)
     dccurn = models.CharField(max_length=3, blank=True, null=True)
     exrate1 = models.DecimalField(max_digits=9, decimal_places=5, null=True,blank=True)
     dcamt = models.DecimalField(max_digits=10, decimal_places=2, null=True,blank=True)
-    issdd = models.DateField(blank=True)
+    issdd = models.DateField(null=True,blank=True)
     status0 = models.CharField(max_length=1, blank=True, null=True)
     status1 = models.CharField(max_length=1, blank=True, null=True)
     status2 = models.CharField(max_length=1, blank=True, null=True)
     status3 = models.CharField(max_length=1, blank=True, null=True)
-    rcvdd = models.DateField(blank=True)
+    rcvdd = models.DateField(null=True,blank=True)
     rcvamt = models.DecimalField(max_digits=10, decimal_places=2, null=True,blank=True)
     balamt = models.DecimalField(max_digits=10, decimal_places=2, null=True,blank=True)
     payclr = models.CharField(max_length=1, blank=True, null=True)

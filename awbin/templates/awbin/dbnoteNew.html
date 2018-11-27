@@ -1,0 +1,68 @@
+<form role="form" method="post" action="{% url 'awbin:dbnoteNew' mawbin.id %}">{% csrf_token %}
+  <table style="margin-left: 1em; width: 97.5%;" class="table table-hover table-bordered table-responsive ">
+    <thead>
+      <tr>
+        <th style="width: 1%;vertical-align: middle;display:none;">#ID</th>
+        <th style="width: 1%;vertical-align: middle;">#</th>
+        <th style="width: 22%;vertical-align: middle;">DB#</th>
+        <th style="width: 19%;vertical-align: middle;">幣別</th>
+        <th style="vertical-align: middle">金額</th>
+        <th class="text-center">
+          <button class="btn btn-default btn-sm" disabled>
+          <span class="glyphicon glyphicon-hand-down"></span>&nbsp;Action</button>
+        </th>
+      </tr>
+    </thead>
+    <tbody style="background-color:white">
+      <tr>
+        {{ form.non_field_errors }}
+        <td style="display:none;">
+          <div class="form-group">
+             {{ form.id.errors}}
+             {{ form.id }}
+          </div>
+        </td>
+        <td style="width: 1%;vertical-align: middle;text-align:center;">X</td>
+        <td class="tabledit-edit-mode">
+          <span class="tabledit-span" style="display:none"></span>
+            {{ form.dcno.errors}}
+            {{ form.dcno }}
+        </td>
+        <td class="tabledit-edit-mode">
+          <span class="tabledit-span" style="display:none"></span>
+            {{ form.dccurn.errors}}
+            {{ form.dccurn }}
+        </td>
+        <td class="tabledit-edit-mode">
+          <span class="tabledit-span" style="display:none"></span>
+            {{ form.dcamt.errors}}
+            {{ form.dcamt }}
+        </td>
+        <td style="white-space: nowrap; width: 1%;">
+          <div class="tabledit-toolbar btn-toolbar btn-group btn-group-md" style="text-align: center;">
+            <input class="tabledit-save-button btn btn-primary btn-sm" type="submit" value="存檔" style="float: none;" />
+            <button onclick="dbnoteEdit()" class="tabledit-cancel-button btn btn-warning btn-sm" style="float: none;">取消</button>
+          </div>
+        </td>
+      </tr>
+      {% for debit in debits %}
+        <tr class="tabledit-view-mode">
+          <td style="display:none;">{{ debit.id }}</td>
+          <td style="text-align:center;">{{ forloop.counter }}</td>
+          <td>{{ debit.dcno }}</td>
+          <td>{{ debit.dccurn }}</td>
+          <td>{{ debit.dcamt }}</td>
+          <td></td>
+        </tr>
+      {% endfor %}
+   
+    </tbody>
+  </table>
+</form>
+<script>
+    function dbnoteEdit() {
+        $('#debitEdit').show();
+        $('#debitNew').html('');
+    }
+
+</script>

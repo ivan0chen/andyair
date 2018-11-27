@@ -20,30 +20,130 @@
 {% include "awbin/nav.html" with mawbin=mawbin title=title %}
 {% include 'main/messages.html' %}
 <div id="div_messages" class="text-center align-middle" style="position:fixed;top:80px;right:0;width:160px;height:50px;border-radius:25px;"></div>
-
+<div class="btn-group btn-group-md" style="margin-top:-20px; float: left;">
+  {% if mawbin %}
+    <a class="btn btn-dark btn-md" href="#debit">Debit Note</a>
+    <a class="btn btn-dark btn-md" href="#credit">Credit Note</a>
+    <a class="btn btn-dark btn-md" href="#cod">COD</a>
+    <a class="btn btn-dark btn-md" href="#remark">Remark</a>
+    <a class="btn btn-dark btn-md" href="{% url 'awbin:hawbinCreate' mawbin.id %}">New HAWB</a>
+  {% endif %}
+</div>
+<div class="col-xs-12 col-sm-12">
   <form id="masterForm" role="form" method="post">{% csrf_token %}
-    <div class="btn-group btn-group-md" style="margin-top:-15px; float: right;">
-      {% if mawbin %}
-        <a class="btn btn-dark btn-md" href="#debit">Debit Note</a>
-        <a class="btn btn-dark btn-md" href="#credit">Credit Note</a>
-        <a class="btn btn-dark btn-md" href="#cod">COD</a>
-        <a class="btn btn-dark btn-md" href="#remark">Remark</a>
-        <a class="btn btn-success btn-md" href="{% url 'awbin:hawbinCreate' mawbin.id %}">New HAWB</a>
-      {% endif %}
+    <div class="btn-group btn-group-md" style="margin-top:-30px; float: right;">
       <input class="btn btn-primary btn-md" type="submit" value="存檔"/>
       <a class="btn btn-warning btn-md" href="{% url 'awbin:mawbinList' %}">離開</a>
     </div>
-    <div class="col-xs-12 col-sm-12">
-      {% include "awbin/mawbinInput.html" %}
-      <h4 id="cod">COD</h4>
-      <h4 id="debit">Debit Note</h4>
-      <h4 id="credit">Credit Note</h4>
-      <h4 id="remark">Remark</h4>
-    </div>
+    {% include "awbin/mawbinInput.html" %}
   </form>
+</div>
+
+<div class="row">
+  <div class="col-sm-6">
+    <h4 id="debit">Debit Note</h4>
+    <div id="debitEdit">
+      <table class="table table-striped table-bordered table-responsive">
+        <thead>
+          <tr>
+            <th style="width: 1%;vertical-align: middle;display:none;">#ID</th>
+            <th style="width: 1%;vertical-align: middle;">No.</th>
+            <th style="vertical-align: middle;">DB#</th>
+            <th style="vertical-align: middle;">幣別</th>
+            <th style="vertical-align: middle">金額</th>
+            <th class="text-center" style="width:5%">
+              {% if mawbin %}
+                <input type="hidden" id="Url" data-url="{% url 'awbin:dbnoteNew' mawbin.id %}" />
+                <button onclick="newdbnForm()" class="btn btn-info btn-block btn-sm active">
+                <span class="glyphicon glyphicon-plus"></span>&nbsp;<b>Line</b></button>
+              {% else %}
+                <button class="btn btn-info btn-block btn-sm active" disabled>
+                <span class="glyphicon glyphicon-plus"></span>&nbsp;<b>Line</b></button>
+              {% endif %}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for debit in debits %}
+            <tr>
+              <td style="display:none">{{ debit.id }}</td>
+              <td style="vertical-align: middle;text-align:center">{{ forloop.counter }}</td>
+              <td style="vertical-align: middle;">{{ debit.dcno }}</td>
+              <td style="vertical-align: middle;">{{ debit.dccurn }}</td>
+              <td style="vertical-align: middle;">{{ debit.dcamt }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div id="debitNew"></div>
+  </div>
+
+  <div id="creditEdit" class="col-sm-6">
+    <h4 id="credit">Credit Note</h4>
+    <table class="table table-striped table-bordered table-responsive">
+        <thead>
+          <tr>
+            <th style="vertical-align: middle;">CD#</th>
+            <th style="vertical-align: middle;">幣別</th>
+            <th style="vertical-align: middle">金額</th>
+          </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+  </div>
+
+</div>
+
+
+<div id="remarkList" class="col-xs-12 col-sm-12" style="background-color:white">
+  <h4 id="remark">Remark</h4>
+  <table class="table table-striped table-bordered table-responsive">
+      <thead>
+        <tr>
+          <th style="vertical-align: middle;">HAWB#</th>
+          <th style="vertical-align: middle;">Code</th>
+          <th style="vertical-align: middle">Descript</th>
+        </tr>
+      </thead>
+      <tbody>
+
+      </tbody>
+  </table>
+</div>
+
+<div id="codList" class="col-xs-12 col-sm-12" style="background-color:white">
+    <h4 id="cod">COD</h4>
+    <table class="table table-striped table-bordered table-responsive">
+      <thead>
+        <tr>
+          <th style="vertical-align: middle;">HAWB#</th>
+          <th style="vertical-align: middle;">幣別</th>
+          <th style="vertical-align: middle;">金額</th>
+          <th style="vertical-align: middle;">收訖日</th>
+          <th style="vertical-align: middle;">付給日</th>
+        </tr>
+      </thead>
+      <tbody>
+
+      </tbody>
+    </table>
+</div>
+
   
 <script>
-  
+    function newdbnForm() {
+        var url = $("#Url").attr("data-url");
+        $.get(url, {'request': 'debit'}, function (data, status) {
+            // alert(status);
+            $('#debitEdit').hide();
+            $('#debitNew').html(data);
+        });
+        // alert(url);
+    }
+    
   $(document).ready(function(){
       
         $('#masterForm input[type="submit"]').prop('disabled', true);

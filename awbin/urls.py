@@ -14,4 +14,5 @@ urlpatterns = [
     path('hawbinView/<int:pk>/', views.hawbinView, name='hawbinView'),
     path('hawbinUpdate/<int:pk>/', views.hawbinUpdate, name='hawbinUpdate'),
     path('hawbinDelete/<int:pk>/', views.hawbinDelete, name='hawbinDelete'),
+    path('dbnoteNew/<int:parent_pk>/', views.dbnoteNew, name='dbnoteNew'),
 ]

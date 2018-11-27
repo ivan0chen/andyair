@@ -5,7 +5,7 @@ from shpr.models import Shpr
 from custadv.models import Custadv
 from main.models import OrgDest
 from exrate.models import Exrate
-from awbin.models import Mawbin, Hawbin
+from awbin.models import Mawbin, Hawbin, Acctin
 
 class MawbinForm(forms.ModelForm):
     mawb = forms.CharField(label='主提單', max_length=12, widget=forms.TextInput(attrs={'class':'form-control input-sm'}))
@@ -258,3 +258,17 @@ class HawbinForm(forms.ModelForm):
     class Meta:
         model = Hawbin
         exclude = ['mawb',]
+
+class DebitForm(forms.ModelForm):
+    dcno = forms.CharField(label='Debit#', max_length=9, widget=forms.TextInput(attrs={'class':'tabledit-input form-control input-sm'}))
+    dccurn = forms.ModelChoiceField(label='幣別', empty_label="選擇幣別", queryset=Exrate.objects.all(), to_field_name='code', required=True,
+                                     widget=forms.Select(attrs={'class':'tabledit-input form-control input-sm'}))
+    dcamt = forms.DecimalField(label='金額', max_digits=10, decimal_places=2, max_value=99999999.99, min_value=0, required=True,
+                                widget=forms.NumberInput(attrs={'class':'tabledit-input form-control input-sm','maxlength': 10, 'type': 'number'}))
+    class Meta:
+        model = Acctin
+        fields = ['dcno', 'dccurn', 'dcamt']
+
+    def clean_dccurn(self):
+        m_dccurn = self.cleaned_data['dccurn'].code
+        return m_dccurn
