@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
+from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from awbin.models import Mawbin, Hawbin, Acctin
 from awbin.forms import MawbinForm, HawbinForm, DebitForm
@@ -54,6 +55,7 @@ def mawbinUpdate(request, pk, template_name='awbin/mawbinForm.html'):
         return redirect('awbin:mawbinList')
     ctx = {}
     ctx['mawbin'] = mawbin
+    ctx['debits'] = Acctin.objects.filter(mawb=mawbin)
     ctx['form'] = form
     ctx['title'] = 'MAWB Edit'
     return render(request, template_name, ctx)
@@ -145,13 +147,10 @@ def hawbinDelete(request, pk, template_name='awbin/hawbinDelete.html'):
 @login_required
 def dbnoteNew(request, parent_pk, template_name='awbin/dbnoteNew.html'):
     mawbin = get_object_or_404(Mawbin, pk=parent_pk)
-    # print(mawbin)
     form = DebitForm(request.POST or None)
-    # print(form)
-    # print(form.is_valid())
     if form.is_valid():
         dbnote = form.save(commit=False)
-        dbnote.mawbin = mawbin
+        dbnote.mawb = mawbin
         dbnote.created_by = request.user
         dbnote.last_updated_by = request.user
         dbnote.save()
@@ -164,3 +163,34 @@ def dbnoteNew(request, parent_pk, template_name='awbin/dbnoteNew.html'):
     ctx['debits'] = Acctin.objects.filter(mawb=mawbin)
     ctx['title'] = ' New Debit'
     return render(request, template_name, ctx)
+
+@login_required
+def debitTabledit(request):
+    if request.method == 'POST':
+        debit = get_object_or_404(Acctin, pk=request.POST.get('id'))
+        if request.POST.get('action') == 'edit':
+            debit.dcno = request.POST.get('dcno')
+            debit.dccurn = request.POST.get('dccurn')
+            debit.dcamt = request.POST.get('dcamt')
+            debit.last_updated_by = request.user
+            debit.save()
+            messages.success(request, 'Debit資料已更新！')
+        if request.POST.get('action') == 'delete':
+            debit.delete()
+            messages.success(request, 'Debit資料已刪除！')
+
+        django_messages = []
+        for message in messages.get_messages(request):
+            django_messages.append({
+                "level": message.level,
+                "message": message.message,
+                "tags": message.tags,
+            })
+        ctx = {}
+        ctx['request'] = request.POST
+        ctx['messages'] = django_messages
+
+        return JsonResponse(ctx)
+        # return JsonResponse(request.POST)
+    else:
+        return render(request, 'main/main.html')
