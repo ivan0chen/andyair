@@ -48,8 +48,8 @@
           <tr>
             <th style="width: 1%;vertical-align: middle;display:none;">#ID</th>
             <th style="width: 1%;vertical-align: middle;">#</th>
-            <th style="vertical-align: middle;">DB#</th>
-            <th style="vertical-align: middle;">幣別</th>
+            <th style="width: 22%;vertical-align: middle;">DB#</th>
+            <th style="width: 19%;vertical-align: middle;">幣別</th>
             <th style="vertical-align: middle">金額</th>
             <th class="text-center" style="width:5%">
               {% if mawbin %}
@@ -63,7 +63,7 @@
             </th>
           </tr>
         </thead>
-        <tbody>
+        <tbody style="background-color:white">
           {% for debit in debits %}
             <tr>
               <td style="display:none">{{ debit.id }}</td>
@@ -245,14 +245,19 @@
             todayHighlight: true,
             toggleActive: true
         }).datepicker("setDate", "0");
-
+        var currency_data = JSON.parse('{{ currency_list|safe }}');
+        // alert(JSON.stringify(currency_data));
         $('#debitNote').Tabledit({
             url: '{% url "awbin:debitTabledit" %}',
             restoreButton: false,
             hideIdentifier: true,
             columns: {
                 identifier: [0, 'id'],
-                editable: [[2, 'dcno'], [3, 'dccurn'], [4, 'dcamt']]
+                editable: [
+                    [2, 'dcno'],
+                    [3, 'dccurn', JSON.stringify(currency_data)],
+                    [4, 'dcamt']
+                ]
             },
             onSuccess: function (data, textStatus, jqXHR) {
                 console.log('onSuccess(data, textStatus, jqXHR)');

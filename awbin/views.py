@@ -1,9 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.http import JsonResponse
+import json
 from django.contrib.auth.decorators import login_required
 from awbin.models import Mawbin, Hawbin, Acctin
 from awbin.forms import MawbinForm, HawbinForm, DebitForm
+from exrate.models import Exrate
 
 
 @login_required
@@ -29,6 +31,8 @@ def mawbinCreate(request, template_name='awbin/mawbinForm.html'):
         return redirect('awbin:mawbinList')
     ctx = {}
     ctx['form'] = form
+    currency_list = getCurrency()
+    ctx['currency_list'] = json.dumps(currency_list)
     ctx['title'] = 'MAWB New'
     return render(request, template_name, ctx)
 
@@ -57,8 +61,19 @@ def mawbinUpdate(request, pk, template_name='awbin/mawbinForm.html'):
     ctx['mawbin'] = mawbin
     ctx['debits'] = Acctin.objects.filter(mawb=mawbin)
     ctx['form'] = form
+    # currency_list = {"USD": "USD", "EUR": "EUR", "TWD": "TWD"}
+    currency_list = getCurrency()
+    ctx['currency_list'] = json.dumps(currency_list)
     ctx['title'] = 'MAWB Edit'
     return render(request, template_name, ctx)
+
+def getCurrency():
+    curr_data = Exrate.objects.all()
+    currDict = {}
+    for curr in curr_data:
+        currDict[curr.code] = curr.code
+    print(currDict)
+    return currDict
 
 @login_required
 def mawbinDelete(request, pk, template_name='awbin/mawbinDelete.html'):
