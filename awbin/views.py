@@ -5,7 +5,7 @@ from django.db.models import Q
 import json
 from django.contrib.auth.decorators import login_required
 from awbin.models import Mawbin, Hawbin, Acctin
-from awbin.forms import MawbinForm, HawbinForm, DebitForm
+from awbin.forms import MawbinForm, HawbinForm, DebitForm, CreditForm
 from exrate.models import Exrate
 
 
@@ -61,6 +61,7 @@ def mawbinUpdate(request, pk, template_name='awbin/mawbinForm.html'):
     ctx = {}
     ctx['mawbin'] = mawbin
     ctx['debits'] = Acctin.objects.filter(Q(mawb=mawbin) & Q(dc='D'))
+    ctx['credits'] = Acctin.objects.filter(Q(mawb=mawbin) & Q(dc='C'))
     ctx['form'] = form
     # currency_list = {"USD": "USD", "EUR": "EUR", "TWD": "TWD"}
     currency_list = getCurrency()
@@ -225,6 +226,74 @@ def debitTabledit(request):
         ctx['messages'] = django_messages
 
         return JsonResponse(ctx)
-        # return JsonResponse(request.POST)
+    else:
+        return render(request, 'main/main.html')
+
+@login_required
+def cdnoteNew(request, parent_pk, template_name='awbin/cdnoteNew.html'):
+    mawbin = get_object_or_404(Mawbin, pk=parent_pk)
+    form = CreditForm(request.POST or None)
+    ctx = {}
+    if request.method == 'POST':
+        result = 'Failure'
+        if form.is_valid():
+            cdnote = form.save(commit=False)
+            cdnote.mawb = mawbin
+            cdnote.dc = 'C'
+            cdnote.created_by = request.user
+            cdnote.last_updated_by = request.user
+            cdnote.save()
+            result = 'Success'
+            print(cdnote)
+            messages.success(request, 'Credit資料已新增！')
+            # return redirect('awbin:mawbinUpdate', parent_pk)
+        else:
+            messages.success(request, '資料輸入錯誤，請更正！')
+        django_messages = []
+        for message in messages.get_messages(request):
+            django_messages.append({
+                "level": message.level,
+                "message": message.message,
+                "tags": message.tags,
+            })
+        ctx['request'] = request.POST
+        ctx['result'] = result
+        ctx['messages'] = django_messages
+        return JsonResponse(ctx)
+    ctx = {}
+    ctx["form"] = form
+    ctx["mawbin"] = mawbin
+    ctx['credits'] = Acctin.objects.filter(Q(mawb=mawbin) & Q(dc='C'))
+    ctx["cdnCount"] = ctx['credits'].count() + 1
+    ctx['title'] = ' New Credit'
+    return render(request, template_name, ctx)
+
+@login_required
+def creditTabledit(request):
+    if request.method == 'POST':
+        credit = get_object_or_404(Acctin, pk=request.POST.get('id'))
+        if request.POST.get('action') == 'edit':
+            credit.dcno = request.POST.get('dcno')
+            credit.dccurn = request.POST.get('dccurn')
+            credit.dcamt = request.POST.get('dcamt')
+            credit.last_updated_by = request.user
+            credit.save()
+            messages.success(request, 'Credit資料已更新！')
+        if request.POST.get('action') == 'delete':
+            credit.delete()
+            messages.success(request, 'Credit資料已刪除！')
+
+        django_messages = []
+        for message in messages.get_messages(request):
+            django_messages.append({
+                "level": message.level,
+                "message": message.message,
+                "tags": message.tags,
+            })
+        ctx = {}
+        ctx['request'] = request.POST
+        ctx['messages'] = django_messages
+
+        return JsonResponse(ctx)
     else:
         return render(request, 'main/main.html')

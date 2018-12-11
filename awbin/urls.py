@@ -16,4 +16,6 @@ urlpatterns = [
     path('hawbinDelete/<int:pk>/', views.hawbinDelete, name='hawbinDelete'),
     path('dbnoteNew/<int:parent_pk>/', views.dbnoteNew, name='dbnoteNew'),
     path('debitTabledit/', views.debitTabledit, name='debitTabledit'),
+    path('cdnoteNew/<int:parent_pk>/', views.cdnoteNew, name='cdnoteNew'),
+    path('creditTabledit/', views.creditTabledit, name='creditTabledit'),
 ]

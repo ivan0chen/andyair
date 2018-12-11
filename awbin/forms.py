@@ -5,7 +5,8 @@ from shpr.models import Shpr
 from custadv.models import Custadv
 from main.models import OrgDest
 from exrate.models import Exrate
-from awbin.models import Mawbin, Hawbin, Acctin
+from inprmk.models import Inprmk
+from awbin.models import Mawbin, Hawbin, Acctin, Rmkin
 
 class MawbinForm(forms.ModelForm):
     mawb = forms.CharField(label='主提單', max_length=12, widget=forms.TextInput(attrs={'class':'form-control input-sm'}))
@@ -272,3 +273,27 @@ class DebitForm(forms.ModelForm):
     def clean_dccurn(self):
         m_dccurn = self.cleaned_data['dccurn'].code
         return m_dccurn
+
+class CreditForm(forms.ModelForm):
+    dcno = forms.CharField(label='Credit#', max_length=9, widget=forms.TextInput(attrs={'class':'tabledit-input form-control input-sm'}))
+    dccurn = forms.ModelChoiceField(label='幣別', empty_label="選擇幣別", queryset=Exrate.objects.all(), to_field_name='code', required=True,
+                                     widget=forms.Select(attrs={'class':'tabledit-input form-control input-sm'}))
+    dcamt = forms.DecimalField(label='金額', max_digits=10, decimal_places=2, max_value=99999999.99, min_value=0, required=True,
+                                widget=forms.NumberInput(attrs={'class':'tabledit-input form-control input-sm','maxlength': 10, 'type': 'number'}))
+    class Meta:
+        model = Acctin
+        fields = ['dcno', 'dccurn', 'dcamt']
+
+    def clean_dccurn(self):
+        m_dccurn = self.cleaned_data['dccurn'].code
+        return m_dccurn
+
+class RemarkForm(forms.ModelForm):
+    codr = forms.ModelChoiceField(label='代碼', empty_label="請選擇", queryset=Inprmk.objects.all(), to_field_name='code', required=True,
+                                     widget=forms.Select(attrs={'class':'tabledit-input form-control input-sm'}))
+    statement = forms.CharField(label='備註說明', max_length=60, widget=forms.TextInput(attrs={'class':'form-control input-sm'}))
+    irrno = forms.CharField(label='', max_length=2, widget=forms.TextInput(attrs={'class':'form-control input-sm'}))
+
+    class Meta:
+        model = Rmkin
+        fields = ['codr','statement','irrno']

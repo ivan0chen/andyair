@@ -53,17 +53,17 @@
             <th style="vertical-align: middle">金額</th>
             <th class="text-center" style="width:5%">
               {% if mawbin %}
-                <input type="hidden" id="Url" data-url="{% url 'awbin:dbnoteNew' mawbin.id %}" />
+                <input type="hidden" id="dbnUrl" data-url="{% url 'awbin:dbnoteNew' mawbin.id %}" />
                 <button id="newdbnBtn" onclick="newdbnForm()" class="btn btn-info btn-block btn-sm active">
-                <span class="glyphicon glyphicon-plus"></span>&nbsp;<b>Line</b></button>
+                <span class="glyphicon glyphicon-plus"></span>&nbsp;<b>DB#</b></button>
               {% else %}
                 <button class="btn btn-info btn-block btn-sm active" disabled>
-                <span class="glyphicon glyphicon-plus"></span>&nbsp;<b>Line</b></button>
+                <span class="glyphicon glyphicon-plus"></span>&nbsp;<b>DB#</b></button>
               {% endif %}
             </th>
           </tr>
         </thead>
-        <tbody id="dbnBody" style="background-color:white">
+        <tbody style="background-color:white">
           {% for debit in debits %}
             <tr>
               <td style="display:none">{{ debit.id }}</td>
@@ -79,20 +79,43 @@
     <div id="debitNew"></div>
   </div>
 
-  <div id="creditEdit" class="col-sm-6">
+  <div class="col-sm-6">
     <h4 id="credit">Credit Note</h4>
-    <table class="table table-striped table-bordered table-responsive">
+    <div id="creditEdit">
+      <table id="creditNote" class="table table-hover table-bordered table-responsive table-condensed">
         <thead>
           <tr>
-            <th style="vertical-align: middle;">CD#</th>
-            <th style="vertical-align: middle;">幣別</th>
+            <th style="width: 1%;vertical-align: middle;display:none;">#ID</th>
+            <th style="width: 1%;vertical-align: middle;">#</th>
+            <th style="width: 22%;vertical-align: middle;">CD#</th>
+            <th style="width: 19%;vertical-align: middle;">幣別</th>
             <th style="vertical-align: middle">金額</th>
+            <th class="text-center" style="width:5%">
+              {% if mawbin %}
+                <input type="hidden" id="cdnUrl" data-url="{% url 'awbin:cdnoteNew' mawbin.id %}" />
+                <button id="newcdnBtn" onclick="newcdnForm()" class="btn btn-info btn-block btn-sm active">
+                <span class="glyphicon glyphicon-plus"></span>&nbsp;<b>CD#</b></button>
+              {% else %}
+                <button class="btn btn-info btn-block btn-sm active" disabled>
+                <span class="glyphicon glyphicon-plus"></span>&nbsp;<b>CD#</b></button>
+              {% endif %}
+            </th>
           </tr>
         </thead>
-        <tbody>
-
+        <tbody style="background-color:white">
+          {% for credit in credits %}
+            <tr>
+              <td style="display:none">{{ credit.id }}</td>
+              <td style="vertical-align: middle;text-align:center">{{ forloop.counter }}</td>
+              <td style="vertical-align: middle;">{{ credit.dcno }}</td>
+              <td style="vertical-align: middle;">{{ credit.dccurn }}</td>
+              <td style="vertical-align: middle;">{{ credit.dcamt }}</td>
+            </tr>
+          {% endfor %}
         </tbody>
-    </table>
+      </table>
+    </div>
+    <div id="creditNew"></div>
   </div>
 
 </div>
@@ -135,14 +158,22 @@
 
 <script>
     function newdbnForm() {
-        var url = $("#Url").attr("data-url");
+        var url = $("#dbnUrl").attr("data-url");
         $.get(url, {'request': 'debit'}, function (data, status) {
-            // alert(status);
             $('#debitEdit').hide();
             $('#debitNew').html(data);
         });
     }
 
+    function newcdnForm() {
+        var url = $("#cdnUrl").attr("data-url");
+        // alert(url);
+        $.get(url, {'request': 'credit'}, function (data, status) {
+
+            $('#creditEdit').hide();
+            $('#creditNew').html(data);
+        });
+    }
 
   $(document).ready(function(){
       
@@ -288,6 +319,48 @@
         });
 
         $('#debitNote thead tr th:last-child').remove();
+
+        $('#creditNote').Tabledit({
+            url: '{% url "awbin:creditTabledit" %}',
+            restoreButton: false,
+            hideIdentifier: true,
+            columns: {
+                identifier: [0, 'id'],
+                editable: [
+                    [2, 'dcno'],
+                    [3, 'dccurn', JSON.stringify(currency_data)],
+                    [4, 'dcamt']
+                ]
+            },
+            onSuccess: function (data, textStatus, jqXHR) {
+                console.log('onSuccess(data, textStatus, jqXHR)');
+                console.log(data);
+                console.log(textStatus);
+                console.log(jqXHR);
+                if (data['request'].action == 'delete')
+                 {
+                  $('#'+data['request'].id).remove();
+                 }
+                 update_messages(data.messages);
+                 $(".alert").fadeOut(5000);
+            },
+            onFail: function (jqXHR, textStatus, errorThrown) {
+                console.log('onFail(jqXHR, textStatus, errorThrown)');
+                console.log(jqXHR);
+                console.log(textStatus);
+                console.log(errorThrown);
+            },
+            onAlways: function () {
+                console.log('onAlways()');
+            },
+            onAjax: function (action, serialize) {
+                console.log('onAjax(action, serialize)');
+                console.log(action);
+                console.log(serialize);
+            }
+        });
+
+        $('#creditNote thead tr th:last-child').remove();
 
   });
 </script>
