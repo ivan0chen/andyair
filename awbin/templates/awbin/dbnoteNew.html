@@ -1,4 +1,4 @@
-<form role="form" method="post" action="{% url 'awbin:dbnoteNew' mawbin.id %}">{% csrf_token %}
+<form id="dbnForm" role="form" method="post" action="{% url 'awbin:dbnoteNew' mawbin.id %}">{% csrf_token %}
   <table style="margin-left: 1em; width: 97.5%;" class="table table-hover table-bordered table-responsive ">
     <thead>
       <tr>
@@ -22,7 +22,7 @@
              {{ form.id }}
           </div>
         </td>
-        <td style="width: 1%;vertical-align: middle;text-align:center;">X</td>
+        <td style="width: 1%;vertical-align: middle;text-align:center;">{{ dbnCount }}</td>
         <td class="tabledit-edit-mode">
           <span class="tabledit-span" style="display:none"></span>
             {{ form.dcno.errors}}
@@ -55,14 +55,44 @@
           <td></td>
         </tr>
       {% endfor %}
-   
+
     </tbody>
   </table>
 </form>
+
 <script>
     function dbnoteEdit() {
         $('#debitEdit').show();
         $('#debitNew').html('');
     }
 
+    $(document).ready(function(){
+        $('#debitNew').on('submit', '#dbnForm', function() {
+            $.ajax({
+                type: $(this).attr('method'),
+                url: this.action,
+                data: $(this).serialize(),
+                context: this,
+                success: function (data, status) {
+                    update_messages(data.messages);
+                    $(".alert").fadeOut(5000);
+                    if (data.result === 'Failure') {
+                        // alert('輸入錯誤！')
+                    } else {
+                          setTimeout(function() {
+                            $('#debitNew').html('');
+                            location.reload(); },1000);
+                        }
+                    console.log("success");
+                    console.log(data);
+                    console.log(data.result);
+                },
+                error: function (request, status, error) {
+                    console.log("failure");
+                    console.log(request.responseText);
+                }
+            });
+            return false;
+        });
+    })
 </script>

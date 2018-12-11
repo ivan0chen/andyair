@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.http import JsonResponse
+from django.db.models import Q
 import json
 from django.contrib.auth.decorators import login_required
 from awbin.models import Mawbin, Hawbin, Acctin
@@ -59,7 +60,7 @@ def mawbinUpdate(request, pk, template_name='awbin/mawbinForm.html'):
         return redirect('awbin:mawbinList')
     ctx = {}
     ctx['mawbin'] = mawbin
-    ctx['debits'] = Acctin.objects.filter(mawb=mawbin)
+    ctx['debits'] = Acctin.objects.filter(Q(mawb=mawbin) & Q(dc='D'))
     ctx['form'] = form
     # currency_list = {"USD": "USD", "EUR": "EUR", "TWD": "TWD"}
     currency_list = getCurrency()
@@ -163,19 +164,37 @@ def hawbinDelete(request, pk, template_name='awbin/hawbinDelete.html'):
 def dbnoteNew(request, parent_pk, template_name='awbin/dbnoteNew.html'):
     mawbin = get_object_or_404(Mawbin, pk=parent_pk)
     form = DebitForm(request.POST or None)
-    if form.is_valid():
-        dbnote = form.save(commit=False)
-        dbnote.mawb = mawbin
-        dbnote.created_by = request.user
-        dbnote.last_updated_by = request.user
-        dbnote.save()
-        print(dbnote)
-        messages.success(request, 'Debit資料已新增！')
-        return redirect('awbin:mawbinUpdate', parent_pk)
+    ctx = {}
+    if request.method == 'POST':
+        result = 'Failure'
+        if form.is_valid():
+            dbnote = form.save(commit=False)
+            dbnote.mawb = mawbin
+            dbnote.dc = 'D'
+            dbnote.created_by = request.user
+            dbnote.last_updated_by = request.user
+            dbnote.save()
+            result = 'Success'
+            messages.success(request, 'Debit資料已新增！')
+            # return redirect('awbin:mawbinUpdate', parent_pk)
+        else:
+            messages.success(request, '資料輸入錯誤，請更正！')
+        django_messages = []
+        for message in messages.get_messages(request):
+            django_messages.append({
+                "level": message.level,
+                "message": message.message,
+                "tags": message.tags,
+            })
+        ctx['request'] = request.POST
+        ctx['result'] = result
+        ctx['messages'] = django_messages
+        return JsonResponse(ctx)
     ctx = {}
     ctx["form"] = form
     ctx["mawbin"] = mawbin
-    ctx['debits'] = Acctin.objects.filter(mawb=mawbin)
+    ctx['debits'] = Acctin.objects.filter(Q(mawb=mawbin) & Q(dc='D'))
+    ctx["dbnCount"] = ctx['debits'].count() + 1
     ctx['title'] = ' New Debit'
     return render(request, template_name, ctx)
 

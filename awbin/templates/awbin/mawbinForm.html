@@ -54,7 +54,7 @@
             <th class="text-center" style="width:5%">
               {% if mawbin %}
                 <input type="hidden" id="Url" data-url="{% url 'awbin:dbnoteNew' mawbin.id %}" />
-                <button onclick="newdbnForm()" class="btn btn-info btn-block btn-sm active">
+                <button id="newdbnBtn" onclick="newdbnForm()" class="btn btn-info btn-block btn-sm active">
                 <span class="glyphicon glyphicon-plus"></span>&nbsp;<b>Line</b></button>
               {% else %}
                 <button class="btn btn-info btn-block btn-sm active" disabled>
@@ -63,7 +63,7 @@
             </th>
           </tr>
         </thead>
-        <tbody style="background-color:white">
+        <tbody id="dbnBody" style="background-color:white">
           {% for debit in debits %}
             <tr>
               <td style="display:none">{{ debit.id }}</td>
@@ -132,7 +132,7 @@
     </table>
 </div>
 
-  
+
 <script>
     function newdbnForm() {
         var url = $("#Url").attr("data-url");
@@ -141,9 +141,9 @@
             $('#debitEdit').hide();
             $('#debitNew').html(data);
         });
-        // alert(url);
     }
-    
+
+
   $(document).ready(function(){
       
         $('#masterForm input[type="submit"]').prop('disabled', true);
