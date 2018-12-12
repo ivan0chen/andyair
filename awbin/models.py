@@ -128,8 +128,8 @@ class Hawbin(WhoColumns):
         return self.hawb + '-' + self.hlotnr
 
 class Acctin(WhoColumns):
-    mawb = models.ForeignKey(Mawbin, on_delete=models.SET_NULL, blank=True, null=True,)
-    hawb = models.ForeignKey(Hawbin, on_delete=models.SET_NULL, blank=True, null=True,)
+    mawb = models.ForeignKey(Mawbin, on_delete=models.DO_NOTHING, blank=True, null=True)
+    hawb = models.ForeignKey(Hawbin, on_delete=models.DO_NOTHING, blank=True, null=True)
     dc = models.CharField(max_length=1, blank=True, null=True)
     dcno = models.CharField(max_length=9, unique=True)
     dccurn = models.CharField(max_length=3, blank=True, null=True)
@@ -150,8 +150,8 @@ class Acctin(WhoColumns):
         return  self.dcno + ' - ' + str(self.dcamt)
 
 class Rmkin(WhoColumns):
-    mawb = models.ForeignKey(Mawbin, on_delete=models.CASCADE)
-    hawb = models.ForeignKey(Hawbin, on_delete=models.CASCADE)
+    mawb = models.ForeignKey(Mawbin, on_delete=models.DO_NOTHING, blank=True, null=True)
+    hawb = models.ForeignKey(Hawbin, on_delete=models.DO_NOTHING, blank=True, null=True)
     codr = models.CharField(max_length=3)
     statement = models.CharField(max_length=60)
     irrno = models.CharField(max_length=2)
@@ -160,8 +160,8 @@ class Rmkin(WhoColumns):
         return  self.codr + ' - ' + self.statement
 
 class Accin(WhoColumns):
-    mawb = models.ForeignKey(Mawbin, on_delete=models.CASCADE)
-    hawb = models.ForeignKey(Hawbin, on_delete=models.CASCADE)
+    mawb = models.ForeignKey(Mawbin, on_delete=models.DO_NOTHING, blank=True, null=True)
+    hawb = models.ForeignKey(Hawbin, on_delete=models.DO_NOTHING, blank=True, null=True)
     accno = models.CharField(max_length=10, unique=True)
     cscode = models.ForeignKey(Custcsn, on_delete=models.DO_NOTHING, max_length=6, blank=True, null=True)
     invidno = models.CharField(max_length=10)
@@ -180,8 +180,8 @@ class Accin(WhoColumns):
         return self.accno + '-' + str(self.accamt) + '-' + str(self.ttltax)
 
 class Accdtl(WhoColumns):
-    mawb = models.ForeignKey(Mawbin, on_delete=models.CASCADE)
-    hawb = models.ForeignKey(Hawbin, on_delete=models.CASCADE)
+    mawb = models.ForeignKey(Mawbin, on_delete=models.DO_NOTHING, blank=True, null=True)
+    hawb = models.ForeignKey(Hawbin, on_delete=models.DO_NOTHING, blank=True, null=True)
     accno = models.CharField(max_length=10, unique=True)
     codo = models.CharField(max_length=3)
     ocname = models.CharField(max_length=30)

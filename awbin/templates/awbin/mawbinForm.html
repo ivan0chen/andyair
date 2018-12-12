@@ -120,41 +120,84 @@
 
 </div>
 
-
-<div id="remarkList" class="col-xs-12 col-sm-12" style="background-color:white">
-  <h4 id="remark">Remark</h4>
-  <table class="table table-striped table-bordered table-responsive">
-      <thead>
-        <tr>
-          <th style="vertical-align: middle;">HAWB#</th>
-          <th style="vertical-align: middle;">Code</th>
-          <th style="vertical-align: middle">Descript</th>
-        </tr>
-      </thead>
-      <tbody>
-
-      </tbody>
-  </table>
+<div class="row">
+  <div class="col-xs-12 col-sm-12">
+    <h4 id="remark">Remark</h4>
+    <div id="remarkEdit">
+      <table id="rmklist" class="table table-hover table-bordered table-responsive table-condensed">
+        <thead>
+          <tr>
+            <th style="width: 1%;vertical-align: middle;display:none;">#ID</th>
+            <th style="width: 1%;vertical-align: middle;">#</th>
+            <th style="width: 15%;vertical-align: middle">HAWB#</th>
+            <th style="width: 10%;vertical-align: middle;">代碼</th>
+            <th style="vertical-align: middle;">備註說明</th>
+            <th class="text-center" style=";vertical-align: middle;width:5%">
+              {% if mawbin %}
+                <input type="hidden" id="rmkUrl" data-url="{% url 'awbin:remarkNew' mawbin.id %}" />
+                <button id="newrmkBtn" onclick="newrmkForm()" class="btn btn-info btn-block btn-sm active">
+                <span class="glyphicon glyphicon-plus"></span>&nbsp;<b>Remark</b></button>
+              {% else %}
+                <button class="btn btn-info btn-block btn-sm active" disabled>
+                <span class="glyphicon glyphicon-plus"></span>&nbsp;<b>Remark</b></button>
+              {% endif %}
+            </th>
+          </tr>
+        </thead>
+        <tbody style="background-color:white">
+          {% for remark in remarks %}
+            <tr class="tabledit-view-mode">
+              <td style="display:none;">{{ remark.id }}</td>
+              <td style="text-align:center;">{{ forloop.counter }}</td>
+              <td>{{ remark.hawb }}</td>
+              <td>{{ remark.codr }}</td>
+              <td>{{ remark.statement }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div id="remarkNew"></div>
+  </div>
 </div>
 
-<div id="codList" class="col-xs-12 col-sm-12" style="background-color:white">
+<div class="row">
+  <div class="col-xs-12 col-sm-12">
     <h4 id="cod">COD</h4>
-    <table class="table table-striped table-bordered table-responsive">
-      <thead>
-        <tr>
-          <th style="vertical-align: middle;">HAWB#</th>
-          <th style="vertical-align: middle;">幣別</th>
-          <th style="vertical-align: middle;">金額</th>
-          <th style="vertical-align: middle;">收訖日</th>
-          <th style="vertical-align: middle;">付給日</th>
-        </tr>
-      </thead>
-      <tbody>
-
-      </tbody>
-    </table>
+    <div id="codEdit">
+      <table id="codlist" class="table table-hover table-bordered table-responsive table-condensed">
+        <thead>
+          <tr>
+            <th style="width: 1%;vertical-align: middle;display:none;">#ID</th>
+            <th style="width: 1%;vertical-align: middle;">#</th>
+            <th style="width: 15%;vertical-align: middle;">HAWB#</th>
+            <th style="width: 10%;vertical-align: middle;">幣別</th>
+            <th style="vertical-align: middle;">金額</th>
+            <th style="width: 20%;vertical-align: middle;">收訖日</th>
+            <th style="width: 20%;vertical-align: middle;">付給日</th>
+            <th class="text-center" style=";vertical-align: middle;width:2%">
+               <button class="btn btn-default btn-sm" disabled>
+                 <span class="glyphicon glyphicon-plus"></span>
+               </button>
+            </th>
+          </tr>
+        </thead>
+        <tbody style="background-color:white">
+          {% for cod in cods %}
+            <tr class="tabledit-view-mode">
+              <td style="display:none;">{{ cod.id }}</td>
+              <td style="text-align:center;">{{ forloop.counter }}</td>
+              <td>{{ cod.codcurn }}</td>
+              <td>{{ cod.codamt }}</td>
+              <td>{{ cod.codrcvdd|date:"Y-m-d" }}</td>
+              <td>{{ cod.codpaydd|date:"Y-m-d" }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
-
 
 <script>
     function newdbnForm() {
@@ -172,6 +215,16 @@
 
             $('#creditEdit').hide();
             $('#creditNew').html(data);
+        });
+    }
+
+    function newrmkForm() {
+        var url = $("#rmkUrl").attr("data-url");
+        // alert(url);
+        $.get(url, {'request': 'remark'}, function (data, status) {
+
+            $('#remarkEdit').hide();
+            $('#remarkNew').html(data);
         });
     }
 
@@ -276,6 +329,7 @@
             todayHighlight: true,
             toggleActive: true
         }).datepicker("setDate", "0");
+
         var currency_data = JSON.parse('{{ currency_list|safe }}');
         // alert(JSON.stringify(currency_data));
         $('#debitNote').Tabledit({
@@ -362,6 +416,103 @@
 
         $('#creditNote thead tr th:last-child').remove();
 
+        var rmk_data = JSON.parse('{{ remark_list|safe }}');
+        $('#rmklist').Tabledit({
+            url: '{% url "awbin:remarkTabledit" %}',
+            restoreButton: false,
+            hideIdentifier: true,
+            columns: {
+                identifier: [0, 'id'],
+                editable: [
+                    // [2, 'hawb'],
+                    [3, 'codr', JSON.stringify(rmk_data)],
+                    // [4, 'statement']
+                ]
+            },
+            onSuccess: function (data, textStatus, jqXHR) {
+                console.log('onSuccess(data, textStatus, jqXHR)');
+                console.log(data);
+                console.log(textStatus);
+                console.log(jqXHR);
+                if (data['request'].action == 'delete')
+                 {
+                  $('#'+data['request'].id).remove();
+                 }
+                 update_messages(data.messages);
+                 $(".alert").fadeOut(5000);
+            },
+            onFail: function (jqXHR, textStatus, errorThrown) {
+                console.log('onFail(jqXHR, textStatus, errorThrown)');
+                console.log(jqXHR);
+                console.log(textStatus);
+                console.log(errorThrown);
+            },
+            onAlways: function () {
+                console.log('onAlways()');
+            },
+            onAjax: function (action, serialize) {
+                console.log('onAjax(action, serialize)');
+                console.log(action);
+                console.log(serialize);
+            }
+        });
+
+        $('#rmklist thead tr th:last-child').remove();
+
+        $('#codlist').Tabledit({
+            url: '{% url "awbin:codTabledit" %}',
+            restoreButton: false,
+            hideIdentifier: true,
+            columns: {
+                identifier: [0, 'id'],
+                editable: [
+                    // [2, 'hawb'],
+                    [3, 'codcurn', JSON.stringify(currency_data)],
+                    [4, 'codamt'],
+                    [5, 'codrcvdd'],
+                    [6, 'codpaydd'],
+                ]
+            },
+            onDraw: function () {
+                // Select all inputs of second column and apply datepicker each of them
+                $('table tr td:nth-child(6):nth-child(7)').each(function () {
+                    $(this).datepicker({
+                        format: "yyyy-mm-dd",
+                        todayBtn: "linked",
+                        autoclose: true,
+                        todayHighlight: true,
+                    });
+                });
+            },
+            onSuccess: function (data, textStatus, jqXHR) {
+                console.log('onSuccess(data, textStatus, jqXHR)');
+                console.log(data);
+                console.log(textStatus);
+                console.log(jqXHR);
+                if (data['request'].action == 'delete')
+                 {
+                  $('#'+data['request'].id).remove();
+                 }
+                 update_messages(data.messages);
+                 $(".alert").fadeOut(5000);
+            },
+            onFail: function (jqXHR, textStatus, errorThrown) {
+                console.log('onFail(jqXHR, textStatus, errorThrown)');
+                console.log(jqXHR);
+                console.log(textStatus);
+                console.log(errorThrown);
+            },
+            onAlways: function () {
+                console.log('onAlways()');
+            },
+            onAjax: function (action, serialize) {
+                console.log('onAjax(action, serialize)');
+                console.log(action);
+                console.log(serialize);
+            }
+        });
+
+        $('#codlist thead tr th:last-child').remove();
   });
 </script>
 {% endblock app_content %}

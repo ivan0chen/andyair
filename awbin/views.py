@@ -4,9 +4,10 @@ from django.http import JsonResponse
 from django.db.models import Q
 import json
 from django.contrib.auth.decorators import login_required
-from awbin.models import Mawbin, Hawbin, Acctin
-from awbin.forms import MawbinForm, HawbinForm, DebitForm, CreditForm
+from awbin.models import Mawbin, Hawbin, Acctin, Rmkin
+from awbin.forms import MawbinForm, HawbinForm, DebitForm, CreditForm, RemarkForm
 from exrate.models import Exrate
+from inprmk.models import Inprmk
 
 
 @login_required
@@ -62,10 +63,14 @@ def mawbinUpdate(request, pk, template_name='awbin/mawbinForm.html'):
     ctx['mawbin'] = mawbin
     ctx['debits'] = Acctin.objects.filter(Q(mawb=mawbin) & Q(dc='D'))
     ctx['credits'] = Acctin.objects.filter(Q(mawb=mawbin) & Q(dc='C'))
+    ctx['remarks'] = Rmkin.objects.filter(mawb=mawbin)
+    ctx['cods'] = Hawbin.objects.filter(mawb=mawbin)
     ctx['form'] = form
     # currency_list = {"USD": "USD", "EUR": "EUR", "TWD": "TWD"}
     currency_list = getCurrency()
+    remark_list = getRemark()
     ctx['currency_list'] = json.dumps(currency_list)
+    ctx['remark_list'] = json.dumps(remark_list)
     ctx['title'] = 'MAWB Edit'
     return render(request, template_name, ctx)
 
@@ -76,6 +81,14 @@ def getCurrency():
         currDict[curr.code] = curr.code
     print(currDict)
     return currDict
+
+def getRemark():
+    rmk_data = Inprmk.objects.all()
+    rmkDict = {}
+    for rmk in rmk_data:
+        rmkDict[rmk.code] = rmk.code
+    print(rmkDict)
+    return rmkDict
 
 @login_required
 def mawbinDelete(request, pk, template_name='awbin/mawbinDelete.html'):
@@ -282,6 +295,104 @@ def creditTabledit(request):
         if request.POST.get('action') == 'delete':
             credit.delete()
             messages.success(request, 'Credit資料已刪除！')
+
+        django_messages = []
+        for message in messages.get_messages(request):
+            django_messages.append({
+                "level": message.level,
+                "message": message.message,
+                "tags": message.tags,
+            })
+        ctx = {}
+        ctx['request'] = request.POST
+        ctx['messages'] = django_messages
+
+        return JsonResponse(ctx)
+    else:
+        return render(request, 'main/main.html')
+
+@login_required
+def remarkNew(request, parent_pk, template_name='awbin/remarkNew.html'):
+    mawbin = get_object_or_404(Mawbin, pk=parent_pk)
+    form = RemarkForm(request.POST or None)
+    ctx = {}
+    if request.method == 'POST':
+        result = 'Failure'
+        if form.is_valid():
+            remark = form.save(commit=False)
+            remark.mawb = mawbin
+            remark.created_by = request.user
+            remark.last_updated_by = request.user
+            remark.save()
+            result = 'Success'
+            messages.success(request, 'Remark資料已新增！')
+            # return redirect('awbin:mawbinUpdate', parent_pk)
+        else:
+            messages.success(request, '資料輸入錯誤，請更正！')
+        django_messages = []
+        for message in messages.get_messages(request):
+            django_messages.append({
+                "level": message.level,
+                "message": message.message,
+                "tags": message.tags,
+            })
+        ctx['request'] = request.POST
+        ctx['result'] = result
+        ctx['messages'] = django_messages
+        return JsonResponse(ctx)
+    ctx = {}
+    ctx["form"] = form
+    ctx["mawbin"] = mawbin
+    ctx['remarks'] = Rmkin.objects.filter(mawb=mawbin)
+    ctx["rmkCount"] = ctx['remarks'].count() + 1
+    ctx['title'] = ' New Remark'
+    return render(request, template_name, ctx)
+
+@login_required
+def remarkTabledit(request):
+    if request.method == 'POST':
+        remark = get_object_or_404(Rmkin, pk=request.POST.get('id'))
+        if request.POST.get('action') == 'edit':
+            # remark.hawb = request.POST.get('hawb')
+            remark.codr = request.POST.get('codr')
+            # remark.statement = request.POST.get('statement')
+            remark.last_updated_by = request.user
+            remark.save()
+            messages.success(request, 'Remark資料已更新！')
+        if request.POST.get('action') == 'delete':
+            remark.delete()
+            messages.success(request, 'Remark資料已刪除！')
+
+        django_messages = []
+        for message in messages.get_messages(request):
+            django_messages.append({
+                "level": message.level,
+                "message": message.message,
+                "tags": message.tags,
+            })
+        ctx = {}
+        ctx['request'] = request.POST
+        ctx['messages'] = django_messages
+
+        return JsonResponse(ctx)
+    else:
+        return render(request, 'main/main.html')
+
+@login_required
+def codTabledit(request):
+    if request.method == 'POST':
+        cod = get_object_or_404(Hawbin, pk=request.POST.get('id'))
+        if request.POST.get('action') == 'edit':
+            cod.codcurn = request.POST.get('codcurn')
+            cod.codamt = request.POST.get('codamt')
+            cod.codrcvdd = request.POST.get('codrcvdd')
+            cod.codpaydd = request.POST.get('codpaydd')
+            cod.last_updated_by = request.user
+            cod.save()
+            messages.success(request, 'COD資料已更新！')
+        if request.POST.get('action') == 'delete':
+            cod.delete()
+            messages.success(request, 'COD資料已刪除！')
 
         django_messages = []
         for message in messages.get_messages(request):

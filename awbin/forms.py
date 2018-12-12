@@ -289,11 +289,32 @@ class CreditForm(forms.ModelForm):
         return m_dccurn
 
 class RemarkForm(forms.ModelForm):
+    # hawb = forms.CharField(label='HAWB#', required=False, widget=forms.TextInput(attrs={'readonly':'readonly', 'class':'form-control input-sm'}))
     codr = forms.ModelChoiceField(label='代碼', empty_label="請選擇", queryset=Inprmk.objects.all(), to_field_name='code', required=True,
                                      widget=forms.Select(attrs={'class':'tabledit-input form-control input-sm'}))
-    statement = forms.CharField(label='備註說明', max_length=60, widget=forms.TextInput(attrs={'class':'form-control input-sm'}))
-    irrno = forms.CharField(label='', max_length=2, widget=forms.TextInput(attrs={'class':'form-control input-sm'}))
+    statement = forms.CharField(label='備註說明', max_length=60, widget=forms.TextInput(attrs={'readonly':'readonly', 'class':'form-control input-sm'}))
+    # irrno = forms.CharField(label='', max_length=2, widget=forms.TextInput(attrs={'class':'form-control input-sm'}))
 
     class Meta:
         model = Rmkin
-        fields = ['codr','statement','irrno']
+        fields = ['codr', 'statement']
+
+    def clean_codr(self):
+        m_codr = self.cleaned_data['codr'].code
+        return m_codr
+
+class CodForm(forms.ModelForm):
+    # hawb = forms.CharField(label='HAWB#', required=False, widget=forms.TextInput(attrs={'readonly':'readonly', 'class':'form-control input-sm'}))
+    codcurn = forms.ModelChoiceField(label='COD => 幣別', empty_label="選擇幣別", queryset=Exrate.objects.all(), to_field_name='code', required=False,
+                                     widget=forms.Select(attrs={'class':'form-control input-sm'}))
+    codamt = forms.DecimalField(label='COD金額', max_digits=10, decimal_places=2, max_value=99999999.99, min_value=0, required=False,
+                                widget=forms.NumberInput(attrs={'readonly':'readonly', 'class':'form-control input-sm','maxlength': 10, 'type': 'number'}))
+    codrcvdd = forms.DateField(label='收訖日',
+                             widget=forms.TextInput(attrs={'readonly':'readonly','class':'form-control input-sm datepicker'}))
+    codpaydd = forms.DateField(label='付給日',
+                             widget=forms.TextInput(attrs={'readonly':'readonly','class':'form-control input-sm datepicker'}))
+
+
+    class Meta:
+        model = Hawbin
+        fields = ['codcurn', 'codcurn', 'codrcvdd', 'codpaydd']

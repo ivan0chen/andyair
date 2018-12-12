@@ -18,4 +18,8 @@ urlpatterns = [
     path('debitTabledit/', views.debitTabledit, name='debitTabledit'),
     path('cdnoteNew/<int:parent_pk>/', views.cdnoteNew, name='cdnoteNew'),
     path('creditTabledit/', views.creditTabledit, name='creditTabledit'),
+    path('remarkNew/<int:parent_pk>/', views.remarkNew, name='remarkNew'),
+    path('remarkTabledit/', views.remarkTabledit, name='remarkTabledit'),
+    # path('codNew/<int:parent_pk>/', views.codNew, name='codNew'),
+    path('codTabledit/', views.codTabledit, name='codTabledit'),
 ]
